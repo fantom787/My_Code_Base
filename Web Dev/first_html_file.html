@@ -1,0 +1,321 @@
+<!DOCTYPE html> <!-- this is for declaring that the file is of html type-->
+<html lang="en">
+<!-- this line starts the html file lang tells us that the language to be used is the english language-->
+
+<head>
+    <meta charset="UTF-8">
+    <!-- meta is a tag that help our website  to rank  utf is the encoding and all the authors use it-->
+
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- xua compatiblity is for the internet explores-->
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--it makes our website to be visible in diffrent devices -->
+
+
+    <meta name="discription" content="this is discription">
+    <!--adds discription of our website-->
+
+
+    <meta name="keywords" content="html , python , tutorials">
+    <!--these are added for ranking our website when peeps search though the above keywords-->
+
+
+    <meta name="robots" content="INDEX , FOLLOW">
+    <!--this robots tag help to search ingines to index and follow our website -->
+
+
+    <link rel="stylesheet" href="asd.css">
+    <!--i included my asd.css file in this html file-->
+    <!-- is tarah se hm java script wagera sb ko include kr skte hai -->
+
+
+    <script src="asd.js"></script>
+    <!-- this is used for adding java script file -->
+
+
+
+    <title>my first web page</title>
+    <!--add title to your website-->
+</head>
+
+<body>
+    <h1>this is my first web page</h1>
+    <!--h1 is heading tag-->
+    <h2>this is my first web page</h2>
+    <h3>this is my first web page</h3>
+    <h4>this is my first web page</h4>
+    <h5>this is my first web page</h5>
+    <h6>this is my first web page</h6>
+
+
+    <p>this is my first web page</p>
+    <!--this is used to add paragraph in my website-->
+
+
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga, autem.</p>
+    <!--lorem+no of words u want like lorem10 wil give 10 words -->
+
+
+    <p>Lorem ipsum dolor sit amet consectetur <strong>this is strong tag</strong> adipisicing elit. Minima, magni in
+        voluptatibus <em>this is emphasised</em> libero a quas laboriosam reprehenderit nemo molestias sunt?</p>
+    <!-- strong tag makes the text bold -->
+    <!-- em tag makes that test diffrent from the others in that paragraph -->
+
+
+    <p>this <br> is new line</p>
+    <!-- br tag is for line break -->
+    <!-- it is self closing tag does not require the closing tag -->
+
+    <hr>
+    <!-- hr tag is for horizintal rule -->
+    <p>this is second line </p>
+
+
+    <p><b>this is bold</b></p>
+    <p><i>this is italic</i></p>
+    <!-- bold tag bold ke liye -->
+    <!-- italic tag italic ke liye -->
+
+    <!--                linking external links       -->
+    <!-- ye a link me ata hai -->
+    <a href="https://google.com">go to google</a><br>
+    <a href="https://facebook.com">go to facebook</a><br>
+    <a href="https://twitter.com">go to twitter</a><br>
+    <a href="https://linkedin.com">go to linkdin</a><br>
+
+    <!-- agr mai chahta hu ki mai link pe click kru to wo link next tab me khule  -->
+    <!-- to uske liye target attribute me _blank daal do example deta hu -->
+
+    <br>
+    <a href="https://google.com" target="_blank">go to google</a><br>
+    <a href="https://facebook.com" target="_blank">go to facebook</a><br>
+    <a href="https://twitter.com" target="_blank">go to twitter</a><br>
+    <a href="https://linkedin.com" target="_blank">go to linkdin</a><br>
+
+
+    <!-- agr meko inretnal link se link krna hai to same process hai -->
+    <br>
+    <a href="/first_html_file.html">my first html site</a>
+
+
+    <!-- to insert image -->
+    <br>
+    <!-- ye img tag ma ata hai -->
+    <img src="https://source.unsplash.com/user/erondu/1600x900" alt="Error loading image" width="500" height="500">
+    <!-- alt text is shown when the image is not present or anything else -->
+    <!-- above this image is taken from source splash  -->
+
+    <!--                        TABLE AND LIST -->
+
+    <!-- there are 2 type of list  -->
+    <!-- ordered list jisme numbering hoti hai -->
+    <br>
+    <ol type="A">
+        <li>this is the 1st element of my list</li>
+        <li>this is the 2nd element of my list
+            <ol>
+                <li>list ke andar 1 aur LIST</li>
+            </ol>
+        </li>
+        <li>this is the 3rd element of my list</li>
+        <li>this is the 4th element of my list</li>
+    </ol>
+    <br>
+    <!-- unorderd list jisme bullets ate hai -->
+    <ul type="disc">
+        <li>this is the 1st element of my list</li>
+        <li>this is the 2nd element of my list</li>
+        <li>this is the 3rd element of my list</li>
+        <li>this is the 4th element of my list</li>
+    </ul>
+
+
+    <!-- table -->
+    <h3>table</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>name</th>
+                <th>employee id</th>
+                <th>employee role</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>rohan</td>
+                <td>5454</td>
+                <td>wella rehta hai</td>
+            </tr>
+            <tr>
+                <td>ambuj kumar</td>
+                <td>0694</td>
+                <td>best programmer</td>
+            </tr>
+            <tr>
+                <td>veenu kumar</td>
+                <td>0794</td>
+                <td>best padaku</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- form and input -->
+    <h2>form yha se shuru hora hai</h2>
+    <!-- action me hm wo likhte hai jha hme ye data bhejna haota hai -->
+    <form action="backend.php">
+        <div>
+            <!-- name hmne isliye dala hai taki hm apne backend ko bta ske ki is data ko kaise pehchanna hai  -->
+            <label for="name">Name :</label>
+            <!-- label lagane se ye hota hai ki agr mai name pe click krta hu to uske box me mera cursor chala jata hai -->
+            <input type="text" name="myname" id="name">
+        </div>
+        <br>
+        <div>
+            <!-- ye sb input tag me ata hai -->
+            Role : <input type="text" name="my role">
+        </div>
+        <br>
+        <div>
+            Email : <input type="email" name="myemail" id="">
+        </div>
+        <br>
+        <div>
+            Birthdate : <input type="date" name="mydate" id="">
+        </div>
+        <br>
+        <div>
+            Bonus : <input type="number" name="mybonous" id="">
+        </div>
+        <br>
+        <div>
+            <!-- checked likhne se pehle se checked hoga apna checkbox -->
+            Are you Elegible <input type="checkbox" name="mycheckbox" id="" checked>
+        </div>
+        <br>
+        <div>
+            Gender : male <input type="radio" name="mygender" id="">Female <input type="radio" name="mygender"
+                id="">other <input type="radio" name="mygender" id="">
+        </div>
+        <br>
+        <div>
+
+            Write about yourself :<br><textarea name="textarea" id="" cols="30" rows="10"></textarea>
+        </div>
+        <br>
+        <div>
+            <!-- select tag options select krne ke liye hota hai -->
+            <label for="car">Car kon si pasnd hai</label>
+            <select name="mycar" id="car">
+                <!-- options ke ander unka name dalna hota hai warna wo display nhi hote -->
+                <option value="indiaca" selected>indiaca</option>
+                <option value="honda">honda</option>
+                <option value="swift">swift</option>
+                <option value="desire">desire</option>
+            </select>
+        </div>
+
+        <div>
+            <input type="submit" value="submit now">
+            <input type="reset" value="Reset now">
+        </div>
+
+    </form>
+
+    <h2>inline and block elements</h2>
+    <!-- span tag 1 inline element hai iska mtlb ye hai ki wo 1 hi line me aa skta hai                    -->
+    <span style="border : 2px solid red">this is a span</span>
+    <span style="border : 2px solid red">this is also a span</span>
+    <!-- paragraph 1 block element  hai iska mtlb ye hai ki wo pura 1 block le leta hai -->
+    <p style=" border : 2px solid red">this is a paragraph</p>
+    <p style=" border : 2px solid blue">this is also a paragra</p>
+    <li>this is amir khan</li>
+    <em>this is jannak</em>
+
+
+    <!-- id aur class yha se shuru hota hai -->
+    <h2>id aur class</h2>
+    <!-- id hm kisi element ko pehchane ke liye likhte hai -->
+    <!-- aur 1 id 1 ko assign ho skti hai -->
+    <!-- id se hm kisi bhi element ko dhundh skte hai and usko change ya modify kr skte hai -->
+    <!-- id mtlb kisi ka naam rakh dia maine -->
+
+    <div id="mainbox" class="redbg">
+        this is mainbox
+        <!-- class hm isliye likhte hai taki maan lo -->
+        <!-- agr hme 100 cheezo ki same properties rknhi hai to ya to mai sbko baar baar akele se property set kr skta hu ya uska 1 class define kr skta hu aur usko define kr dunga baad me jisse meri mehnat bach jayegi -->
+        <!-- aur hm 1 cheez ko kai class de skta hu aur 1 class ko kai element ko de skta hu -->
+
+
+        <!-- . (dot) hm use krte hai class ke liye aur  -->
+        <!-- span.redbg -->
+        <span class="redbg"></span>
+
+
+        <!-- # (hash) hm use krte hai id ke liye -->
+        <!-- span#spanid -->
+        <span id="spanid"></span>
+
+
+        <!-- div.redbg.division.anotherclass -->
+        <div class="redbg division anotherclass"></div>
+
+        <!-- emmet takes div as default tag -->
+        <!-- agr mai .redbg likhta hu to wo automatically div de dega -->
+        <div class="redbg">agr mai .redbg likhta hu to wo automatically div de dega</div>
+
+
+        <h2>HTML Entites</h2>
+        <div>
+            <p>
+                agr mai iske baad space dena chata hu to wo nhi ayega
+            </p>
+            <p>
+                uske liye mujhe &nbsp; dalna pdega
+                <!-- &nbsp; dalne se uski jagah pe space add ho jata hai bt this is not recomended -->
+            </p>
+            <p>
+                agr meko ye paragraph aise likhna hai
+            <p> to ye ise tag maan lega aur ye mujhe apni site me nhi dikhega
+            </p>
+            <p>
+                is problem ko dur krne ke liye &lt;p&gt; ye kuch keywords ka upyog krna pdega
+            </p>
+            <p>
+                pound is written like this &pound;<br>
+                dollar is written like this &dollar;<br>
+                empty charcter is written like this &#8203;
+            </p>
+            <p>
+                baki agr koi refrence lena hai to is site pe jao
+                <br>
+                <a href="https://dev.w3.org/html5/html-author/charref">click here to go to html enties refrence
+                    website</a>
+            </p>
+
+        </div>
+        <h2>
+            systmatic tags yha se shuru hota hai
+            <!-- symentics ka mtlb ye hai ki a word ka kya meaning hai ye symentics heading -->
+            <details>
+                <!-- details tag jaise google hai na waisa kuch bna deta hai hm thoda sa summary pad ke baki ka bhi pad skte hai usko expand krke  -->
+                <!-- jaose kuch bhi google me hota hai. -->
+                <summary>
+                    this is the summary of the file.
+                </summary>
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quae totam explicabo perferendis dolorum. Dolore ullam unde nisi, possimus incidunt vel maiores, natus atque fugiat et voluptatum iusto sit magni officiis.
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Expedita repudiandae nihil itaque adipisci delectus atque esse eos ratione quasi, quis earum ullam impedit accusantium laudantium rerum ipsum repellat perferendis pariatur?
+            </details>
+        </h2>
+    </div>
+
+
+
+<h2>
+    chalo yha pe khtm hua html ka gyan
+</h2>
+
+</body>
+
+</html>

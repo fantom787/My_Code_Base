@@ -1,0 +1,43 @@
+                            *******   array   ******(not often used in cp)
+
+                            
+            1. header file --->  include<array>
+            2. initialation --> array<data type> arr(variable name)
+            3. a.size()--> gives the size of array.
+            4. a.at(i)---> gives the value at i.
+            5. a.front()--> returns the first value of array.
+            6. a.back()--> returns the last value of array.
+            7. ve add elements by normal method like ---> arr[i] = 5;
+
+
+                        *******   vector   ******
+imp pt:--> when it get fill its size gets double.
+
+            1.    header file --->  include<vector>.
+            2.    initialation --> vector<data type> vec1(variable name).
+            3.    vec1.push_back(1{the value u waana entre}) ---> used to add elements.
+            4.    vec1.capacity() --> used to find the capacity of the vector.
+            5.    vec1.at(i)---> gives the value at i.
+            6.    vec1.front()--> returns the first value of vector.
+            7.    vec1.back()--> returns the last value of vector.
+            8.    vec1.pop_back --> eliminates the last element.
+            9.    vec1.clear() --> clears the size not the capacity.
+            10.   vector<int>vec2(5(size of vector),1(which value is to be initallised )).
+            
+
+                        *******   deque   ******
+imp pt: we can perform all the operations from both sides of the i.e starting and ending.
+
+
+            1.    header file --->  include<deque>.
+            2.    initialation --> deque<data type> d(variable name).                       push/pop_back and push/pop_front 
+            3.    d.push_back(2{the value u wanna entre}) ---> used to add elements.   (  perform operations from start and end)
+            4.    d.pop_back --> eliminates the last element.                                          
+            5.    d.at(i)---> gives the value at i.
+            6.    d.front()--> returns the first value of deque.
+            7.    d.back()--> returns the last value of deque.
+            8.    d.erase(  d.begin() {kha se} , d.begin()+1  {Pkha tk}   )     
+            9.                                                         
+
+
+            
