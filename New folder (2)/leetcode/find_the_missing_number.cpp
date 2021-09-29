@@ -1,6 +1,6 @@
-//287. Find the Duplicate Number
+//find the missing number
 
-//https://leetcode.com/problems/find-the-duplicate-number/
+//https://leetcode.com/problems/missing-number/submissions/
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -20,17 +20,23 @@ int missingNumber(vector<int> &array)
     for (int i = 0; i < array.size(); i++)
     {
 
-        while (array[i] != i + 1)
+        while (array[i] != i)
         {
-            if (array[i] == array[array[i] - 1])
+            if (array[i] >= array.size())
             {
-                return array[i];
+                break;
             }
-            swap(array[i], array[array[i] - 1]);
+            swap(array[i], array[array[i]]);
         }
     }
-
-    return 0;
+    for (int i = 0; i < array.size(); i++)
+    {
+        if (array[i] != i)
+        {
+            return i;
+        }
+    }
+    return array.size();
 }
 
 int main()
@@ -38,7 +44,7 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr);
-    vector<int> arr = {1,3,4,2,2};
+    vector<int> arr = {3, 0, 1};
     display(arr);
     cout << missingNumber(arr) << endl;
     display(arr);

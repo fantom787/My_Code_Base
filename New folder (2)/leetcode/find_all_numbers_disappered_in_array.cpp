@@ -1,6 +1,6 @@
-//287. Find the Duplicate Number
+//448. Find All Numbers Disappeared in an Array
 
-//https://leetcode.com/problems/find-the-duplicate-number/
+//https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -15,22 +15,28 @@ void display(vector<int> arr)
     cout << endl;
 }
 // only use when it is given that the array is from i to n
-int missingNumber(vector<int> &array)
+vector<int> findDisappearedNumbers(vector<int> &array)
 {
+    vector<int> ans;
     for (int i = 0; i < array.size(); i++)
     {
-
         while (array[i] != i + 1)
         {
             if (array[i] == array[array[i] - 1])
             {
-                return array[i];
+                break;
             }
             swap(array[i], array[array[i] - 1]);
         }
     }
-
-    return 0;
+    for (int i = 0; i < array.size(); i++)
+    {
+        if (array[i] != i + 1)
+        {
+            ans.push_back(i+1);
+        }
+    }
+    return ans;
 }
 
 int main()
@@ -38,9 +44,9 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr);
-    vector<int> arr = {1,3,4,2,2};
+    vector<int> arr = {4, 3, 2, 7, 8, 2, 3, 1};
     display(arr);
-    cout << missingNumber(arr) << endl;
+    display(findDisappearedNumbers(arr));
     display(arr);
 
     return 0;
