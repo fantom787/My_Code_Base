@@ -1,6 +1,6 @@
-//287. Find the Duplicate Number
+//41. First Missing Positive
 
-//https://leetcode.com/problems/find-the-duplicate-number/
+//https://leetcode.com/problems/first-missing-positive/
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -14,23 +14,28 @@ void display(vector<int> arr)
     }
     cout << endl;
 }
-// only use when it is given that the array is from i to n
-int missingNumber(vector<int> &array)
+int firstMissingPositive(vector<int> &arr)
 {
-    for (int i = 0; i < array.size(); i++)
+    for (int i = 0; i < arr.size(); i++)
     {
-
-        while (array[i] != i + 1)
+        while (arr[i] != i + 1)
         {
-            if (array[i] == array[array[i] - 1])
+            if (arr[i] <= 0 || arr[i] > arr.size() || arr[i] == arr[arr[i] - 1])
             {
-                return array[i];
+                break;
             }
-            swap(array[i], array[array[i] - 1]);
+            swap(arr[i], arr[arr[i] - 1]);
         }
     }
-
-    return 0;
+    int i;
+    for (i = 0; i < arr.size(); i++)
+    {
+        if (arr[i] != i + 1)
+        {
+            return i + 1;
+        }
+    }
+    return i+1;
 }
 
 int main()
@@ -38,9 +43,9 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr);
-    vector<int> arr = {1,3,4,2,2};
+    vector<int> arr = {1, 2, 0};
     display(arr);
-    cout << missingNumber(arr) << endl;
+    cout << firstMissingPositive(arr) << endl;
     display(arr);
 
     return 0;
