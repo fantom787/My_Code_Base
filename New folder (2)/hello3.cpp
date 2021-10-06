@@ -1,52 +1,102 @@
-//41. First Missing Positive
-
-//https://leetcode.com/problems/first-missing-positive/
-
 #include <bits/stdc++.h>
 using namespace std;
 #define ll long long int
-
-void display(vector<int> arr)
+void solve()
 {
-    for (int i = 0; i < arr.size(); i++)
+    ll n, d;
+    cin >> n >> d;
+    string str = to_string(n);
+    ll len = str.length();
+    if (d == 0)
     {
-        cout << arr[i] << " ";
-    }
-    cout << endl;
-}
-int firstMissingPositive(vector<int> &arr)
-{
-    for (int i = 0; i < arr.size(); i++)
-    {
-        while (arr[i] != i + 1)
+        int ind2 = len;
+        for (int i = 0; i < len; i++)
         {
-            if (arr[i] <= 0 || arr[i] > arr.size() || arr[i] == arr[arr[i] - 1])
+            if (str[i] == '0')
             {
+                str[1] = '1';
+                ind2 = i;
                 break;
             }
-            swap(arr[i], arr[arr[i] - 1]);
         }
-    }
-    int i;
-    for (i = 0; i < arr.size(); i++)
-    {
-        if (arr[i] != i + 1)
+        for (int i = ind2 + 1; i < len; i++)
         {
-            return i + 1;
+            str[i] = '1';
         }
     }
-    return i+1;
+    else if (d == 9)
+    {
+        if (str[0] == 9)
+        {
+            for (int i = 0; i < len; i++)
+            {
+                str[i] = '0';
+            }
+            str = "1" + str;
+        }
+        else
+        {
+            int ind = len;
+            for (int i = 0; i < len; i++)
+            {
+                if (str[i] == '9')
+                {
+                    for (int j = i - 1; j >= 0; j--)
+                    {
+                        if (str[j] <= '7')
+                        {
+                            str[j]++;
+                            ind = j;
+                            goto cvv;
+                        }
+                    }
+                    for (int k = 0; k < len; k++)
+                    {
+                        str[i] = '0';
+                    }
+                    str = "1" + str;
+                    goto fvv;
+                }
+            }
+        cvv:;
+            for (int j = ind + 1; j < len; j++)
+            {
+                str[j] = '0';
+            }
+        fvv:;
+        }
+    }
+    else
+    {
+        int i = 0;
+        for (int i = 0; i < len; i++)
+        {
+            if ((str[i] - 48) == d)
+            {
+                str[i] = str[i] + 1;
+                break;
+            }
+        }
+        for (int j = i + 1; j < len; j++)
+        {
+            str[j] = '0';
+        }
+    }
+    ll nn = stoll(str);
+    cout << nn - n << endl;
 }
-
 int main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr);
-    vector<int> arr = {1, 2, 0};
-    display(arr);
-    cout << firstMissingPositive(arr) << endl;
-    display(arr);
+
+    int n;
+    cin >> n;
+    while (n--)
+    {
+        solve();
+    }
 
     return 0;
 }

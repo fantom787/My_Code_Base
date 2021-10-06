@@ -1,9 +1,15 @@
-from turtle import *
-speed(10)
-color('cyan')
+from turtle import*
+import turtle
+color('red')
 bgcolor('black')
-b = 200
-while b>0:
-    left(b)
-    forward(b*3)
-    b = b-1
+begin_fill()
+pensize(3)
+left(50)
+forward(133)
+circle(50,200)
+right(140)
+circle(50,200)
+forward(133)
+end_fill()
+turtle.Screen().exitonclick()
+
