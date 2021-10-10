@@ -1,2 +1,7 @@
-from playsound import playsound
-playsound('D:\\Video Songs\\B Praak Dil Tod Ke Official Song   Rochak Kohli , Manoj M  Abhishek S, Kaashish V   Bhushan Kumar.mp4')
+a =5
+b =6
+print(b>a)
+b=input("entre a number : ")
+a=input()
+print(a)
+print(b)
