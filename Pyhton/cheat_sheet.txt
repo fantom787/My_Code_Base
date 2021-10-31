@@ -1,0 +1,49 @@
+*********************               string functions            ****************************
+ s= amazing
+1. len()--> gives the length of the string
+        eg. print(len(s))---> prints the length of the s string
+
+2. string.endswith("any string u wanna check") ---> check wheather the given string ends with the entered string or not
+        eg. print(s.endswith("g"))--> prints true
+
+3. string.count("any alphabet/ string u wanna check")--> count the number of occurances of that alphabet
+        eg. print(s.count("a")) --> prints 2
+
+4. string.capitalize()--> capitalizes first alphabet of the string
+        eg. print(s.capitalize()) --> prints Amazing
+
+5. string.find("any string/alphabet u wanna enter") --> return the index of its first occurance
+        eg. print(s.find("a)) --> prints 0
+
+6. string.replace("old word" , "new word") --> replaces all the occurances of old word with the new word
+        eg. print(s.replace("a","b")) --> prints babzing
+
+
+
+****************************       LISTS              ******************************************
+a = [2,6,7,9,4,67,8,6,4]
+
+1. list.sort()--> sorts the list and update it also and return none
+        eg. a.sort()--> sort and update the list
+
+2. list.reverse()--. reverse and update the list
+        eg. a.reverse()--> reverses the list
+
+3. list.append("any value / string u wnnna entre ") --> adds the inuted value at the last of the list
+        eg. a.append(5)--> adds 5 at the last of the list
+
+4. list.insert("the index at which u wanna add " , "the value u wanna add")--> insert the inputed value at the inputed index
+        eg. a.insert(4,5)--> inserts 5 at the 4th index
+
+5.  list.pop(input index u wanna remove)--> return the value at the inputed index and remove it
+        eg. print(a.pop(4)) ---> prints 5
+
+6. list.remove(any number u wanna remove)--> remove the first number/value which matches the inputed number
+        eg. a.remove(2)--> removes 2 from the list
+
+
+
+
+*************************           TUPLES          ****************************
+same as list but only diffrece is that there data cant be altered
+

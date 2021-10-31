@@ -1,102 +1,39 @@
 #include <bits/stdc++.h>
 using namespace std;
+
 #define ll long long int
-void solve()
+#define all(x) x.begin(), x.end()
+
+typedef vector<int> vi;
+typedef pair<int, int> ii;
+typedef vector<ii> vii;
+typedef vector<vi> vvi;
+typedef vector<vii> vvii;
+
+string skip(string s)
 {
-    ll n, d;
-    cin >> n >> d;
-    string str = to_string(n);
-    ll len = str.length();
-    if (d == 0)
+    if (s.empty())
     {
-        int ind2 = len;
-        for (int i = 0; i < len; i++)
-        {
-            if (str[i] == '0')
-            {
-                str[1] = '1';
-                ind2 = i;
-                break;
-            }
-        }
-        for (int i = ind2 + 1; i < len; i++)
-        {
-            str[i] = '1';
-        }
+        return "\0";
     }
-    else if (d == 9)
+    if (s.find("apple"))
     {
-        if (str[0] == 9)
-        {
-            for (int i = 0; i < len; i++)
-            {
-                str[i] = '0';
-            }
-            str = "1" + str;
-        }
-        else
-        {
-            int ind = len;
-            for (int i = 0; i < len; i++)
-            {
-                if (str[i] == '9')
-                {
-                    for (int j = i - 1; j >= 0; j--)
-                    {
-                        if (str[j] <= '7')
-                        {
-                            str[j]++;
-                            ind = j;
-                            goto cvv;
-                        }
-                    }
-                    for (int k = 0; k < len; k++)
-                    {
-                        str[i] = '0';
-                    }
-                    str = "1" + str;
-                    goto fvv;
-                }
-            }
-        cvv:;
-            for (int j = ind + 1; j < len; j++)
-            {
-                str[j] = '0';
-            }
-        fvv:;
-        }
+        return skip(s.substr(1));
     }
     else
     {
-        int i = 0;
-        for (int i = 0; i < len; i++)
-        {
-            if ((str[i] - 48) == d)
-            {
-                str[i] = str[i] + 1;
-                break;
-            }
-        }
-        for (int j = i + 1; j < len; j++)
-        {
-            str[j] = '0';
-        }
+        return s[0] + skip(s.substr(1));
     }
-    ll nn = stoll(str);
-    cout << nn - n << endl;
 }
+
 int main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr);
 
-    int n;
-    cin >> n;
-    while (n--)
-    {
-        solve();
-    }
+    string s = "baccdah";
+    cout<<skip(s);
 
     return 0;
 }

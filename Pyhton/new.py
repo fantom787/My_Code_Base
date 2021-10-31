@@ -1,7 +1,2 @@
-a =5
-b =6
-print(b>a)
-b=input("entre a number : ")
-a=input()
-print(a)
-print(b)
+a = [4,5,6,7]
+print(a.count(4))
