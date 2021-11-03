@@ -78,7 +78,7 @@ int main()
     third->next = fourth;
     fourth->data = 78;
     fourth->next = NULL;
-    // delete_first(&head);
+    delete_first(&head);
     // delete_end(head);
     // delete_given(third, head)
     list_traversal(head);

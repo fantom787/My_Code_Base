@@ -10,24 +10,20 @@ typedef vector<ii> vii;
 typedef vector<vi> vvi;
 typedef vector<vii> vvii;
 
-
-
-int numRollsToTarget(int d, int f, int target)
+void permutations(string p, string up)
 {
-    if (target == 0 && d == 0)
+    if (up.empty())
     {
-        return 1;
+        cout << p << endl;
+        return;
     }
-    else if (target == 0 || d == 0)
+    char ch = up[0];
+    for (int i = 0; i < p.size() + 1; i++)
     {
-        return 0;
+        string pehla = p.substr(0, i);
+        string akhiri = p.substr(i);
+        permutations(pehla + ch + akhiri, up.substr(1));
     }
-    int ans = 0;
-    for (int i = 1; i <= f && i <= target; i++)
-    {
-        ans += numRollsToTarget(d - 1, f, target - i);
-    }
-    return ans;
 }
 
 int main()
@@ -35,6 +31,9 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr);
-    cout << numRollsToTarget(2, 6, 7);
+    string up = "abc";
+    string p = "";
+    permutations(p,up);
+
     return 0;
 }

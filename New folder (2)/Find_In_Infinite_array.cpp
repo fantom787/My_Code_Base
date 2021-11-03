@@ -9,6 +9,7 @@ using namespace std;
 
 int findIninfiniteArray(vector<int> vec1, int target)
 {
+    // easy hai pehle range dhundh lo kon se range me lie krega fir binary search kr lo
     int start = 0;
     int end = 1;
     while (vec1[end] < target)

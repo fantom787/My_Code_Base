@@ -1,3 +1,5 @@
+// this solution is without dp so it will take more time
+// when i will learn dp i will update it
 #include <bits/stdc++.h>
 using namespace std;
 
