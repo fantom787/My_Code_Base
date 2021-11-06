@@ -9,7 +9,15 @@ typedef pair<int, int> ii;
 typedef vector<ii> vii;
 typedef vector<vi> vvi;
 typedef vector<vii> vvii;
-
+/*
+    ******* Algo Discussion ********
+    dekho simple sa funda hai
+    1st row me queen ko place kro uski next row ke har
+    coloumn pe queen rkh skte hai ki nhi wo check kro
+    aur possible hai to rkh ke nxt row me check krne ki reccursion call chalao
+    fir us call ke baad us jagha se queen ko hta ke next jagah lga ke dekho 
+    bs yhi hai simple sa logic
+*/
 void display(vvi arr)
 {
     for (int i = 0; i < arr.size(); i++)
