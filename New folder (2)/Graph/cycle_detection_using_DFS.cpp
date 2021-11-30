@@ -10,29 +10,21 @@ typedef vector<ii> vii;
 typedef vector<vi> vvi;
 typedef vector<vii> vvii;
 
-bool checkForCycle(int vertex, vi adj[], vi &vis, int v)
+bool checkForCycle(int vertex, vi adj[], vi &vis, int v, int par)
 {
-    queue<pair<int, int>> q;
     vis[vertex] = 1;
-    q.push({vertex, -1});
-    while (!q.empty())
+    for (auto it : adj[vertex])
     {
-        int node = q.front().first;
-        int par = q.front().second;
-        q.pop();
-        for (auto it : adj[node])
+        if (!vis[it])
         {
-            if (!vis[it])
-            {
-                q.push({it, node});
-            }
-            else if (par != node)
-            {
+            if (checkForCycle(it, adj, vis, v, vertex))
                 return true;
-            }
+        }
+        else if (it != par)
+        {
+            return true;
         }
     }
-
     return false;
 }
 
@@ -41,7 +33,7 @@ bool isCycle(int v, vi adj[])
     vi vis(v + 1, 0);
     for (int i = 1; i < v + 1; i++)
     {
-        if (checkForCycle(i, adj, vis, v))
+        if (checkForCycle(i, adj, vis, v, -1))
         {
             return true;
         }
@@ -67,6 +59,6 @@ int main()
     graph[6].push_back(4);
     graph[7].push_back(2);
     graph[7].push_back(5);
-    cout<<isCycle(7,graph);
+    cout << isCycle(7, graph);
     return 0;
 }

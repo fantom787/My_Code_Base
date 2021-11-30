@@ -10,22 +10,26 @@ typedef vector<ii> vii;
 typedef vector<vi> vvi;
 typedef vector<vii> vvii;
 
-bool dfs(vi adj[], vi &col, int par)
+bool bfs(vi adj[], vi &col, int node)
 {
-     if (col[par] == -1)col[par] = 1;
-    for (auto it : adj[par])
+    queue<int> q;
+    col[node] = 1;
+    q.push(node);
+    while (!q.empty())
     {
-        if (col[it] == -1)
+        int newNode = q.front();
+        q.pop();
+        for (auto it : adj[newNode])
         {
-            col[it]=1-col[par];
-            if (!dfs(adj, col, it))
+            if (col[it] == -1)
+            {
+                col[it] = 1 - col[newNode];
+                q.push(it);
+            }
+            else if (col[it] == col[newNode])
             {
                 return false;
             }
-        }
-        else if (col[it] == col[par])
-        {
-            return false;
         }
     }
     return true;
@@ -38,7 +42,7 @@ bool isBipartite(vi adj[], int v)
     {
         if (col[i] == -1)
         {
-            if (!dfs(adj, col, i))
+            if (!bfs(adj, col, i))
             {
                 return false;
             }
@@ -53,20 +57,7 @@ int main()
     cin.tie(nullptr);
     cout.tie(nullptr);
 
-    vi graph[8];
-    graph[1].push_back(2);
-    graph[2].push_back(1);
-    graph[2].push_back(3);
-    graph[2].push_back(7);
-    graph[3].push_back(2);
-    graph[3].push_back(5);
-    graph[4].push_back(6);
-    graph[5].push_back(3);
-    graph[5].push_back(7);
-    graph[6].push_back(4);
-    graph[7].push_back(2);
-    graph[7].push_back(5);
-
+    vi graph[9];
     // graph[1].push_back(2);
     // graph[2].push_back(1);
     // graph[2].push_back(3);
@@ -75,12 +66,24 @@ int main()
     // graph[3].push_back(5);
     // graph[4].push_back(6);
     // graph[5].push_back(3);
-    // graph[5].push_back(8);
+    // graph[5].push_back(7);
     // graph[6].push_back(4);
     // graph[7].push_back(2);
-    // graph[7].push_back(8);
-    // graph[8].push_back(5);
-    // graph[8].push_back(7);
-    cout << isBipartite(graph, 7);
+    // graph[7].push_back(5);
+    graph[1].push_back(2);
+    graph[2].push_back(1);
+    graph[2].push_back(3);
+    graph[2].push_back(7);
+    graph[3].push_back(2);
+    graph[3].push_back(5);
+    graph[4].push_back(6);
+    graph[5].push_back(3);
+    graph[5].push_back(8);
+    graph[6].push_back(4);
+    graph[7].push_back(2);
+    graph[7].push_back(8);
+    graph[8].push_back(5);
+    graph[8].push_back(7);
+    cout << isBipartite(graph, 8);
     return 0;
 }
