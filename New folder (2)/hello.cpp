@@ -1,5 +1,3 @@
-// https://www.codechef.com/NOV21C/problems/XOREQN
-
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -12,45 +10,28 @@ typedef vector<ii> vii;
 typedef vector<vi> vvi;
 typedef vector<vii> vvii;
 
-void solve()
+bool canJump(vector<int> &nums)
 {
-    ll n;
-    cin >> n;
-    vector<ll> arr(n, 0);
-    for (ll i = 0; i < n; i++)
-        cin >> arr[i];
-    ll ans = 0;
-    for (ll j = 0; j <= 61; j++)
-    {
-        ll one = 0;
-        for (ll i = 0; i < n; i++)
-            if ((1ll << j) & arr[i])
-                one++;
-        if (one % 2 == 0)
-            continue;
-        if (j == 61)
-        {
-            ans = -1;
-            break;
-        }
-        ans += (1ll << j);
-        for (ll i = 0; i < n; i++)
-            arr[i] += (1ll << j);
-    }
-    cout << ans << endl;
+
+	int n = nums.size();
+	int can_reach = 0;
+	for (int i = 0; i <= can_reach; i++)
+	{
+		if (i == n - 1)
+		{
+			return true;
+		}
+		can_reach = max(can_reach, nums[i] + i);
+	}
+	return false;
 }
 
 int main()
 {
-    ios_base::sync_with_stdio(false);
-    cin.tie(nullptr);
-    cout.tie(nullptr);
-    int n;
-    cin >> n;
-    while (n--)
-    {
-        solve();
-    }
-
-    return 0;
+	ios_base::sync_with_stdio(false);
+	cin.tie(nullptr);
+	cout.tie(nullptr);
+	vi vec1 = {2, 0, 0};
+	cout << canJump(vec1);
+	return 0;
 }
