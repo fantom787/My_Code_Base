@@ -1,0 +1,73 @@
+Draw The Diamond
+Difficulty: HARD
+Contributed By
+Nihal Srivastava
+Avg. time to solve
+25 min
+Success Rate
+70%
+Problem Statement
+You have to print a regular grid pattern of 'R' rows and 'C' columns with a diamond-like shape of size 'S' in each cell of the grid. The diamond shape will contain ‘/’ and ‘\’ characters to represent the borders of the diamond and ‘o’ (small ‘o’ alphabet) to represent the space inside the diamond and ‘e’(small ‘e’ alphabet) to represent the rest of the space of diamond.
+For example:
+e/\e
+/oo\
+\oo/
+e\/e
+
+The above diagram represents a grid of 1 Row and 1 Column and a diamond of size 2 in its single cell(i.e. each side of the diamond has length 2).
+Input Format-
+First-line contains ‘T’, denoting the number of Test cases.
+For each Test case:
+The first line contains three space-separated integers, ‘r’,’c’ and ’s’, where ‘r’ represents the number of rows, ‘c’ represents the number of columns and ‘s’ represents the size of each diamond. 
+Output Format-
+For each test case, you have to print the desired pattern(i.e.- a grid that has ‘r’ rows and ‘c’ columns of size ‘s’ diamond).
+Constraints -
+1 <= ‘T’ <= 10
+1 <= ‘r’ & ‘c’ <= 100.
+1 <= ‘s’ <= 10
+Time Limit: 1 sec
+Sample Input-1
+2
+3 1 2 
+4 4 1
+Sample Output-1
+e/\e
+/oo\
+\oo/
+e\/e
+e/\e
+/oo\
+\oo/
+e\/e
+e/\e
+/oo\
+\oo/
+e\/e
+/\/\/\/\
+\/\/\/\/
+/\/\/\/\
+\/\/\/\/
+/\/\/\/\
+\/\/\/\/
+/\/\/\/\
+\/\/\/\/
+Explanation For Sample Input 1:
+For test case 1: 
+    We have to print 3 rows and 1 column of size 2 diamond.
+Sample Input -2
+2
+2 5 2
+1 1 3
+Sample Output -2
+e/\ee/\ee/\ee/\ee/\e
+/oo\/oo\/oo\/oo\/oo\
+\oo/\oo/\oo/\oo/\oo/
+e\/ee\/ee\/ee\/ee\/e
+e/\ee/\ee/\ee/\ee/\e
+/oo\/oo\/oo\/oo\/oo\
+\oo/\oo/\oo/\oo/\oo/
+e\/ee\/ee\/ee\/ee\/e
+e/\e
+/oo\
+\oo/
+e\/e

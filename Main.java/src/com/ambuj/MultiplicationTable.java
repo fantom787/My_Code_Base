@@ -9,6 +9,7 @@ public class MultiplicationTable {
         int num = in.nextInt();
         String ans = table(num);
         System.out.println(ans);
+        Integer a = 5;
     }
 
     static String table(int num) {
