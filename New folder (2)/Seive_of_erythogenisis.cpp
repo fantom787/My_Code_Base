@@ -38,7 +38,7 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr);
-    display(seive_of_ery(50));
+    display(seive_of_ery(10000));
 
     return 0;
 }
