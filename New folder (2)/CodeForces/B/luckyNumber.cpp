@@ -13,29 +13,52 @@ bool cnt(ll n)
     {
         ll lst = n % 10;
         n /= 10;
-        cout << n << " " << lst << " ";
         if (lst != 4 && lst != 7)
         {
-            cout << "lst: " << lst << endl;
             return false;
         }
         else if (lst == 4)
         {
             cnt4++;
         }
-        else if (lst == 7)
+        else
         {
             cnt7++;
         }
     }
-    cout << "cnt4: " << cnt4 << "cnt7: " << cnt7 << endl;
     return cnt4 == cnt7;
 }
+
 int main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr);
-    cout << cnt(47);
+    ll n;
+    cin >> n;
+    ll ans = 0;
+    ll cnt4 = 0;
+    ll cnt7 = 0;
+    bool f1 = true;
+    while (f1)
+    {
+        if (cnt(n))
+        {
+            ans = n;
+            f1 = false;
+        }
+        n++;
+    }
+    cout << ans << endl;
     return 0;
 }
+/*
+
+9999
+444777
+
+99999
+444777
+
+
+*/

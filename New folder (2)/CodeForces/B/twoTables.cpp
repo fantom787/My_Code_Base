@@ -5,8 +5,6 @@ using namespace std;
 #define ll long long int
 #define all(s) s.begin(), s.end()
 
-
-
 int main()
 {
     ios_base::sync_with_stdio(false);

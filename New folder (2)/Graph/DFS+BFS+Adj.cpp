@@ -69,11 +69,11 @@ vi dfs(int vertex, vi adj[])
 {
     vi dfsVec;
     vi vis(vertex + 1, 0);
-    for (int i = 1; i <= vertex; i++)
+    for(int i = 1; i <= vertex; i++)
     {
         if (!vis[i])
         {
-            getDfs(adj, vis, dfsVec, i);
+            gtDfs(adj, vis, dfsVec, i);
         }
     }
     return dfsVec;
