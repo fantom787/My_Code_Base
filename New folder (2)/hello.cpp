@@ -4,38 +4,18 @@ using namespace std;
 #define endl "\n";
 #define ll long long int
 #define all(s) s.begin(), s.end()
+#define pb push_back
+#define INF 1e9 + 7
 
-bool cnt(ll n)
-{
-    ll cnt4 = 0;
-    ll cnt7 = 0;
-    while (n)
-    {
-        ll lst = n % 10;
-        n /= 10;
-        cout << n << " " << lst << " ";
-        if (lst != 4 && lst != 7)
-        {
-            cout << "lst: " << lst << endl;
-            return false;
-        }
-        else if (lst == 4)
-        {
-            cnt4++;
-        }
-        else if (lst == 7)
-        {
-            cnt7++;
-        }
-    }
-    cout << "cnt4: " << cnt4 << "cnt7: " << cnt7 << endl;
-    return cnt4 == cnt7;
-}
 int main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr);
-    cout << cnt(47);
+
+    map<int,set<int>> s;
+    s[5].insert(5);
+    auto x = s[5].find(1);
+    cout << (x != s[6].end()) << endl;
     return 0;
 }

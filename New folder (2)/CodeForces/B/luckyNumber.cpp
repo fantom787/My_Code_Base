@@ -5,50 +5,51 @@ using namespace std;
 #define ll long long int
 #define all(s) s.begin(), s.end()
 
-bool cnt(ll n)
-{
-    ll cnt4 = 0;
-    ll cnt7 = 0;
-    while (n)
-    {
-        ll lst = n % 10;
-        n /= 10;
-        if (lst != 4 && lst != 7)
-        {
-            return false;
-        }
-        else if (lst == 4)
-        {
-            cnt4++;
-        }
-        else
-        {
-            cnt7++;
-        }
-    }
-    return cnt4 == cnt7;
-}
-
 int main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr);
-    ll n;
-    cin >> n;
-    ll ans = 0;
-    ll cnt4 = 0;
-    ll cnt7 = 0;
-    bool f1 = true;
-    while (f1)
+    string in;
+    cin >> in;
+    int n = in.size();
+    if (n % 2)
     {
-        if (cnt(n))
-        {
-            ans = n;
-            f1 = false;
-        }
-        n++;
+        n += 1;
     }
+    else
+    {
+        string temp;
+        for (int i = 0; i < n / 2; i++)
+        {
+            temp += '7';
+        }
+        for (int i = 0; i < n / 2; i++)
+        {
+            temp += '4';
+        }
+        if (temp < in)
+        {
+            n += 2;
+        }
+    }
+    string ans;
+    for (int i = 0; i < n / 2; i++)
+    {
+        ans += '4';
+    }
+    for (int i = 0; i < n / 2; i++)
+    {
+        ans += '7';
+    }
+    do
+    {
+        if (ans >= in || n > in.size())
+        {
+            break;
+        }
+
+    } while (next_permutation(ans.begin(), ans.end()));
     cout << ans << endl;
     return 0;
 }
