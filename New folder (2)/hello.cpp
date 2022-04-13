@@ -1,21 +1,44 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
-#define pi 3.1415926535;
-#define endl "\n";
-#define ll long long int
-#define all(s) s.begin(), s.end()
-#define pb push_back
-#define INF 1e9 + 7
+
+bool isp[90000001];
+vector<int>prime;
+
+void seev()
+{
+    int maxN = 90000000;
+    isp[0]=isp[1]=true;
+    for(int i=2;i*i<=maxN;i++)
+    {
+        if(!isp[i])
+        {
+            for(int j=i*i;j<=maxN;j+=i)
+            {
+                isp[j]=true;
+            }
+        }
+    }
+    for(int i=2;i<=maxN;i++)
+    {
+        if(!isp[i])
+        {
+            prime.push_back(i);
+        }
+    }
+}
 
 int main()
 {
-    ios_base::sync_with_stdio(false);
-    cin.tie(nullptr);
-    cout.tie(nullptr);
-
-    map<int,set<int>> s;
-    s[5].insert(5);
-    auto x = s[5].find(1);
-    cout << (x != s[6].end()) << endl;
+    seev();
+    int t = 1;
+    cin>>t;
+    while(t--)
+    {
+        int k;
+        cin>>k;
+        k--;
+        cout<<prime[k]<<endl;
+        
+    }
     return 0;
 }

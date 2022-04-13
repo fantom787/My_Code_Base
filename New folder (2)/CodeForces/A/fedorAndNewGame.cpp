@@ -10,23 +10,36 @@ using namespace std;
 #define ppcll _builtin_popcount
 #define sz(x) (int)x.size()
 
+void solve()
+{
+    int n, m, k;
+    cin >> n >> m >> k;
+    vector<int> arr(m + 1);
+    for(auto &it:arr)
+    {
+        cin>>it;
+    }
+    int ans = 0;
+    for (int i = 0; i < m; i++)
+    {
+        if (ppc(arr[m] ^ arr[i]) <= k)
+        {
+            ans++;
+        }
+    }
+    cout << ans << endl;
+}
 
 int main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr);
-    int n, m;
-    map<int, set<int>> grp;
-    cin >> n >> m;
-    for (int i = 0; i < m; i++)
+    int n = 1;
+    // cin >> n;
+    while (n--)
     {
-        int x, y;
-        cin >> x >> y;
-        mp[x].insert(y);
-        mp[y].insert(x);
+        solve();
     }
-
-
     return 0;
 }

@@ -1,9 +1,12 @@
 #include <bits/stdc++.h>
 using namespace std;
-
-// Pragmas
-#pragma GCC optimize("O3,unroll-loops")
-#pragma GCC target("avx2")
+#define pi 3.1415926535;
+#define endl "\n";
+#define all(s) s.begin(), s.end()
+#define pb push_back
+#define ppc __builtin_popcount
+#define ppcll __builtin_popcountll
+#define sz(x) (int)x.size()
 
 // Aliases
 using ll = long long int;
@@ -11,23 +14,10 @@ using ull = unsigned long long int;
 using ld = long double;
 
 // Constants
-constexpr ld PI = 3.1415926535;
 constexpr ll INF = 4e18;
 constexpr ld EPS = 1e-9;
 constexpr ll MOD = 1e9 + 7;
 
-// macros
-#define endl "\n";
-#define all(s) s.begin(), s.end()
-#define pb push_back
-#define ppc __builtin_popcount
-#define ppcll __builtin_popcountll
-#define sz(x) (int)x.size()
-#define F first
-#define S second
-#define int long long
-
-// custom hash map
 struct custom_hash
 {
     static uint64_t splitmix64(uint64_t x)
@@ -63,19 +53,6 @@ istream &operator>>(istream &istream, vector<T> &v)
     return istream;
 }
 
-template <typename T1, typename T2> // cout << pair<T1, T2>
-ostream &operator<<(ostream &ostream, const pair<T1, T2> &p)
-{
-    return (ostream << p.first << " " << p.second);
-}
-template <typename T> // cout << vector<T>
-ostream &operator<<(ostream &ostream, const vector<T> &c)
-{
-    for (auto &it : c)
-        cout << it << " ";
-    return ostream;
-}
-
 // Mathematical functions
 int gcd(int a, int b)
 {
@@ -101,7 +78,7 @@ int gcdX(int a, int b, int &x, int &y) // gcd extended
     return a1;
 }
 
-int lcm(int a, int b)
+int LCM(int a, int b)
 {
     return ((ll)a * b) / gcd(a, b);
 }
@@ -119,6 +96,16 @@ ll modpow(ll x, ll n, int m = MOD)
         n /= 2;
     }
     return res;
+}
+
+void display(vector<int> vec)
+{
+    cout << "Displaying Vec" << endl;
+    for (auto it : vec)
+    {
+        cout << it << " ";
+    }
+    cout << endl;
 }
 
 int modinv(int x, int m = MOD)
@@ -176,15 +163,57 @@ void seive()
     }
 }
 
-void solve()
+vector<bool> ar(1000001, true);
+vector<int> pp(1000001);
+void s()
 {
+    int maxN = 1000001;
+    ar[0] = ar[1] = false;
+    for (ll i = 2; i * i < maxN; i++)
+    {
+        if (ar[i])
+        {
+            for (ll j = i * i; j < maxN; j += i)
+            {
+                ar[j] = false;
+            }
+        }
+    }
+    ll cnt = 0;
+    for (ll i = 1; i < maxN; i++)
+    {
+        if (ar[i])
+            cnt++;
+        if (ar[cnt])
+        {
+            pp[i] = 1;
+        }
+    }
+    for (ll i = 1; i < maxN; i++)
+    {
+        pp[i] += pp[i - 1];
+    }
 }
 
-int32_t main()
+void solve()
+{
+    int l, r;
+    cin >> l >> r;
+    int cnt = pp[r]-pp[l-1];
+    // for (int i = l; i < r + 1; i++)
+    // {
+    //     if (pp[i])
+    //         cnt++;
+    // }
+    cout << cnt << endl;
+}
+
+int main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr);
+    s();
     // seive();
     // seev();
     int n = 1;
@@ -195,11 +224,3 @@ int32_t main()
     }
     return 0;
 }
-/*stuff you should look for
- * int overflow, array bounds
- * special cases (n=1?)
- * do smth instead of nothing and stay organized
- * WRITE STUFF DOWN
- * DON'T GET STUCK ON ONE APPROACH
- * TRY USING LONG LONG INT
- */

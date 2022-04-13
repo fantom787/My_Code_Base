@@ -5,7 +5,10 @@ using namespace std;
 #define ll long long int
 #define all(s) s.begin(), s.end()
 #define pb push_back
-#define INF 1e9+7
+#define INF 1e9 + 7
+#define for (i, a, b) for (int i = a; i < b; i++)
+#define ppc __builtin_popcount
+#define ppcll _builtin_popcount
 
 int main()
 {

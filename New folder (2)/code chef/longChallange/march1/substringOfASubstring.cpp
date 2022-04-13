@@ -10,9 +10,34 @@ using namespace std;
 #define ppcll _builtin_popcount
 #define sz(x) (int)x.size()
 
-int cti(char c)
+void solve()
 {
-    return (c - '0');
+    string s;
+    cin >> s;
+    int n = sz(s);
+    int i = 1;
+    int j = 1;
+    char first = s[0];
+    char last = s[n - 1];
+    int ans = 0;
+    while (j < n - 1)
+    {
+        if (s[j] == first || s[j] == last)
+        {
+            j++;
+            i = j;
+        }
+        else
+        {
+            j++;
+        }
+        ans = max(ans, (j - i));
+    }
+    if (!ans)
+    {
+        ans = -1;
+    }
+    cout << ans << endl;
 }
 
 int main()
@@ -20,37 +45,11 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr);
-    string s;
-    cin >> s;
-    ll ans = 0;
-    int n = sz(s);
-    int i = 0;
-    int j = 0;
-    while (j < n-1)
+    int n;
+    cin >> n;
+    while (n--)
     {
-        if (cti(s[j]) + cti(s[j + 1]) == 9)
-        {
-            j++;
-        }
-        else
-        {
-            j++;
-            i = j;
-        }
-        if (j - i + 1 > 2)
-        {
-            // cout << "j: " << j << " i" << i << endl;
-            ans += pow(2, j - i - 1);
-        }
+        solve();
     }
-    if (!ans)
-    {
-        cout << 1 << endl;
-    }
-    else
-    {
-        cout << ans << endl;
-    }
-
     return 0;
 }

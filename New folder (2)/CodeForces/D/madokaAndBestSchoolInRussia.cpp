@@ -6,19 +6,36 @@ using namespace std;
 #define all(s) s.begin(), s.end()
 #define pb push_back
 #define INF 1e9 + 7
-#define rep(i, a, b) for (int i = a; i < b; i++)
 #define ppc __builtin_popcount
 #define ppcll _builtin_popcount
+#define sz(x) (int)x.size()
 
-void f(int n, ll curr, int a, int b, set<ll> &st)
+void solve()
 {
-    if (curr > n)
+    int x, d;
+    cin >> x >> d;
+    int cnt = 0;
+    while (!(x % d))
     {
+        cnt++;
+        x /= d;
+    }
+    if (cnt == 1)
+    {
+        cout << "NO" << endl;
         return;
     }
-    st.insert(curr);
-    f(n, (curr * 10) + a, a, b, st);
-    f(n, (curr * 10) + b, a, b, st);
+    else if (cnt == 2)
+    {
+        
+    }
+    else if (cnt == 3)
+    {
+    }
+    else
+    {
+    }
+    cout << "YES" << endl;
 }
 
 int main()
@@ -26,17 +43,11 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr);
-    ll n;
+    int n = 1;
     cin >> n;
-    set<ll> st;
-    rep(i, 1, 10)
+    while (n--)
     {
-        f(n, i, i, 0, st);
-        rep(j, i + 1, 10)
-        {
-            f(n, 0, i, j, st);
-        }
+        solve();
     }
-    cout << st.size() - 1 << endl;
     return 0;
 }
