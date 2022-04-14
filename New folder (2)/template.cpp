@@ -1,6 +1,12 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// Constants
+#define PI 3.1415926535
+#define INF 4e18
+#define EPS 1e-9
+#define MOD 1000000007
+
 // Pragmas
 #pragma GCC optimize("O3,unroll-loops")
 #pragma GCC target("avx2")
@@ -9,12 +15,6 @@ using namespace std;
 using ll = long long int;
 using ull = unsigned long long int;
 using ld = long double;
-
-// Constants
-constexpr ld PI = 3.1415926535;
-constexpr ll INF = 4e18;
-constexpr ld EPS = 1e-9;
-constexpr ll MOD = 1e9 + 7;
 
 // macros
 #define endl "\n";
@@ -106,17 +106,19 @@ int lcm(int a, int b)
     return ((ll)a * b) / gcd(a, b);
 }
 // modular exponentiation
-ll modpow(ll x, ll n, int m = MOD)
+int modpow(int x, int n, int m = MOD)
 {
     if (x == 0 && n == 0)
         return 0; // undefined case
-    ll res = 1;
-    while (n > 0)
+    int res = 1;
+    while (n)
     {
-        if (n % 2)
-            res = (res * x) % m;
-        x = (x * x) % m;
-        n /= 2;
+        if (n & 1)
+        {
+            res = ((res % m) * (x % m)) % m;
+        }
+        x = ((x % m) * (x % m)) % m;
+        n >>= 1;
     }
     return res;
 }
@@ -125,7 +127,15 @@ int modinv(int x, int m = MOD)
 {
     return modpow(x, m - 2, m);
 }
-
+// to invert a binary string
+void invert(string &s)
+{
+    int n = sz(s);
+    for (int i = 0; i < n; i++)
+    {
+        s[i] ^= '0' ^ '1';
+    }
+}
 // prime numbers upto 90million
 bool isp[90000001];
 vector<int> prime; // holds all prime numbers upto 90 million
@@ -151,7 +161,12 @@ void seev()
         }
     }
 }
-
+// display a vector
+void display(vector<int> a)
+{
+    cout << "Displaying Vector:" << endl;
+    cout << a << endl;
+}
 // factors of that number upto 10^6
 // smallest and largest prime numbers upto 10^6
 vector<bool> isPrime(1e6 + 1, 1);
@@ -196,10 +211,12 @@ int32_t main()
     return 0;
 }
 /*stuff you should look for
+ *Question Dobara padh bsdk
  * int overflow, array bounds
- * special cases (n=1?)
+ * special cases (n=1?)/ odd/even index
  * do smth instead of nothing and stay organized
  * WRITE STUFF DOWN
  * DON'T GET STUCK ON ONE APPROACH
  * TRY USING LONG LONG INT
+ * XOR --> ALWAYS TRY 45132
  */

@@ -1,91 +1,271 @@
-// <------------------------------------- Headers Files ------------------------------------->
 #include <bits/stdc++.h>
-
-// <------------------------------------- Directives ------------------------------------->
-#define ll long long int
-#define vi vector<int>
-#define vvi vector<vector<int>>
-#define vll vector<ll>
-#define vvll vector<vector<ll>>
-#define vc vector<char>
-#define vvc vector<vector<char>>
-#define pii pair<int, int>
-#define vpi vector<pii>
-#define ff first
-#define ss second
-#define pb push_back
-#define bitcnt1 __builtin_popcount
-#define mp make_pair
-#define fast_io                       \
-    ios_base::sync_with_stdio(false); \
-    cin.tie(NULL);                    \
-    cout.tie(NULL);
-#define endl "\n"
-#define tab1 " "
-#define lb lower_bound
-#define up upper_bound
-#define rep(i, a, b) for (int i = a; i < b; i++)
-#define rrep(i, b, a) for (int i = b - 1; i >= a; i--)
-#define fbo find_by_order
-#define oof order_of_key
-#define all(a) a.begin(), a.end()
-#define mem1(a) memset(a, -1, sizeof(a))
-#define mem0(a) memset(a, 0, sizeof(a))
-#define sz(a) (int)a.size()
-#define yes cout << "YES" << endl;
-#define no cout << "NO" << endl;
-
 using namespace std;
-// <------------------------------------- Code ------------------------------------->
 
-// const int N = 1e5 + 10;
-// const int mod = 1e9 + 7;
+// Constants
+#define PI 3.1415926535
+#define INF 4e18
+#define EPS 1e-9
+#define MOD 1000000007
 
-void solve(int tt)
+// Pragmas
+#pragma GCC optimize("O3,unroll-loops")
+#pragma GCC target("avx2")
+
+// Aliases
+using ll = long long int;
+using ull = unsigned long long int;
+using ld = long double;
+
+// macros
+#define endl "\n";
+#define all(s) s.begin(), s.end()
+#define pb push_back
+#define ppc __builtin_popcount
+#define ppcll __builtin_popcountll
+#define sz(x) (int)x.size()
+#define F first
+#define S second
+#define int long long
+
+// custom hash map
+struct custom_hash
 {
-    int n;
-    cin >> n;
-    vll a(n);
-    rep(i, 0, n) cin >> a[i];
-
-    ll ans = 0;
-    unordered_map<int, int> mm;
-    rep(i, 0, n)
+    static uint64_t splitmix64(uint64_t x)
     {
-        int l = 0;
-        rrep(j, 32, 0)
-        {
-            if (a[i] & (1 << j))
-            {
-                l = j;
-                break;
-            }
-        }
-        mm[l]++;
-    }
-    for (auto &it : mm)
-    {
-        ll m = it.ss;
-        if (m <= 1)
-            continue;
-        ans += (m * (m - 1)) / 2;
+        // http://xorshift.di.unimi.it/splitmix64.c
+        x += 0x9e3779b97f4a7c15;
+        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
+        x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
+        return x ^ (x >> 31);
     }
 
-    cout << ans << endl;
+    size_t operator()(uint64_t x) const
+    {
+        static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();
+        return splitmix64(x + FIXED_RANDOM);
+    }
+};
+template <typename T1, typename T2> // Key should be integer type
+using safe_map = unordered_map<T1, T2, custom_hash>;
+
+// Operator overloads
+template <typename T1, typename T2> // cin >> pair<T1, T2>
+istream &operator>>(istream &istream, pair<T1, T2> &p)
+{
+    return (istream >> p.first >> p.second);
 }
 
-int main()
+template <typename T> // cin >> vector<T>
+istream &operator>>(istream &istream, vector<T> &v)
 {
-    clock_t begin_69 = clock();
-    fast_io;
+    for (auto &it : v)
+        cin >> it;
+    return istream;
+}
 
-    int t = 1;
-    cin >> t;
-    while (t--)
+template <typename T1, typename T2> // cout << pair<T1, T2>
+ostream &operator<<(ostream &ostream, const pair<T1, T2> &p)
+{
+    return (ostream << p.first << " " << p.second);
+}
+template <typename T> // cout << vector<T>
+ostream &operator<<(ostream &ostream, const vector<T> &c)
+{
+    for (auto &it : c)
+        cout << it << " ";
+    return ostream;
+}
+
+// Mathematical functions
+int gcd(int a, int b)
+{
+    while (b)
     {
-        solve(t);
+        a %= b;
+        swap(a, b);
     }
+    return a;
+}
 
-#ifndef ONLINE_JUDGE
-    clock_t terminator_69 = clock();
-    cerr << "\nExecuted In: " << double
+int gcdX(int a, int b, int &x, int &y) // gcd extended
+{
+    x = 1, y = 0;
+    int x1 = 0, y1 = 1, a1 = a, b1 = b;
+    while (b1)
+    {
+        int q = a1 / b1;
+        tie(x, x1) = make_tuple(x1, x - q * x1);
+        tie(y, y1) = make_tuple(y1, y - q * y1);
+        tie(a1, b1) = make_tuple(b1, a1 - q * b1);
+    }
+    return a1;
+}
+
+int lcm(int a, int b)
+{
+    return ((ll)a * b) / gcd(a, b);
+}
+// modular exponentiation
+int modpow(int x, int n, int m = MOD)
+{
+    if (x == 0 && n == 0)
+        return 0; // undefined case
+    int res = 1;
+    while (n)
+    {
+        if (n & 1)
+        {
+            res = ((res % m) * (x % m)) % m;
+        }
+        x = ((x % m) * (x % m)) % m;
+        n >>= 1;
+    }
+    return res;
+}
+
+int modinv(int x, int m = MOD)
+{
+    return modpow(x, m - 2, m);
+}
+// to invert a binary string
+void invert(string &s)
+{
+    int n = sz(s);
+    for (int i = 0; i < n; i++)
+    {
+        s[i] ^= '0' ^ '1';
+    }
+}
+// prime numbers upto 90million
+bool isp[90000001];
+vector<int> prime; // holds all prime numbers upto 90 million
+void seev()
+{
+    int maxN = 90000000;
+    isp[0] = isp[1] = true;
+    for (int i = 2; i * i <= maxN; i++)
+    {
+        if (!isp[i])
+        {
+            for (int j = i * i; j <= maxN; j += i)
+            {
+                isp[j] = true;
+            }
+        }
+    }
+    for (int i = 2; i <= maxN; i++)
+    {
+        if (!isp[i])
+        {
+            prime.push_back(i);
+        }
+    }
+}
+// display a vector
+void display(vector<int> a)
+{
+    cout << "Displaying Vector:" << endl;
+    cout << a << endl;
+}
+// factors of that number upto 10^6
+// smallest and largest prime numbers upto 10^6
+vector<bool> isPrime(1e6 + 1, 1);
+vector<int> smallestPrimeFactor(1e6 + 1, 1e9); // at the ith value stores the smallest factor of that number
+vector<int> largestPrimeFactor(1e6 + 1, -1);   // at the ith value stores the smallest factor of that number
+void seive()
+{
+    isPrime[0] = isPrime[1] = false;
+    isPrime[2] = true;
+    for (int i = 2; i <= 1e6; i++)
+    {
+        if (!isPrime[i])
+            continue;
+        smallestPrimeFactor[i] = i;
+        largestPrimeFactor[i] = i;
+        for (int j = i; j <= 1e6; j += i)
+        {
+            isPrime[j] = false;
+            smallestPrimeFactor[j] = min(smallestPrimeFactor[j], i);
+            largestPrimeFactor[j] = max(largestPrimeFactor[j], i);
+        }
+    }
+}
+
+void solve()
+{
+    int n, k;
+    cin >> n >> k;
+    vector<int> a(n);
+    cin >> a;
+    int gcd1 = a[0];
+    for (auto it : a)
+    {
+        gcd1 = gcd(gcd1, it);
+    }
+    if (gcd1 == 1)
+    {
+        cout << "YES" << endl;
+        return;
+    }
+    vector<int> fac;
+    // while (gcd1 > 1)
+    // {
+    //     int x = smallestPrimeFactor[gcd1];
+    //     fac.pb(x);
+    //     while (gcd1 % x == 0)
+    //     {
+    //         gcd1 /= x;
+    //     }
+    // }
+    for (int i = 2; i * i < gcd1; i++)
+    {
+        if (gcd1 == 1)
+        {
+            break;
+        }
+        if (gcd1 % i == 0)
+        {
+            fac.pb(i);
+            while (gcd1 % i == 0)
+            {
+                gcd1 /= i;
+            }
+        }
+    }
+    if (gcd1 != 1)
+    {
+        fac.pb(gcd1);
+    }
+    sort(all(fac));
+    if (fac.back() > k)
+    {
+        cout << "NO" << endl;
+        return;
+    }
+    cout << "YES" << endl;
+}
+
+int32_t main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    // seive();
+    // seev();
+    int n = 1;
+    cin >> n;
+    while (n--)
+    {
+        solve();
+    }
+    return 0;
+}
+/*stuff you should look for
+ * int overflow, array bounds
+ * special cases (n=1?)/ odd/even index
+ * do smth instead of nothing and stay organized
+ * WRITE STUFF DOWN
+ * DON'T GET STUCK ON ONE APPROACH
+ * TRY USING LONG LONG INT
+ * XOR --> ALWAYS TRY 45132
+ */
