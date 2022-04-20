@@ -20,12 +20,20 @@ using ld = long double;
 #define endl "\n";
 #define all(s) s.begin(), s.end()
 #define pb push_back
+#define eb emplace_back
 #define ppc __builtin_popcount
+#define parity(x) __builtin_parity(x)// gives true for odd and false for even
 #define ppcll __builtin_popcountll
+#define msb(x) 63 - __builtin_clzll(x)// gives the most significant bit of the number
 #define sz(x) (int)x.size()
 #define F first
 #define S second
 #define int long long
+#define getunique(x)         \
+    {                        \
+        set<int> st(all(x)); \
+        x.assign(all(st));   \
+    }
 
 // custom hash map
 struct custom_hash
@@ -127,6 +135,37 @@ int modinv(int x, int m = MOD)
 {
     return modpow(x, m - 2, m);
 }
+// Get All The Divisors Of That Number
+vector<int> getDiv(int n)
+{
+    vector<int> ans;
+    for (int i = 1; i * i <= n; i++)
+    {
+        if (n % i == 0)
+        {
+            ans.pb(i);
+            ans.pb(n / i);
+        }
+    }
+    return ans;
+}
+// to get the prime factors of that number
+vector<int> getprimefac(int n)
+{
+    vector<int> ans;
+    for (int i = 2; i * i <= n; i++)
+    {
+        if (n % i == 0)
+        {
+            while (n % i == 0)
+            {
+                n /= i;
+                ans.pb(i);
+            }
+        }
+    }
+    return ans;
+}
 // to invert a binary string
 void invert(string &s)
 {
@@ -211,7 +250,12 @@ int32_t main()
     return 0;
 }
 /*stuff you should look for
- *Question Dobara padh bsdk
+ * follow the basics koi nya try kr rha hai toh uske primitive try kr
+ * cool hoja bsdk answer ez hai
+ * copy pe bna ke dekh lo sir
+ * floor and ciel ka panga dekh lo sir
+ * pani pee aa
+ * Question Dobara padh bsdk
  * int overflow, array bounds
  * special cases (n=1?)/ odd/even index
  * do smth instead of nothing and stay organized

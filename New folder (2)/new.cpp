@@ -20,12 +20,19 @@ using ld = long double;
 #define endl "\n";
 #define all(s) s.begin(), s.end()
 #define pb push_back
+#define eb emplace_back
 #define ppc __builtin_popcount
 #define ppcll __builtin_popcountll
+#define msb(x) 63 - __builtin_clzll(x) // gives the most significant bit of the number
 #define sz(x) (int)x.size()
 #define F first
 #define S second
 #define int long long
+#define getunique(x)         \
+    {                        \
+        set<int> st(all(x)); \
+        x.assign(all(st));   \
+    }
 
 // custom hash map
 struct custom_hash
@@ -127,6 +134,37 @@ int modinv(int x, int m = MOD)
 {
     return modpow(x, m - 2, m);
 }
+// Get All The Divisors Of That Number
+vector<int> getDiv(int n)
+{
+    vector<int> ans;
+    for (int i = 1; i * i <= n; i++)
+    {
+        if (n % i == 0)
+        {
+            ans.pb(i);
+            ans.pb(n / i);
+        }
+    }
+    return ans;
+}
+// to get the prime factors of that number
+vector<int> getprimefac(int n)
+{
+    vector<int> ans;
+    for (int i = 2; i * i <= n; i++)
+    {
+        if (n % i == 0)
+        {
+            while (n % i == 0)
+            {
+                n /= i;
+                ans.pb(i);
+            }
+        }
+    }
+    return ans;
+}
 // to invert a binary string
 void invert(string &s)
 {
@@ -193,56 +231,63 @@ void seive()
 
 void solve()
 {
-    int n, k;
-    cin >> n >> k;
-    vector<int> a(n);
-    cin >> a;
-    int gcd1 = a[0];
-    for (auto it : a)
-    {
-        gcd1 = gcd(gcd1, it);
-    }
-    if (gcd1 == 1)
-    {
-        cout << "YES" << endl;
-        return;
-    }
-    vector<int> fac;
-    // while (gcd1 > 1)
+    int x, y;
+    cin >> x >> y;
+    int ans = 1;
+
+    // for (int a = 1; a < 100000000 + 5; a++)
     // {
-    //     int x = smallestPrimeFactor[gcd1];
-    //     fac.pb(x);
-    //     while (gcd1 % x == 0)
+    //     if (a != x)
     //     {
-    //         gcd1 /= x;
+    //         int b = (a * y) / (a - x);
+    //         int calc = b * (a - x);
+    //         if (b > 0 && calc == (a * y))
+    //         {
+    //             ans++;
+    //         }
     //     }
     // }
-    for (int i = 2; i * i < gcd1; i++)
+    map<int, int> mp;
+    for (int i = 2; i * i <= x; i++)
     {
-        if (gcd1 == 1)
+        if (x % i == 0)
         {
-            break;
-        }
-        if (gcd1 % i == 0)
-        {
-            fac.pb(i);
-            while (gcd1 % i == 0)
+            int cnt = 0;
+            while (x % i == 0)
             {
-                gcd1 /= i;
+                cnt++;
+                x /= i;
             }
+            mp[i] += cnt;
         }
     }
-    if (gcd1 != 1)
+    if (x > 1)
     {
-        fac.pb(gcd1);
+        mp[x]++;
     }
-    sort(all(fac));
-    if (fac.back() > k)
+    for (int i = 2; i * i <= y; i++)
     {
-        cout << "NO" << endl;
-        return;
+        if (y % i == 0)
+        {
+            int cnt = 0;
+            while (y % i == 0)
+            {
+                cnt++ ;
+                y /= i;
+            }
+            mp[i] += cnt;
+        }
     }
-    cout << "YES" << endl;
+    if (y > 1)
+    {
+        mp[y]++;
+    }
+    for (auto it : mp)
+    {
+        ans *= (it.S+1);
+    }
+    cout << ans << endl;
+    return;
 }
 
 int32_t main()
@@ -253,7 +298,7 @@ int32_t main()
     // seive();
     // seev();
     int n = 1;
-    cin >> n;
+    // cin >> n;
     while (n--)
     {
         solve();
@@ -261,6 +306,12 @@ int32_t main()
     return 0;
 }
 /*stuff you should look for
+ * follow the basics koi nya try kr rha hai toh uske primitive try kr
+ * cool hoja bsdk answer ez hai
+ * copy pe bna ke dekh lo sir
+ * floor and ciel ka panga dekh lo sir
+ * pani pee aa
+ * Question Dobara padh bsdk
  * int overflow, array bounds
  * special cases (n=1?)/ odd/even index
  * do smth instead of nothing and stay organized
