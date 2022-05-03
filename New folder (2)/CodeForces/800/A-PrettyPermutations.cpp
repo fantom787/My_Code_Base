@@ -229,37 +229,13 @@ void seive()
         }
     }
 }
+vector<int> dp;
 /*
 write down ur inner voice dont suppress it
 */
 // Approach ->
 void solve()
 {
-    int n, x;
-    cin >> n >> x;
-    vector<int> v(n + 1);
-    for (int i = 1; i <= n; i++)
-    {
-        cin >> v[i];
-    }
-    vector<vector<int>> dp(n + 1, vector<int>(x + 1));
-    for (int i = 1; i <= n; i++)
-    {
-        for (int sum = 0; sum <= x; sum++)
-        {
-            if (sum == 0)
-            {
-                dp[i][sum] = 1;
-            }
-            else
-            {
-                int op1 = (v[i] > sum) ? 0 : dp[i][sum - v[i]];
-                int op2 = (i == 1) ? 0 : dp[i - 1][sum];
-                dp[i][sum] = (op1 + op2) % MOD;
-            }
-        }
-    }
-    cout << dp[n][x] << endl;
 }
 
 int32_t main()
@@ -270,7 +246,7 @@ int32_t main()
     // seive();
     // seev();
     int n = 1;
-    // cin >> n;
+    cin >> n;
     while (n--)
     {
         solve();
