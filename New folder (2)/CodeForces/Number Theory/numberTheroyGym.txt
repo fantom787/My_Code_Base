@@ -1,0 +1,8 @@
+Advance topics that i m leaving right now 
+i have to do it later 
+    1.chinese remainder therorem
+    2.euler totient function
+    3. matrix exponentioation
+    4.square root decompositon
+https://codeforces.com/gym/348180
+and galen colin topic stream on number theory

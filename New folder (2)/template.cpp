@@ -22,9 +22,9 @@ using ld = long double;
 #define pb push_back
 #define eb emplace_back
 #define ppc __builtin_popcount
-#define parity(x) __builtin_parity(x)// gives true for odd and false for even
+#define parity(x) __builtin_parity(x) // gives true for odd and false for even
 #define ppcll __builtin_popcountll
-#define msb(x) 63 - __builtin_clzll(x)// gives the most significant bit of the number
+#define msb(x) 63 - __builtin_clzll(x) // gives the most significant bit of the number
 #define sz(x) (int)x.size()
 #define F first
 #define S second
@@ -229,7 +229,11 @@ void seive()
         }
     }
 }
-
+vector<int> dp;
+/*
+write down ur inner voice dont suppress it
+*/
+// Approach ->
 void solve()
 {
 }
@@ -249,7 +253,11 @@ int32_t main()
     }
     return 0;
 }
-/*stuff you should look for
+/* stuff you should look for
+ * uncertain ko pehle nipta lo sir
+ * special cases (n=1?)/ odd/even index
+ * sir square wala bhi soch lo
+ * consecutive elements ka scene hai to genedy apraoch lga do sir
  * follow the basics koi nya try kr rha hai toh uske primitive try kr
  * cool hoja bsdk answer ez hai
  * copy pe bna ke dekh lo sir
@@ -257,7 +265,6 @@ int32_t main()
  * pani pee aa
  * Question Dobara padh bsdk
  * int overflow, array bounds
- * special cases (n=1?)/ odd/even index
  * do smth instead of nothing and stay organized
  * WRITE STUFF DOWN
  * DON'T GET STUCK ON ONE APPROACH

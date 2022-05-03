@@ -230,13 +230,57 @@ void seive()
     }
 }
 
+int dp(vector<int> &a, int n, int i, int rem, int par)
+{
+    if (i == n - 1)
+    {
+        return 0;
+    }
+    int ans1 = INF;
+    int ans2 = INF;
+    int ans3 = INF;
+    if (a[i] % 2 == par)
+    {
+        ans1 = 1 + dp(a, n, i + 1, rem, par);
+    }
+    else
+    {
+        if (rem)
+        {
+            ans2 = 1 + dp(a, n, i + 1, rem - 1, a[i] % 2);
+            ans3 = dp(a, n, i + 1, rem, par);
+        }
+        else
+        {
+            ans3 = dp(a, n, i + 1, rem, par);
+        }
+    }
+    return min(ans1, min(ans2, ans3));
+}
+
 void solve()
 {
     int n;
     cin >> n;
     vector<int> a(n);
-    cin>>a;
-    
+    vector<int> dp1(n);
+    cin >> a;
+    if (a[0] % 2 == a[n - 1] % 2)
+    {
+        int ans = 0;
+        for (int i = 1; i < n; i++)
+        {
+            if (a[i] % 2 == a[0] % 2)
+            {
+                ans++;
+            }
+        }
+        cout << ans << endl;
+        return;
+    }
+    int ans = dp(a, n, 1, 1, a[0] % 2);
+    cout << ans << endl;
+    return;
 }
 
 int32_t main()
