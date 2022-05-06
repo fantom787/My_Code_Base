@@ -236,6 +236,25 @@ write down ur inner voice dont suppress it
 // Approach ->
 void solve()
 {
+    int n;
+    cin >> n;
+    vector<int> a(n);
+    cin >> a;
+    double sum = 0.0;
+    double ans = 0.0;
+    double curr = 0.0;
+    sort(all(a));
+    for (auto it : a)
+    {
+        sum += it;
+    }
+    for (int i = 0; i < n; i++)
+    {
+        curr += a[i];
+        ans = max(ans, (sum - curr + curr / (i + 1)) / (n - i));
+    }
+    cout << fixed << setprecision(10) << ans << endl;
+    return;
 }
 
 int32_t main()
