@@ -16,8 +16,24 @@ using ll = long long int;
 using ull = unsigned long long int;
 using ld = long double;
 
+// debug
+#define debug(x)       \
+    cout << #x << " "; \
+    _print(x);         \
+    cout << endl;
+void _print(ll t)
+{
+    cout << t;
+}
+void _print(int t) { cout << t; }
+void _print(string t) { cout << t; }
+void _print(char t) { cout << t; }
+void _print(ld t) { cout << t; }
+void _print(double t) { cout << t; }
+void _print(ull t) { cout << t; }
+
 // macros
-#define endl "\n";
+// #define endl "\n";
 #define all(s) s.begin(), s.end()
 #define pb push_back
 #define eb emplace_back
@@ -239,21 +255,20 @@ void solve()
     int n;
     cin >> n;
     vector<int> a(n);
-    cin >> a;
-    double sum = 0.0;
-    double ans = 0.0;
-    double curr = 0.0;
+    vector<int> b(n);
+    cin >> a >> b;
     sort(all(a));
-    for (auto it : a)
-    {
-        sum += it;
-    }
+    sort(all(b));
+    bool counter = 1;
     for (int i = 0; i < n; i++)
     {
-        curr += a[i];
-        ans = max(ans, (sum - curr + curr / (i + 1)) / (n - i));
+        int diff = b[i] - a[i];
+        if (diff > 1 || diff < 0)
+        {
+            counter = 0;
+        }
     }
-    cout << fixed << setprecision(10) << ans << endl;
+    cout << (counter ? "YES" : "NO") << "\n";
     return;
 }
 
@@ -273,6 +288,8 @@ int32_t main()
     return 0;
 }
 /* stuff you should look for
+ * i>j wale sare chahiye to prefix wala lga do sir jisme curr ko calc kro prev se and fir usko map kr do
+ * a+b = a^b + 2*a&b
  * uncertain ko pehle nipta lo sir
  * special cases (n=1?)/ odd/even index
  * sir square wala bhi soch lo

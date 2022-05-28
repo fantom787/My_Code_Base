@@ -1,3 +1,12 @@
+// Author: Ambuj Kumar(fantom787)
+//  If it works, don't touch it.
+/*  All Links
+ Youtube:  https://www.youtube.com/c/Fantom7877/videos
+ Linkedin: https://www.linkedin.com/in/ambuj-kumar-88b614203/
+ Codeforces: https://codeforces.com/profile/fantom787
+ Codechef: https://www.codechef.com/users/ambuj787
+*/
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -16,8 +25,24 @@ using ll = long long int;
 using ull = unsigned long long int;
 using ld = long double;
 
+// debug
+#define debug(x)       \
+    cout << #x << " "; \
+    _print(x);         \
+    cout << endl;
+void _print(ll t)
+{
+    cout << t;
+}
+void _print(int t) { cout << t; }
+void _print(string t) { cout << t; }
+void _print(char t) { cout << t; }
+void _print(ld t) { cout << t; }
+void _print(double t) { cout << t; }
+void _print(ull t) { cout << t; }
+
 // macros
-#define endl "\n";
+// #define endl "\n";
 #define all(s) s.begin(), s.end()
 #define pb push_back
 #define eb emplace_back
@@ -29,12 +54,16 @@ using ld = long double;
 #define F first
 #define S second
 #define int long long
-#define getunique(x)         \
-    {                        \
-        set<int> st(all(x)); \
-        x.assign(all(st));   \
+#define getunique(v)                                  \
+    {                                                 \
+        sort(v.begin(), v.end());                     \
+        v.erase(unique(v.begin(), v.end()), v.end()); \
     }
-
+#define kickstart(x)                 \
+    {                                \
+        cout << "Case #" << x << ":" \
+             << " ";                 \
+    }
 // custom hash map
 struct custom_hash
 {
@@ -229,13 +258,26 @@ void seive()
         }
     }
 }
-vector<int> dp;
-/*
-write down ur inner voice dont suppress it
-*/
-// Approach ->
-void solve()
+// get instant prime
+vector<ll> sieve(int n)
 {
+    int *arr = new int[n + 1]();
+    vector<ll> vect;
+    for (int i = 2; i <= n; i++)
+        if (arr[i] == 0)
+        {
+            vect.push_back(i);
+            for (int j = i * i; j <= n; j += i)
+                arr[j] = 1;
+        }
+    return vect;
+}
+
+// Flags to use: -std=c++17 -O2 -DLOCAL_PROJECT -Wshadow -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC -fsanitize=address -fsanitize=undefined
+/*/-----------------------------Code begins----------------------------------/*/
+void solve(int testcase)
+{
+    // kickstart(testcase);
 }
 
 int32_t main()
@@ -247,27 +289,20 @@ int32_t main()
     // seev();
     int n = 1;
     cin >> n;
-    while (n--)
+    for (int i = 1; i <= n; i++)
     {
-        solve();
+        solve(i);
     }
     return 0;
 }
 /* stuff you should look for
- * uncertain ko pehle nipta lo sir
+ *
+ * 0 0 n  try kr lo if multiple ans ka case hai to ya isse similar kuch hai to
+ * i>j wale sare chahiye to prefix wala lga do sir jisme curr ko calc kro prev se and fir usko map kr do
+ * a+b = a^b + 2*a&b
  * special cases (n=1?)/ odd/even index
  * sir square wala bhi soch lo
  * consecutive elements ka scene hai to genedy apraoch lga do sir
  * follow the basics koi nya try kr rha hai toh uske primitive try kr
- * cool hoja bsdk answer ez hai
- * copy pe bna ke dekh lo sir
- * floor and ciel ka panga dekh lo sir
- * pani pee aa
- * Question Dobara padh bsdk
- * int overflow, array bounds
- * do smth instead of nothing and stay organized
- * WRITE STUFF DOWN
- * DON'T GET STUCK ON ONE APPROACH
- * TRY USING LONG LONG INT
  * XOR --> ALWAYS TRY 45132
  */
