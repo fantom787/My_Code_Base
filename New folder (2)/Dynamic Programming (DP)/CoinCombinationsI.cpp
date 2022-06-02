@@ -1,3 +1,12 @@
+// Author: Ambuj Kumar(fantom787)
+//  If it works, don't touch it.
+/*  All Links
+ Youtube:  https://www.youtube.com/c/Fantom7877/videos
+ Linkedin: https://www.linkedin.com/in/ambuj-kumar-88b614203/
+ Codeforces: https://codeforces.com/profile/fantom787
+ Codechef: https://www.codechef.com/users/ambuj787
+*/
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -16,8 +25,24 @@ using ll = long long int;
 using ull = unsigned long long int;
 using ld = long double;
 
+// debug
+#define debug(x)       \
+    cout << #x << " "; \
+    _print(x);         \
+    cout << endl;
+void _print(ll t)
+{
+    cout << t;
+}
+void _print(int t) { cout << t; }
+void _print(string t) { cout << t; }
+void _print(char t) { cout << t; }
+void _print(ld t) { cout << t; }
+void _print(double t) { cout << t; }
+void _print(ull t) { cout << t; }
+
 // macros
-#define endl "\n";
+// #define endl "\n";
 #define all(s) s.begin(), s.end()
 #define pb push_back
 #define eb emplace_back
@@ -29,17 +54,22 @@ using ld = long double;
 #define F first
 #define S second
 #define int long long
-#define getunique(x)         \
-    {                        \
-        set<int> st(all(x)); \
-        x.assign(all(st));   \
+#define getunique(v)                                  \
+    {                                                 \
+        sort(v.begin(), v.end());                     \
+        v.erase(unique(v.begin(), v.end()), v.end()); \
     }
-
+#define kickstart(x)                 \
+    {                                \
+        cout << "Case #" << x << ":" \
+             << " ";                 \
+    }
 // custom hash map
 struct custom_hash
 {
     static uint64_t splitmix64(uint64_t x)
     {
+        // Credits: https://codeforces.com/blog/entry/62393
         // http://xorshift.di.unimi.it/splitmix64.c
         x += 0x9e3779b97f4a7c15;
         x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
@@ -135,8 +165,36 @@ int modinv(int x, int m = MOD)
 {
     return modpow(x, m - 2, m);
 }
+
+/* ------------------mod arithamatic --------------------------*/
+int modadd(int a, int b, int m = MOD)
+{
+    a = a % m;
+    b = b % m;
+    return (((a + b) % m) + m) % m;
+}
+int modmul(int a, int b, int m = MOD)
+{
+    a = a % m;
+    b = b % m;
+    return (((a * b) % m) + m) % m;
+}
+int modsub(int a, int b, int m = MOD)
+{
+    a = a % m;
+    b = b % m;
+    return (((a - b) % m) + m) % m;
+}
+int moddiv(int a, int b, int m = MOD)
+{
+    a = a % m;
+    b = b % m;
+    return (modmul(a, modinv(b, m), m) + m) % m;
+}
+
+/*--------------- Seive -----------------------*/
 // Get All The Divisors Of That Number
-vector<int> getDiv(int n)
+vector<int> getdiv(int n)
 {
     vector<int> ans;
     for (int i = 1; i * i <= n; i++)
@@ -166,6 +224,20 @@ vector<int> getprimefac(int n)
     }
     return ans;
 }
+// get instant prime
+vector<ll> sieve(int n)
+{
+    int *arr = new int[n + 1]();
+    vector<ll> vect;
+    for (int i = 2; i <= n; i++)
+        if (arr[i] == 0)
+        {
+            vect.push_back(i);
+            for (int j = i * i; j <= n; j += i)
+                arr[j] = 1;
+        }
+    return vect;
+}
 // to invert a binary string
 void invert(string &s)
 {
@@ -175,136 +247,65 @@ void invert(string &s)
         s[i] ^= '0' ^ '1';
     }
 }
-// prime numbers upto 90million
-bool isp[90000001];
-vector<int> prime; // holds all prime numbers upto 90 million
-void seev()
-{
-    int maxN = 90000000;
-    isp[0] = isp[1] = true;
-    for (int i = 2; i * i <= maxN; i++)
-    {
-        if (!isp[i])
-        {
-            for (int j = i * i; j <= maxN; j += i)
-            {
-                isp[j] = true;
-            }
-        }
-    }
-    for (int i = 2; i <= maxN; i++)
-    {
-        if (!isp[i])
-        {
-            prime.push_back(i);
-        }
-    }
-}
+
 // display a vector
 void display(vector<int> a)
 {
     cout << "Displaying Vector:" << endl;
     cout << a << endl;
 }
-// factors of that number upto 10^6
-// smallest and largest prime numbers upto 10^6
-vector<bool> isPrime(1e6 + 1, 1);
-vector<int> smallestPrimeFactor(1e6 + 1, 1e9); // at the ith value stores the smallest factor of that number
-vector<int> largestPrimeFactor(1e6 + 1, -1);   // at the ith value stores the smallest factor of that number
-void seive()
+
+// Flags to use: -std=c++17 -O2 -DLOCAL_PROJECT -Wshadow -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC -fsanitize=address -fsanitize=undefined
+/*/-----------------------------Code begins----------------------------------/*/
+void solve(int testcase)
 {
-    isPrime[0] = isPrime[1] = false;
-    isPrime[2] = true;
-    for (int i = 2; i <= 1e6; i++)
+    // kickstart(testcase);
+    int n, k;
+    cin >> n >> k;
+    vector<int> a(n);
+    cin >> a;
+    vector<int> dp(k + 1);
+    dp[0] = 1;
+    for (int sum = 1; sum <= k; sum++)
     {
-        if (!isPrime[i])
-            continue;
-        smallestPrimeFactor[i] = i;
-        largestPrimeFactor[i] = i;
-        for (int j = i; j <= 1e6; j += i)
+        for (int i = 0; i < n; i++)
         {
-            isPrime[j] = false;
-            smallestPrimeFactor[j] = min(smallestPrimeFactor[j], i);
-            largestPrimeFactor[j] = max(largestPrimeFactor[j], i);
+            if (sum - a[i] >= 0)
+            {
+                dp[sum] = modadd(dp[sum], dp[sum - a[i]]);
+            }
         }
     }
-}
-vector<int> dp;
-vector<int> a;
-int n;
-/*
-write down ur inner voice dont suppress it
-*/
-// Approach ->
-
-int rec(int x)
-{
-    if (x < 0)
-    {
-        return 0;
-    }
-    if (x == 0)
-    {
-        return 1;
-    }
-    if (dp[x] != -1)
-    {
-        return dp[x];
-    }
-    int ans = 0;
-    for (int i = 0; i < n; i++)
-    {
-        ans += rec(x - a[i]);
-        ans %= MOD;
-    }
-    return dp[x] = ans;
-}
-
-void solve()
-{
-    int x;
-    cin >> n >> x;
-    a.resize(n);
-    cin >> a;
-    dp.resize(x + 1, -1);
-    // display(a);
-    sort(all(a));
-    int ans = rec(x);
-    ans %= MOD;
-    cout << ans << endl;
-    return;
+    cout << dp[k] << endl;
 }
 
 int32_t main()
 {
     ios_base::sync_with_stdio(false);
-    cin.tie(nullptr);
-    cout.tie(nullptr);
-    // seive();
-    // seev();
+    cin.tie(NULL);
+    cout.tie(NULL);
+    cout << fixed << setprecision(25);
+    cerr << fixed << setprecision(10);
+    auto start = std::chrono::high_resolution_clock::now();
     int n = 1;
     // cin >> n;
-    while (n--)
+    for (int i = 1; i <= n; i++)
     {
-        solve();
+        solve(i);
     }
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start);
+    // cerr << "Time taken : " << ((long double)duration.count())/((long double) 1e9) <<"s "<< endl;
     return 0;
 }
 /* stuff you should look for
- * uncertain ko pehle nipta lo sir
+ *
+ * 0 0 n  try kr lo if multiple ans ka case hai to ya isse similar kuch hai to
+ * i>j wale sare chahiye to prefix wala lga do sir jisme curr ko calc kro prev se and fir usko map kr do
+ * a+b = a^b + 2*a&b
  * special cases (n=1?)/ odd/even index
  * sir square wala bhi soch lo
  * consecutive elements ka scene hai to genedy apraoch lga do sir
  * follow the basics koi nya try kr rha hai toh uske primitive try kr
- * cool hoja bsdk answer ez hai
- * copy pe bna ke dekh lo sir
- * floor and ciel ka panga dekh lo sir
- * pani pee aa
- * Question Dobara padh bsdk
- * int overflow, array bounds
- * do smth instead of nothing and stay organized
- * WRITE STUFF DOWN
- * DON'T GET STUCK ON ONE APPROACH
- * TRY USING LONG LONG INT
  * XOR --> ALWAYS TRY 45132
  */
