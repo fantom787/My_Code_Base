@@ -1,7 +1,6 @@
-/*
-    Author: Ambuj Kumar(fantom787)
-    If it works, don't touch it.
-----------------------All Links -------------------------
+// Author: Ambuj Kumar(fantom787)
+//  If it works, don't touch it.
+/*  All Links
  Youtube:  https://www.youtube.com/c/Fantom7877/videos
  Linkedin: https://www.linkedin.com/in/ambuj-kumar-88b614203/
  Codeforces: https://codeforces.com/profile/fantom787
@@ -235,21 +234,29 @@ void display(vector<int> a)
 void solve(int testcase)
 {
     // kickstart(testcase);
+    int n;
+    cin >> n;
+    vector<int> dp(n + 1);
+    dp[0] = 0;
+    for (int num = 1; num <= n; num++)
+    {
+        int sum = INT_MAX;
+        int temp = num;
+        while (temp)
+        {
+            int lastdigit = temp % 10;
+            temp /= 10;
+            if (lastdigit && sum - lastdigit >= 0)
+            {
+                sum = min(sum, dp[num - lastdigit]);
+            }
+        }
+        dp[num] = 1 + sum;
+    }
+    cout << dp[n] << endl;
+    return;
 }
-/* stuff you should look for
- * nlog(log(n)) bhi soch lo sir like jha multiples ka case aya wha pe seive of erathosthenisis ka concept lga do
- * cool hoja bsdk
- * jha 1 bdi value aur 1 choti value chahiye wha 2 pointer lga do sir
-    aur choti value wale pointer ko increase krte rehna jb testcase na meet ho to
- * 0 0 n  try kr lo if multiple ans ka case hai to ya isse similar kuch hai to
- * i>j wale sare chahiye to prefix wala lga do sir jisme curr ko calc kro prev se and fir usko map kr do
- * a+b = a^b + 2*a&b
- * special cases (n=1?)/ odd/even index
- * sir square wala bhi soch lo
- * consecutive elements ka scene hai to genedy apraoch lga do sir
- * follow the basics koi nya try kr rha hai toh uske primitive try kr
- * XOR --> ALWAYS TRY 45132
- */
+
 int32_t main()
 {
     ios_base::sync_with_stdio(false);
@@ -259,7 +266,7 @@ int32_t main()
     cerr << fixed << setprecision(10);
     auto start = std::chrono::high_resolution_clock::now();
     int n = 1;
-    cin >> n;
+    // cin >> n;
     for (int i = 1; i <= n; i++)
     {
         solve(i);
@@ -269,3 +276,14 @@ int32_t main()
     // cerr << "Time taken : " << ((long double)duration.count())/((long double) 1e9) <<"s "<< endl;
     return 0;
 }
+/* stuff you should look for
+ *
+ * 0 0 n  try kr lo if multiple ans ka case hai to ya isse similar kuch hai to
+ * i>j wale sare chahiye to prefix wala lga do sir jisme curr ko calc kro prev se and fir usko map kr do
+ * a+b = a^b + 2*a&b
+ * special cases (n=1?)/ odd/even index
+ * sir square wala bhi soch lo
+ * consecutive elements ka scene hai to genedy apraoch lga do sir
+ * follow the basics koi nya try kr rha hai toh uske primitive try kr
+ * XOR --> ALWAYS TRY 45132
+ */

@@ -166,32 +166,6 @@ int modinv(int x, int m = MOD)
     return modpow(x, m - 2, m);
 }
 
-/* ------------------mod arithamatic --------------------------*/
-int modadd(int a, int b, int m = MOD)
-{
-    a = a % m;
-    b = b % m;
-    return (((a + b) % m) + m) % m;
-}
-int modmul(int a, int b, int m = MOD)
-{
-    a = a % m;
-    b = b % m;
-    return (((a * b) % m) + m) % m;
-}
-int modsub(int a, int b, int m = MOD)
-{
-    a = a % m;
-    b = b % m;
-    return (((a - b) % m) + m) % m;
-}
-int moddiv(int a, int b, int m = MOD)
-{
-    a = a % m;
-    b = b % m;
-    return (modmul(a, modinv(b, m), m) + m) % m;
-}
-
 /*--------------- Seive -----------------------*/
 // Get All The Divisors Of That Number
 vector<int> getdiv(int n)
@@ -272,7 +246,7 @@ void solve(int testcase)
         {
             if (sum - a[i] >= 0)
             {
-                dp[sum] = modadd(dp[sum], dp[sum - a[i]]);
+                dp[sum] = (dp[sum] + dp[sum - a[i]]);
             }
         }
     }
@@ -295,7 +269,7 @@ int32_t main()
     }
     auto stop = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start);
-    // cerr << "Time taken : " << ((long double)duration.count())/((long double) 1e9) <<"s "<< endl;
+    // cerr << "Time taken : " << ((long double)duration.count()) / ((long double)1e9) << "s " << endl;
     return 0;
 }
 /* stuff you should look for

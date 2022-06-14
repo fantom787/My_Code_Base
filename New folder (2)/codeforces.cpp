@@ -166,32 +166,6 @@ int modinv(int x, int m = MOD)
     return modpow(x, m - 2, m);
 }
 
-/* ------------------mod arithamatic --------------------------*/
-#define modadd(a, b)
-{
-    a = a % MOD;
-    b = b % MOD;
-    (((a + b) % MOD) + MOD) % MOD;
-}
-inline int modmul(int a, int b, int m = MOD)
-{
-    a = a % m;
-    b = b % m;
-    return (((a * b) % m) + m) % m;
-}
-inline int modsub(int a, int b, int m = MOD)
-{
-    a = a % m;
-    b = b % m;
-    return (((a - b) % m) + m) % m;
-}
-inline int moddiv(int a, int b, int m = MOD)
-{
-    a = a % m;
-    b = b % m;
-    return (modmul(a, modinv(b, m), m) + m) % m;
-}
-
 /*--------------- Seive -----------------------*/
 // Get All The Divisors Of That Number
 vector<int> getdiv(int n)
@@ -257,49 +231,118 @@ void display(vector<int> a)
 
 // Flags to use: -std=c++17 -O2 -DLOCAL_PROJECT -Wshadow -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC -fsanitize=address -fsanitize=undefined
 /*/-----------------------------Code begins----------------------------------/*/
+bool pal(string s)
+{
+    string t = s;
+    reverse(all(t));
+    return t == s;
+}
 void solve(int testcase)
 {
     // kickstart(testcase);
-    int n, k;
-    cin >> n >> k;
-    vector<int> a(n);
-    cin >> a;
-    vector<int> dp(k + 1);
-    dp[0] = 1;
-    for (int sum = 1; sum <= k; sum++)
+    int n;
+    cin >> n;
+    string s;
+    cin >> s;
+    int ans = INT_MAX;
+    int ans1 = INT_MAX;
+    if (!pal(s))
     {
-        for (int i = 0; i < n; i++)
+        int i = 0;
+        int j = n - 1;
+        while (s[i] == s[j])
         {
-            if (sum - a[i] >= 0)
+            i++;
+            j--;
+        }
+        char c = s[i];
+        char d = s[j];
+        int cnt = 1;
+        int ii = i + 1;
+        int jj = j;
+        while (ii < jj)
+        {
+            if (s[ii] != s[jj])
             {
-                dp[sum] = modadd(dp[sum], dp[sum - a[i]]);
+                if (s[ii] == c)
+                {
+                    ii++;
+                    cnt++;
+                }
+                else if (s[jj] == c)
+                {
+                    jj--;
+                    cnt++;
+                }
+                else
+                {
+                    cnt = 0;
+                    break;
+                }
+            }
+            else
+            {
+                ii++;
+                jj--;
             }
         }
+        if (cnt)
+        {
+            ans = cnt;
+            cnt = 0;
+        }
+        cnt = 1;
+        ii = i;
+        jj = j - 1;
+        while (ii < jj)
+        {
+            if (s[ii] != s[jj])
+            {
+                if (s[ii] == d)
+                {
+                    ii++;
+                    cnt++;
+                }
+                else if (s[jj] == d)
+                {
+                    jj--;
+                    cnt++;
+                }
+                else
+                {
+                    cnt = 0;
+                    break;
+                }
+            }
+            else
+            {
+                ii++;
+                jj--;
+            }
+        }
+        if (cnt)
+        {
+            ans1 = cnt;
+            cnt = 0;
+        }
     }
-    cout << dp[k] << endl;
-}
-
-int32_t main()
-{
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
-    cout << fixed << setprecision(25);
-    cerr << fixed << setprecision(10);
-    auto start = std::chrono::high_resolution_clock::now();
-    int n = 1;
-    // cin >> n;
-    for (int i = 1; i <= n; i++)
+    else
     {
-        solve(i);
+        ans1 = 0;
+        ans = 0;
     }
-    auto stop = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start);
-    cerr << "Time taken : " << ((long double)duration.count()) / ((long double)1e9) << "s " << endl;
-    return 0;
+    if (min(ans, ans1) == INT_MAX)
+    {
+        cout << -1 << endl;
+        return;
+    }
+    cout << min(ans, ans1) << endl;
 }
 /* stuff you should look for
- *
+ * nlog(log(n)) bhi soch lo sir like jha multiples ka case aya wha pe seive of erathosthenisis ka concept lga do
+ * cool hoja bsdk
+ * jha 1 bdi value aur 1 choti value chahiye wha 2 pointer lga do sir
+    aur choti value wale pointer ko increase krte rehna jb testcase na meet ho to
  * 0 0 n  try kr lo if multiple ans ka case hai to ya isse similar kuch hai to
  * i>j wale sare chahiye to prefix wala lga do sir jisme curr ko calc kro prev se and fir usko map kr do
  * a+b = a^b + 2*a&b
@@ -309,3 +352,22 @@ int32_t main()
  * follow the basics koi nya try kr rha hai toh uske primitive try kr
  * XOR --> ALWAYS TRY 45132
  */
+int32_t main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    cout << fixed << setprecision(25);
+    cerr << fixed << setprecision(10);
+    auto start = std::chrono::high_resolution_clock::now();
+    int n = 1;
+    cin >> n;
+    for (int i = 1; i <= n; i++)
+    {
+        solve(i);
+    }
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start);
+    // cerr << "Time taken : " << ((long double)duration.count())/((long double) 1e9) <<"s "<< endl;
+    return 0;
+}
