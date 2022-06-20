@@ -237,6 +237,7 @@ void solve(int testcase)
     // kickstart(testcase);
 }
 /* stuff you should look for
+ * sbse pehle question dobara padho sir
  * nlog(log(n)) bhi soch lo sir like jha multiples ka case aya wha pe seive of erathosthenisis ka concept lga do
  * cool hoja bsdk
  * jha 1 bdi value aur 1 choti value chahiye wha 2 pointer lga do sir
@@ -244,6 +245,7 @@ void solve(int testcase)
  * 0 0 n  try kr lo if multiple ans ka case hai to ya isse similar kuch hai to
  * i>j wale sare chahiye to prefix wala lga do sir jisme curr ko calc kro prev se and fir usko map kr do
  * a+b = a^b + 2*a&b
+ * a+b = a|b + a&b
  * special cases (n=1?)/ odd/even index
  * sir square wala bhi soch lo
  * consecutive elements ka scene hai to genedy apraoch lga do sir
