@@ -1,6 +1,7 @@
-// Author: Ambuj Kumar(fantom787)
-//  If it works, don't touch it.
-/*  All Links
+/*
+    Author: Ambuj Kumar(fantom787)
+    If it works, don't touch it.
+----------------------All Links -------------------------
  Youtube:  https://www.youtube.com/c/Fantom7877/videos
  Linkedin: https://www.linkedin.com/in/ambuj-kumar-88b614203/
  Codeforces: https://codeforces.com/profile/fantom787
@@ -231,112 +232,12 @@ void display(vector<int> a)
 
 // Flags to use: -std=c++17 -O2 -DLOCAL_PROJECT -Wshadow -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC -fsanitize=address -fsanitize=undefined
 /*/-----------------------------Code begins----------------------------------/*/
-bool pal(string s)
-{
-    string t = s;
-    reverse(all(t));
-    return t == s;
-}
 void solve(int testcase)
 {
     // kickstart(testcase);
-    int n;
-    cin >> n;
-    string s;
-    cin >> s;
-    int ans = INT_MAX;
-    int ans1 = INT_MAX;
-    if (!pal(s))
-    {
-        int i = 0;
-        int j = n - 1;
-        while (s[i] == s[j])
-        {
-            i++;
-            j--;
-        }
-        char c = s[i];
-        char d = s[j];
-        int cnt = 1;
-        int ii = i + 1;
-        int jj = j;
-        while (ii < jj)
-        {
-            if (s[ii] != s[jj])
-            {
-                if (s[ii] == c)
-                {
-                    ii++;
-                    cnt++;
-                }
-                else if (s[jj] == c)
-                {
-                    jj--;
-                    cnt++;
-                }
-                else
-                {
-                    cnt = 0;
-                    break;
-                }
-            }
-            else
-            {
-                ii++;
-                jj--;
-            }
-        }
-        if (cnt)
-        {
-            ans = cnt;
-            cnt = 0;
-        }
-        cnt = 1;
-        ii = i;
-        jj = j - 1;
-        while (ii < jj)
-        {
-            if (s[ii] != s[jj])
-            {
-                if (s[ii] == d)
-                {
-                    ii++;
-                    cnt++;
-                }
-                else if (s[jj] == d)
-                {
-                    jj--;
-                    cnt++;
-                }
-                else
-                {
-                    cnt = 0;
-                    break;
-                }
-            }
-            else
-            {
-                ii++;
-                jj--;
-            }
-        }
-        if (cnt)
-        {
-            ans1 = cnt;
-            cnt = 0;
-        }
-    }
-    else
-    {
-        ans1 = 0;
-        ans = 0;
-    }
-    if (min(ans, ans1) == INT_MAX)
-    {
-        cout << -1 << endl;
-        return;
-    }
-    cout << min(ans, ans1) << endl;
+    int n, m, k;
+    cin >> n >> m >> k;
+    
 }
 /* stuff you should look for
  * nlog(log(n)) bhi soch lo sir like jha multiples ka case aya wha pe seive of erathosthenisis ka concept lga do
@@ -346,6 +247,7 @@ void solve(int testcase)
  * 0 0 n  try kr lo if multiple ans ka case hai to ya isse similar kuch hai to
  * i>j wale sare chahiye to prefix wala lga do sir jisme curr ko calc kro prev se and fir usko map kr do
  * a+b = a^b + 2*a&b
+ * a+b = a|b + a&b
  * special cases (n=1?)/ odd/even index
  * sir square wala bhi soch lo
  * consecutive elements ka scene hai to genedy apraoch lga do sir
