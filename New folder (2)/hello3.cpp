@@ -1,319 +1,299 @@
-#include "bits/stdc++.h"
+/*
+    Author: Ambuj Kumar(fantom787)
+    If it works, don't touch it.
+----------------------All Links -------------------------
+ Youtube:  https://www.youtube.com/c/Fantom7877/videos
+ Linkedin: https://www.linkedin.com/in/ambuj-kumar-88b614203/
+ Codeforces: https://codeforces.com/profile/fantom787
+ Codechef: https://www.codechef.com/users/ambuj787
+*/
+
+// Pragmas
+#pragma GCC optimize("O3,unroll-loops")
+#pragma GCC target("avx2")
+
+// header files
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp> // for pbds
+#include <ext/pb_ds/tree_policy.hpp>
+
+// namespace
 using namespace std;
-#define int long long
+using namespace chrono;
+using namespace __gnu_pbds;
+
+// ordered set
+template <class T, class cmp = less<T>>
+using ordered_set = tree<T, null_type, cmp, rb_tree_tag, tree_order_statistics_node_update>;
+
+// ordered map
+template <class key, class value, class cmp = less<key>>
+using ordered_map = tree<key, value, cmp, rb_tree_tag, tree_order_statistics_node_update>;
+// find_by_order(k)  returns iterator to kth element starting from 0;
+// order_of_key(k) returns count of elements strictly smaller than k;
+
+template <class T>
+using min_heap = priority_queue<T, vector<T>, greater<T>>;
+
+// Constants
+#define PI 3.1415926535
+#define INF 4e18
+#define EPS 1e-9
+#define MOD 1000000007
+
+// Aliases
+using ll = long long int;
+using ull = unsigned long long int;
+using ld = long double;
+
+// debug
+#define debug(x)       \
+    cout << #x << " "; \
+    _print(x);         \
+    cout << endl;
+void _print(ll t)
+{
+    cout << t;
+}
+void _print(int t) { cout << t; }
+void _print(string t) { cout << t; }
+void _print(char t) { cout << t; }
+void _print(ld t) { cout << t; }
+void _print(double t) { cout << t; }
+void _print(ull t) { cout << t; }
+
+// macros
+// #define endl "\n";
+#define all(s) s.begin(), s.end()
 #define pb push_back
-#define ppb pop_back
-#define pf push_front
-#define ppf pop_front
-#define all(x) (x).begin(), (x).end()
-#define uniq(v) (v).erase(unique(all(v)), (v).end())
-#define sz(x) (int)((x).size())
-#define fr first
-#define sc second
-#define pii pair<int, int>
-#define rep(i, a, b) for (int i = a; i < b; i++)
-#define mem1(a) memset(a, -1, sizeof(a))
-#define mem0(a) memset(a, 0, sizeof(a))
+#define eb emplace_back
 #define ppc __builtin_popcount
+#define parity(x) __builtin_parity(x) // gives true for odd and false for even
 #define ppcll __builtin_popcountll
+#define msb(x) 63 - __builtin_clzll(x) // gives the most significant bit of the number
+#define sz(x) (int)x.size()
+#define F first
+#define S second
+#define int long long
+#define getunique(v)                                  \
+    {                                                 \
+        sort(v.begin(), v.end());                     \
+        v.erase(unique(v.begin(), v.end()), v.end()); \
+    }
+#define kickstart(x)                 \
+    {                                \
+        cout << "Case #" << x << ":" \
+             << " ";                 \
+    }
+// custom hash map
+struct custom_hash
+{
+    static uint64_t splitmix64(uint64_t x)
+    {
+        // Credits: https://codeforces.com/blog/entry/62393
+        // http://xorshift.di.unimi.it/splitmix64.c
+        x += 0x9e3779b97f4a7c15;
+        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
+        x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
+        return x ^ (x >> 31);
+    }
 
-template <typename T1, typename T2>
-istream &operator>>(istream &in, pair<T1, T2> &a)
+    size_t operator()(uint64_t x) const
+    {
+        static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();
+        return splitmix64(x + FIXED_RANDOM);
+    }
+};
+template <typename T1, typename T2> // Key should be integer type
+using safe_map = unordered_map<T1, T2, custom_hash>;
+
+// Operator overloads
+template <typename T1, typename T2> // cin >> pair<T1, T2>
+istream &operator>>(istream &istream, pair<T1, T2> &p)
 {
-    in >> a.fr >> a.sc;
-    return in;
+    return (istream >> p.first >> p.second);
 }
-template <typename T1, typename T2>
-ostream &operator<<(ostream &out, pair<T1, T2> a)
+
+template <typename T> // cin >> vector<T>
+istream &operator>>(istream &istream, vector<T> &v)
 {
-    out << a.fr << " " << a.sc;
-    return out;
+    for (auto &it : v)
+        cin >> it;
+    return istream;
 }
-template <typename T, typename T1>
-T amax(T &a, T1 b)
+
+template <typename T1, typename T2> // cout << pair<T1, T2>
+ostream &operator<<(ostream &ostream, const pair<T1, T2> &p)
 {
-    if (b > a)
-        a = b;
+    return (ostream << p.first << " " << p.second);
+}
+template <typename T> // cout << vector<T>
+ostream &operator<<(ostream &ostream, const vector<T> &c)
+{
+    for (auto &it : c)
+        cout << it << " ";
+    return ostream;
+}
+
+// Mathematical functions
+int gcd(int a, int b)
+{
+    while (b)
+    {
+        a %= b;
+        swap(a, b);
+    }
     return a;
 }
-template <typename T, typename T1>
-T amin(T &a, T1 b)
+
+int gcdX(int a, int b, int &x, int &y) // gcd extended
 {
-    if (b < a)
-        a = b;
-    return a;
+    x = 1, y = 0;
+    int x1 = 0, y1 = 1, a1 = a, b1 = b;
+    while (b1)
+    {
+        int q = a1 / b1;
+        tie(x, x1) = make_tuple(x1, x - q * x1);
+        tie(y, y1) = make_tuple(y1, y - q * y1);
+        tie(a1, b1) = make_tuple(b1, a1 - q * b1);
+    }
+    return a1;
 }
 
-const long long INF = 1e18;
-const int32_t M = 1e9 + 7;
-const int32_t MM = 998244353;
-
-const int N = 200;
-
-const int32_t maxn = N;
-template <typename NODE, typename UPDATE>
-struct segtree
+int lcm(int a, int b)
 {
-    bool built = false, lazy[4 * maxn];
-    NODE zero = NODE(), t[4 * maxn];
-    UPDATE noop = UPDATE(), upds[4 * maxn];
-    int32_t tl[4 * maxn], tr[4 * maxn];
-    inline void pushdown(int32_t v)
+    return ((ll)a * b) / gcd(a, b);
+}
+// modular exponentiation
+int modpow(int x, int n, int m = MOD)
+{
+    if (x == 0 && n == 0)
+        return 0; // undefined case
+    int res = 1;
+    while (n)
     {
-        if (lazy[v])
+        if (n & 1)
         {
-            apply(v * 2, upds[v]);
-            apply(v * 2 + 1, upds[v]);
-            lazy[v] = 0;
-            upds[v] = noop;
+            res = ((res % m) * (x % m)) % m;
+        }
+        x = ((x % m) * (x % m)) % m;
+        n >>= 1;
+    }
+    return res;
+}
+
+int modinv(int x, int m = MOD)
+{
+    return modpow(x, m - 2, m);
+}
+
+/*--------------- Seive -----------------------*/
+// Get All The Divisors Of That Number
+vector<int> getdiv(int n)
+{
+    vector<int> ans;
+    for (int i = 1; i * i <= n; i++)
+    {
+        if (n % i == 0)
+        {
+            ans.pb(i);
+            ans.pb(n / i);
         }
     }
-    inline void apply(int32_t v, UPDATE &val)
+    return ans;
+}
+// to get the prime factors of that number
+vector<int> getprimefac(int n)
+{
+    vector<int> ans;
+    for (int i = 2; i * i <= n; i++)
     {
-        if (tl[v] != tr[v])
+        if (n % i == 0)
         {
-            lazy[v] = 1;
-            upds[v].combine(val, tl[v], tr[v]);
-        }
-        val.apply(t[v], tl[v], tr[v]);
-    }
-    template <typename T>
-    void build(T a, int32_t v, int32_t l, int32_t r)
-    {
-        tl[v] = l;
-        tr[v] = r;
-        if (l == r)
-        {
-            t[v] = a[l];
-            t[v].id = l;
-            return;
-        }
-        else
-        {
-            int32_t tm = (l + r) / 2;
-            build(a, v * 2, l, tm);
-            build(a, v * 2 + 1, tm + 1, r);
-            t[v].merge(t[v * 2], t[v * 2 + 1]);
-        }
-    }
-    NODE query(int32_t v, int l, int r)
-    {
-        if (l > tr[v] || r < tl[v])
-            return zero;
-        if (l <= tl[v] && tr[v] <= r)
-        {
-            return t[v];
-        }
-        pushdown(v);
-        NODE a, b, ans;
-        a = query(v * 2, l, r);
-        b = query(v * 2 + 1, l, r);
-        ans.merge(a, b);
-        return ans;
-    }
-    void rupd(int32_t v, int l, int r, UPDATE &val)
-    {
-        if (l > tr[v] || r < tl[v])
-            return;
-        if (l <= tl[v] && tr[v] <= r)
-        {
-            apply(v, val);
-            return;
-        }
-        pushdown(v);
-        rupd(v * 2, l, r, val);
-        rupd(v * 2 + 1, l, r, val);
-        t[v].merge(t[v * 2], t[v * 2 + 1]);
-    }
-    template <typename T>
-    int descent_right(int l, T x, int32_t v, NODE &prev)
-    {
-        if (l > tr[v]) // node is completely out of range
-            return len;
-        if (l <= tl[v])
-        { // node is completely in range
-            NODE cur;
-            cur.merge(prev, t[v]);
-            if (!cur.check(x))
-            {                    // go further right than this node
-                swap(prev, cur); // merging this node's contribution
-                return len;
-            }
-            if (tl[v] == tr[v])
+            while (n % i == 0)
             {
-                return tr[v];
+                n /= i;
+                ans.pb(i);
             }
         }
-        pushdown(v);
-        int ans = descent_right(l, x, v * 2, prev); // trying to find in left child
-        if (ans != len)
-            return ans;                              // found in left child
-        return descent_right(l, x, v * 2 + 1, prev); // finding in right child
     }
-    template <typename T>
-    int descent_left(int r, T x, int32_t v, NODE &prev)
-    {
-        if (r < tl[v]) // node is completely out of range
-            return -1;
-        if (r >= tr[v])
-        { // node is completely in range
-            NODE cur;
-            cur.merge(t[v], prev);
-            if (!cur.check(x))
-            {                    // go further left than this node
-                swap(cur, prev); // merging this node's contribution
-                return -1;
-            }
-            if (tl[v] == tr[v])
-            {
-                return tl[v];
-            }
-        }
-        pushdown(v);
-        int ans = descent_left(r, x, v * 2 + 1, prev); // trying to find in right child
-        if (ans != -1)
-            return ans;                         // found in right child
-        return descent_left(r, x, v * 2, prev); // finding in left child
-    }
-
-    int len = maxn;
-    void clear()
-    {
-        fill(t, t + 4 * len, zero);
-        fill(lazy, lazy + 4 * len, false);
-        fill(upds, upds + 4 * len, noop);
-        built = false;
-    }
-    template <typename T>
-    void build(T a)
-    {
-        build(a, 1, 0, len - 1);
-        built = true;
-    }
-    template <typename T>
-    int descent_right(int l, T x)
-    { // minimum r such that [l...r].check(x) == true, returns segtree.len if not found
-        NODE prev = zero;
-        return descent_right(l, x, 1, prev);
-    }
-    template <typename T>
-    int descent_left(int r, T x)
-    { // maximum l such that [l...r].check(x) == true, returns -1 if not found
-        NODE prev = zero;
-        return descent_left(r, x, 1, prev);
-    }
-    NODE query(int l, int r)
-    {
-        if (!built)
-            build(t);
-        return query(1, l, r);
-    }
-    void rupd(int l, int r, UPDATE val)
-    {
-        if (!built)
-            build(t);
-        rupd(1, l, r, val);
-    }
-};
-
-#define node node1
-#define update update1
-struct node
+    return ans;
+}
+// get instant prime
+vector<ll> sieve(int n)
 {
-    int v = 0, id = 0;
-    node() {}
-    node(int val)
-    {
-        v = val;
-    }
-    void merge(node &l, node &r)
-    {
-        v = max(l.v, r.v);
-        if (v == l.v)
+    int *arr = new int[n + 1]();
+    vector<ll> vect;
+    for (int i = 2; i <= n; i++)
+        if (arr[i] == 0)
         {
-            id = l.id;
+            vect.push_back(i);
+            for (int j = i * i; j <= n; j += i)
+                arr[j] = 1;
         }
-        else
-        {
-            id = r.id;
-        }
-    }
-    bool check(int x)
-    {
-        return false;
-    }
-};
-struct update
+    return vect;
+}
+// to invert a binary string
+void invert(string &s)
 {
-
-    update() {}
-    update(int val)
+    int n = sz(s);
+    for (int i = 0; i < n; i++)
     {
+        s[i] ^= '0' ^ '1';
     }
-    void combine(update &other, int32_t tl, int32_t tr)
-    {
-    }
-    void apply(node &x, int32_t tl, int32_t tr)
-    {
-    }
-};
-segtree<node, update> t;
-#undef node
-#undef update
-
-int a[200];
-int depths[200];
-
-void fn(int l, int r, int d)
-{
-    if (l > r)
-    {
-        return;
-    }
-
-    int id = t.query(l, r).id;
-
-    depths[id] = d;
-    // l ... id-1
-    fn(l, id - 1, d + 1);
-    // id+1 ... r
-    fn(id + 1, r, d + 1);
 }
 
-void solve()
+// display a vector
+void display(vector<int> a)
 {
-    int n;
-    cin >> n;
-
-    rep(i, 1, n + 1)
-    {
-        cin >> a[i];
-    }
-    t.build(a);
-
-    fn(1, n, 0);
-    rep(i, 1, n + 1)
-    {
-        cout << depths[i] << " ";
-    }
-    cout << "\n";
+    cout << "Displaying Vector:" << endl;
+    cout << a << endl;
 }
-signed main()
+
+// Flags to use: -std=c++17 -O2 -DLOCAL_PROJECT -Wshadow -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC -fsanitize=address -fsanitize=undefined
+/*/-----------------------------Code begins----------------------------------/*/
+void solve(int testcase)
+{
+    // kickstart(testcase);
+}
+/* stuff you should look for
+ * sbse pehle question dobara padho sir
+ * Lower_bound  -->Lower_Bound of X ---> element >= x in the set
+ * Upper_bound  -->Upper_Bound of X ---> element > x in the set
+ * lambda fn is made using {auto name_of_the_function = [&](jo pass krna hai wo){fn body};
+ * when u are not able to decide which one to remove then the answer is simply iterate and find the max/min answer for each index
+ * if u r multiplying and u have to find equal multipy then u can take 1st and last everytime
+ * if u have to make array increasing by adding 1 to subarray then sum of diffrences(which have to increased) is the answer
+ * nlog(log(n)) bhi soch lo sir like jha multiples ka case aya wha pe seive of erathosthenisis ka concept lga do
+ * cool hoja bsdk
+ * jha 1 bdi value aur 1 choti value chahiye wha 2 pointer lga do sir
+    aur choti value wale pointer ko increase krte rehna jb testcase na meet ho to
+ * 0 0 n  try kr lo if multiple ans ka case hai to ya isse similar kuch hai to
+ * i>j wale sare chahiye to prefix wala lga do sir jisme curr ko calc kro prev se and fir usko map kr do
+ * a+b = a^b + 2*a&b
+ * a+b = a|b + a&b
+ * special cases (n=1?)/ odd/even index
+ * sir square wala bhi soch lo
+ * consecutive elements ka scene hai to genedy apraoch lga do sir
+ * follow the basics koi nya try kr rha hai toh uske primitive try kr
+ * XOR --> ALWAYS TRY 45132
+ */
+int32_t main()
 {
     ios_base::sync_with_stdio(false);
-    cin.tie(0);
-    cout.tie(0);
-// freopen("input.txt", "r", stdin);
-// freopen("output.txt", "w", stdout);
-#ifdef SIEVE
-    sieve();
-#endif
-#ifdef NCR
-    init();
-#endif
-    int t = 1;
-    cin >> t;
-    while (t--)
-        solve();
+    cin.tie(NULL);
+    cout.tie(NULL);
+    cout << fixed << setprecision(25);
+    cerr << fixed << setprecision(10);
+    auto start = std::chrono::high_resolution_clock::now();
+    int n = 1;
+    cin >> n;
+    for (int i = 1; i <= n; i++)
+    {
+        solve(i);
+    }
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start);
+    // cerr << "Time taken : " << ((long double)duration.count())/((long double) 1e9) <<"s "<< endl;
     return 0;
 }
