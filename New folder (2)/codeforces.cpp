@@ -7,19 +7,46 @@
  Codeforces: https://codeforces.com/profile/fantom787
  Codechef: https://www.codechef.com/users/ambuj787
 */
+/*
 
+template<class T>
+using ordered_set = tree<T, null_type,less<T>, rb_tree_tag, tree_order_statistics_node_update> ;
+
+template<class key, class value, class cmp = std::less<key>>
+using ordered_map = tree<key, value, cmp, rb_tree_tag, tree_order_statistics_node_update>;
+// find_by_order(k)  returns iterator to kth element starting from 0;
+// order_of_key(k) returns count of elements strictly smaller than k;
+
+template<class T>
+using min_heap = priority_queue<T,vector<T>,greater<T> >;
+
+
+*/
+
+// Pragmas
+#pragma GCC optimize("O3,unroll-loops")
+#pragma GCC target("avx2")
+
+// header files
 #include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp> // for pbds
+#include <ext/pb_ds/tree_policy.hpp>
+
+// namespace
 using namespace std;
+using namespace chrono;
+using namespace __gnu_pbds;
+
+// for ordered set
+typedef tree<int, null_type, less_equal<int>, rb_tree_tag, tree_order_statistics_node_update> pbds;
+// to find element on xth index --> *a.find_by_order(x);
+// to find the no of elements smaller than x - > a.order_of_key(x);
 
 // Constants
 #define PI 3.1415926535
 #define INF 4e18
 #define EPS 1e-9
 #define MOD 1000000007
-
-// Pragmas
-#pragma GCC optimize("O3,unroll-loops")
-#pragma GCC target("avx2")
 
 // Aliases
 using ll = long long int;
@@ -234,12 +261,42 @@ void display(vector<int> a)
 /*/-----------------------------Code begins----------------------------------/*/
 void solve(int testcase)
 {
-    // kickstart(testcase);
-    int n, m, k;
-    cin >> n >> m >> k;
-    
+    kickstart(testcase);
+    int n;
+    cin >> n;
+    vector<int> a(n);
+    cin >> a;
+    vector<vector<int>> ans;
+    int minidx = min_element(all(a)) - a.begin();
+    int mini = a[minidx];
+    int add = 1;
+    for (int i = minidx + 1; i < n; i++)
+    {
+        ans.pb({minidx + 1, i + 1, mini, mini + add});
+        a[i] = mini + add;
+        add ^= 1;
+    }
+    add = 1;
+    for (int i = minidx - 1; i >= 0; i--)
+    {
+        ans.pb({minidx + 1, i + 1, mini, mini + add});
+        a[i] = mini + add;
+        add ^= 1;
+    }
+    cout << sz(ans) << endl;
+    for (auto it : ans)
+    {
+        cout << it << endl;
+    }
 }
 /* stuff you should look for
+ * sbse pehle question dobara padho sir
+ * Lower_bound  -->Lower_Bound of X ---> element >= x in the set
+ * Upper_bound  -->Upper_Bound of X ---> element > x in the set
+ * lambda fn is made using {auto name_of_the_function = [&](jo pass krna hai wo){fn body};
+ * when u are not able to decide which one to remove then the answer is simply iterate and find the max/min answer for each index
+ * if u r multiplying and u have to find equal multipy then u can take 1st and last everytime
+ * if u have to make array increasing by adding 1 to subarray then sum of diffrences(which have to increased) is the answer
  * nlog(log(n)) bhi soch lo sir like jha multiples ka case aya wha pe seive of erathosthenisis ka concept lga do
  * cool hoja bsdk
  * jha 1 bdi value aur 1 choti value chahiye wha 2 pointer lga do sir
@@ -268,8 +325,8 @@ int32_t main()
     {
         solve(i);
     }
-    auto stop = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start);
-    // cerr << "Time taken : " << ((long double)duration.count())/((long double) 1e9) <<"s "<< endl;
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<nanoseconds>(stop - start);
+    cerr << "Time taken : " << ((long double)duration.count()) / ((long double)1e9) << "s " << endl;
     return 0;
 }

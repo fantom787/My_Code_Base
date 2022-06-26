@@ -8,18 +8,39 @@
  Codechef: https://www.codechef.com/users/ambuj787
 */
 
+// Pragmas
+#pragma GCC optimize("O3,unroll-loops")
+#pragma GCC target("avx2")
+
+// header files
 #include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp> // for pbds
+#include <ext/pb_ds/tree_policy.hpp>
+
+// namespace
 using namespace std;
+using namespace chrono;
+using namespace __gnu_pbds;
+
+/* ordered set*/
+template <class T, class cmp = less<T>>
+using ordered_set = tree<T, null_type, cmp, rb_tree_tag, tree_order_statistics_node_update>;
+
+/* ordered map*/
+template <class key, class value, class cmp = less<key>>
+using ordered_map = tree<key, value, cmp, rb_tree_tag, tree_order_statistics_node_update>;
+/* find_by_order(k)  returns iterator to kth element starting from 0;
+ * order_of_key(k) returns count of elements strictly smaller than k;*/
+
+/* min heap*/
+template <class T>
+using min_heap = priority_queue<T, vector<T>, greater<T>>;
 
 // Constants
 #define PI 3.1415926535
 #define INF 4e18
 #define EPS 1e-9
 #define MOD 1000000007
-
-// Pragmas
-#pragma GCC optimize("O3,unroll-loops")
-#pragma GCC target("avx2")
 
 // Aliases
 using ll = long long int;
@@ -238,6 +259,12 @@ void solve(int testcase)
 }
 /* stuff you should look for
  * sbse pehle question dobara padho sir
+ * Lower_bound  -->Lower_Bound of X ---> element >= x in the set
+ * Upper_bound  -->Upper_Bound of X ---> element > x in the set
+ * lambda fn is made using {auto name_of_the_function = [&](jo pass krna hai wo){fn body};
+ * when u are not able to decide which one to remove then the answer is simply iterate and find the max/min answer for each index
+ * if u r multiplying and u have to find equal multipy then u can take 1st and last everytime
+ * if u have to make array increasing by adding 1 to subarray then sum of diffrences(which have to increased) is the answer
  * nlog(log(n)) bhi soch lo sir like jha multiples ka case aya wha pe seive of erathosthenisis ka concept lga do
  * cool hoja bsdk
  * jha 1 bdi value aur 1 choti value chahiye wha 2 pointer lga do sir
