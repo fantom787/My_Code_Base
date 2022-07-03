@@ -7,21 +7,6 @@
  Codeforces: https://codeforces.com/profile/fantom787
  Codechef: https://www.codechef.com/users/ambuj787
 */
-/*
-
-template<class T>
-using ordered_set = tree<T, null_type,less<T>, rb_tree_tag, tree_order_statistics_node_update> ;
-
-template<class key, class value, class cmp = std::less<key>>
-using ordered_map = tree<key, value, cmp, rb_tree_tag, tree_order_statistics_node_update>;
-// find_by_order(k)  returns iterator to kth element starting from 0;
-// order_of_key(k) returns count of elements strictly smaller than k;
-
-template<class T>
-using min_heap = priority_queue<T,vector<T>,greater<T> >;
-
-
-*/
 
 // Pragmas
 #pragma GCC optimize("O3,unroll-loops")
@@ -37,10 +22,19 @@ using namespace std;
 using namespace chrono;
 using namespace __gnu_pbds;
 
-// for ordered set
-typedef tree<int, null_type, less_equal<int>, rb_tree_tag, tree_order_statistics_node_update> pbds;
-// to find element on xth index --> *a.find_by_order(x);
-// to find the no of elements smaller than x - > a.order_of_key(x);
+/* ordered set*/
+template <class T, class cmp = less<T>>
+using ordered_set = tree<T, null_type, cmp, rb_tree_tag, tree_order_statistics_node_update>;
+
+/* ordered map*/
+template <class key, class value, class cmp = less<key>>
+using ordered_map = tree<key, value, cmp, rb_tree_tag, tree_order_statistics_node_update>;
+/* find_by_order(k)  returns iterator to kth element starting from 0;
+ * order_of_key(k) returns count of elements strictly smaller than k;*/
+
+/* min heap*/
+template <class T>
+using min_heap = priority_queue<T, vector<T>, greater<T>>;
 
 // Constants
 #define PI 3.1415926535
@@ -55,19 +49,27 @@ using ld = long double;
 
 // debug
 #define debug(x)       \
-    cout << #x << " "; \
+    cerr << #x << " "; \
     _print(x);         \
     cout << endl;
-void _print(ll t)
-{
-    cout << t;
-}
-void _print(int t) { cout << t; }
-void _print(string t) { cout << t; }
-void _print(char t) { cout << t; }
-void _print(ld t) { cout << t; }
-void _print(double t) { cout << t; }
-void _print(ull t) { cout << t; }
+void _print(ll t) {cerr << t;}
+void _print(int t) {cerr << t;}
+void _print(string t) {cerr << t;}
+void _print(char t) {cerr << t;}
+void _print(ld t) {cerr << t;}
+void _print(double t) {cerr << t;}
+void _print(ull t) {cerr << t;}
+
+template <class T, class V> void _print(pair <T, V> p);
+template <class T> void _print(vector <T> v);
+template <class T> void _print(set <T> v);
+template <class T, class V> void _print(map <T, V> v);
+template <class T> void _print(multiset <T> v);
+template <class T, class V> void _print(pair <T, V> p) {cerr << "{"; _print(p.ff); cerr << ","; _print(p.ss); cerr << "}";cerr<<endl;}
+template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";cerr<<endl;}
+template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";cerr<<endl;}
+template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";cerr<<endl;}
+template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";cerr<<endl;}
 
 // macros
 // #define endl "\n";
@@ -262,33 +264,46 @@ void display(vector<int> a)
 void solve(int testcase)
 {
     kickstart(testcase);
-    int n;
-    cin >> n;
+    int n, k;
+    cin >> n >> k;
     vector<int> a(n);
     cin >> a;
-    vector<vector<int>> ans;
-    int minidx = min_element(all(a)) - a.begin();
-    int mini = a[minidx];
-    int add = 1;
-    for (int i = minidx + 1; i < n; i++)
+    sort(all(a));
+    set<int>st;
+    int maxele = max(abs(a.front()), a.back());
+    vector<int> pos, neg;
+    for (auto it : a)
     {
-        ans.pb({minidx + 1, i + 1, mini, mini + add});
-        a[i] = mini + add;
-        add ^= 1;
+        st.insert(it);
+        if (it < 0)
+        {
+            neg.pb(-it);
+        }
+        else
+        {
+            pos.pb(it);
+        }
     }
-    add = 1;
-    for (int i = minidx - 1; i >= 0; i--)
+    reverse(all(neg));
+    auto getans = [&](vector<int> a, int k)
     {
-        ans.pb({minidx + 1, i + 1, mini, mini + add});
-        a[i] = mini + add;
-        add ^= 1;
-    }
-    cout << sz(ans) << endl;
-    for (auto it : ans)
-    {
-        cout << it << endl;
-    }
+        int ans = 0;
+        while (sz(a))
+        {
+            ans += (a.back() * 2);
+            for (int i = 0; i < k && sz(a); i++)
+            {
+                a.pop_back();
+            }
+        }
+        return ans;
+    };
+    debug(pos);
+    debug(st);
+    int ans = getans(pos, k) + getans(neg, k) - maxele;
+    cout << ans << endl;
 }
+
 /* stuff you should look for
  * sbse pehle question dobara padho sir
  * Lower_bound  -->Lower_Bound of X ---> element >= x in the set
@@ -325,8 +340,8 @@ int32_t main()
     {
         solve(i);
     }
-    auto stop = high_resolution_clock::now();
-    auto duration = duration_cast<nanoseconds>(stop - start);
-    cerr << "Time taken : " << ((long double)duration.count()) / ((long double)1e9) << "s " << endl;
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start);
+    // cerr << "Time taken : " << ((long double)duration.count())/((long double) 1e9) <<"s "<< endl;
     return 0;
 }
