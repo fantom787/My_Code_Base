@@ -40,7 +40,7 @@ using min_heap = priority_queue<T, vector<T>, greater<T>>;
 #define PI 3.1415926535
 #define INF 4e18
 #define EPS 1e-9
-#define MOD 998244353
+#define MOD 1000000007
 
 // Aliases
 using ll = long long int;
@@ -74,7 +74,7 @@ using ld = long double;
 #define debug(x)       \
     cerr << #x << " "; \
     _print(x);         \
-    cerr << endl;
+    cout << endl;
 void _print(int t)
 {
     cerr << t;
@@ -394,49 +394,71 @@ vector<pair<int, int>> dir = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
 void solve(int testcase)
 {
     // kickstart(testcase);
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    cin >> a;
-    int cnt0 = count(all(a), 0);
-    int cnt1 = count(all(a), 1);
-    mint ans = 0;
-    for (int i = 0; i <= cnt1; i++)
+    int n, m;
+    cin >> n >> m;
+    vector<string> mat(n);
+    cin >> mat;
+    int ans = 0;
+    vector<vector<bool>> vis(n, vector<bool>(m));
+    auto check = [&](int x, int y)
     {
-        mint ii = i;
-        ans += (ii * ncr(n - i, cnt0));
+        if (x < 0 || x >= n || y < 0 || y >= m || mat[x][y] == '#')
+        {
+            return 0;
+        }
+        return 1;
+    };
+    function<void(int, int)> dfs = [&](int i, int j)
+    {
+        vis[i][j] = 1;
+        for (auto it : dir)
+        {
+            int x = it.F;
+            int y = it.S;
+            if (check(i + x, j + y))
+            {
+                if (!vis[i + x][j + y])
+                {
+                    dfs(i + x, j + y);
+                }
+            }
+        }
+    };
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            if (mat[i][j] == '.')
+            {
+                if (!vis[i][j])
+                {
+                    ans++;
+                    dfs(i, j);
+                }
+            }
+        }
     }
-    ans *= (cnt0 + 1);
-    ans *= (fact[cnt1] * fact[cnt0]);
     cout << ans << endl;
 }
 /* stuff you should look for
- * jha add ya delete krne ka swal ho wha pos store kr lo babu bhaiya
- * jha age se kuch uthao aur peeche se kuch uthao wha prefix and suffix sum ayega
  * sbse pehle question dobara padho sir
- * constraints  dekho khi bruteforce lag jaye
- * space ja rha hai to jane do but time aur wa nhi jana chahiye
- *
- * about lambda function
- *
- *  initialization way 1
- *          function<void/return type(int,int)> nameOFfuncion = [&](what to pass){
- *                                                          body};
- *
- *  initializtion way 2
- *          auto nameOFfunction = [&](what to pass , auto&& nameOFfunction)-> return type{
- *                                  body};
- *
- *
+ * Lower_bound  -->Lower_Bound of X ---> element >= x in the set
+ * Upper_bound  -->Upper_Bound of X ---> element > x in the set
+ * lambda fn is made using {auto name_of_the_function = [&](jo pass krna hai wo){fn body};
  * when u are not able to decide which one to remove then the answer is simply iterate and find the max/min answer for each index
  * if u r multiplying and u have to find equal multipy then u can take 1st and last everytime
  * if u have to make array increasing by adding 1 to subarray then sum of diffrences(which have to increased) is the answer
  * nlog(log(n)) bhi soch lo sir like jha multiples ka case aya wha pe seive of erathosthenisis ka concept lga do
  * cool hoja bsdk
+ * jha 1 bdi value aur 1 choti value chahiye wha 2 pointer lga do sir
+    aur choti value wale pointer ko increase krte rehna jb testcase na meet ho to
+ * 0 0 n  try kr lo if multiple ans ka case hai to ya isse similar kuch hai to
+ * i>j wale sare chahiye to prefix wala lga do sir jisme curr ko calc kro prev se and fir usko map kr do
  * a+b = a^b + 2*a&b
  * a+b = a|b + a&b
  * special cases (n=1?)/ odd/even index
  * sir square wala bhi soch lo
+ * consecutive elements ka scene hai to genedy apraoch lga do sir
  * follow the basics koi nya try kr rha hai toh uske primitive try kr
  * XOR --> ALWAYS TRY 45132
  */
@@ -449,8 +471,7 @@ int32_t main()
     cerr << fixed << setprecision(10);
     auto start = std::chrono::high_resolution_clock::now();
     int n = 1;
-    preNCR();
-    cin >> n;
+    // cin >> n;
     for (int i = 1; i <= n; i++)
     {
         solve(i);

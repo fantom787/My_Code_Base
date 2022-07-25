@@ -47,16 +47,38 @@ using ll = long long int;
 using ull = unsigned long long int;
 using ld = long double;
 
+// macros
+#define all(s) s.begin(), s.end()
+#define pb push_back
+#define eb emplace_back
+#define ppc __builtin_popcount
+#define parity(x) __builtin_parity(x) // gives true for odd and false for even
+#define ppcll __builtin_popcountll
+#define msb(x) 63 - __builtin_clzll(x) // gives the most significant bit of the number
+#define sz(x) (int)x.size()
+#define F first
+#define S second
+#define int long long
+#define getunique(v)                                  \
+    {                                                 \
+        sort(v.begin(), v.end());                     \
+        v.erase(unique(v.begin(), v.end()), v.end()); \
+    }
+#define kickstart(x)                 \
+    {                                \
+        cout << "Case #" << x << ":" \
+             << " ";                 \
+    }
+
 // debug
 #define debug(x)       \
     cerr << #x << " "; \
     _print(x);         \
-    cout << endl;
-void _print(ll t)
+    cerr << endl;
+void _print(int t)
 {
     cerr << t;
 }
-void _print(int t) { cerr << t; }
 void _print(string t) { cerr << t; }
 void _print(char t) { cerr << t; }
 void _print(ld t) { cerr << t; }
@@ -77,11 +99,10 @@ template <class T, class V>
 void _print(pair<T, V> p)
 {
     cerr << "{";
-    _print(p.ff);
+    _print(p.F);
     cerr << ",";
-    _print(p.ss);
+    _print(p.S);
     cerr << "}";
-    cerr << endl;
 }
 template <class T>
 void _print(vector<T> v)
@@ -132,29 +153,6 @@ void _print(map<T, V> v)
     cerr << endl;
 }
 
-// macros
-// #define endl "\n";
-#define all(s) s.begin(), s.end()
-#define pb push_back
-#define eb emplace_back
-#define ppc __builtin_popcount
-#define parity(x) __builtin_parity(x) // gives true for odd and false for even
-#define ppcll __builtin_popcountll
-#define msb(x) 63 - __builtin_clzll(x) // gives the most significant bit of the number
-#define sz(x) (int)x.size()
-#define F first
-#define S second
-#define int long long
-#define getunique(v)                                  \
-    {                                                 \
-        sort(v.begin(), v.end());                     \
-        v.erase(unique(v.begin(), v.end()), v.end()); \
-    }
-#define kickstart(x)                 \
-    {                                \
-        cout << "Case #" << x << ":" \
-             << " ";                 \
-    }
 // custom hash map
 struct custom_hash
 {
@@ -204,6 +202,58 @@ ostream &operator<<(ostream &ostream, const vector<T> &c)
         cout << it << " ";
     return ostream;
 }
+// Modular int
+struct mint
+{
+    int x;
+    mint() : x(0) {}
+    mint(int x) : x((x % MOD + MOD) % MOD) {}
+    mint operator-() const { return mint(0) - *this; }
+    mint operator~() const { return mint(1) / *this; }
+    mint &operator+=(const mint &a)
+    {
+        if ((x += a.x) >= MOD)
+            x -= MOD;
+        return *this;
+    }
+    mint &operator-=(const mint &a)
+    {
+        if ((x += MOD - a.x) >= MOD)
+            x -= MOD;
+        return *this;
+    }
+    mint &operator*=(const mint &a)
+    {
+        x = x * a.x % MOD;
+        return *this;
+    }
+    mint &operator/=(const mint &a)
+    {
+        x = x * a.pow(MOD - 2).x % MOD;
+        return *this;
+    }
+    mint operator+(const mint &a) const { return mint(*this) += a; }
+    mint operator-(const mint &a) const { return mint(*this) -= a; }
+    mint operator*(const mint &a) const { return mint(*this) *= a; }
+    mint operator/(const mint &a) const { return mint(*this) /= a; }
+    mint pow(int t) const
+    {
+        mint ret(1), pw = mint(*this);
+        while (t)
+        {
+            if (t & 1)
+                ret *= pw;
+            pw *= pw;
+            t /= 2;
+        }
+        return ret;
+    }
+    bool operator<(const mint &a) const { return x < a.x; }
+    bool operator==(const mint &a) const { return x == a.x; }
+    bool operator!=(const mint &a) const { return x != a.x; }
+    friend istream &operator>>(istream &is, mint &p) { return is >> p.x; }
+    friend ostream &operator<<(ostream &os, mint p) { return os << p.x; }
+};
 
 // Mathematical functions
 int gcd(int a, int b)
@@ -255,6 +305,28 @@ int modpow(int x, int n, int m = MOD)
 int modinv(int x, int m = MOD)
 {
     return modpow(x, m - 2, m);
+}
+
+// ncr i.e number of combinations
+const int N = 1e5 + 5;
+mint fact[N], inv_fact[N];
+void preNCR()
+{
+
+    fact[0] = 1;
+    for (int i = 1; i < N; i++)
+        fact[i] = fact[i - 1] * i;
+
+    inv_fact[N - 1] = ~fact[N - 1];
+    for (int i = N - 2; i >= 0; i--)
+        inv_fact[i] = inv_fact[i + 1] * (i + 1);
+}
+
+mint ncr(int x, int y)
+{
+    if (x < y)
+        return 0;
+    return fact[x] * inv_fact[y] * inv_fact[x - y];
 }
 
 /*--------------- Seive -----------------------*/
@@ -313,38 +385,43 @@ void invert(string &s)
     }
 }
 
-// display a vector
-void display(vector<int> a)
-{
-    cout << "Displaying Vector:" << endl;
-    cout << a << endl;
-}
-
 // Flags to use: -std=c++17 -O2 -DLOCAL_PROJECT -Wshadow -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC -fsanitize=address -fsanitize=undefined
+
+// Directions
+vector<pair<int, int>> dir = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+
 /*/-----------------------------Code begins----------------------------------/*/
 void solve(int testcase)
 {
     // kickstart(testcase);
 }
 /* stuff you should look for
+ * jha add ya delete krne ka swal ho wha pos store kr lo babu bhaiya
+ * jha age se kuch uthao aur peeche se kuch uthao wha prefix and suffix sum ayega
  * sbse pehle question dobara padho sir
- * Lower_bound  -->Lower_Bound of X ---> element >= x in the set
- * Upper_bound  -->Upper_Bound of X ---> element > x in the set
- * lambda fn is made using {auto name_of_the_function = [&](jo pass krna hai wo){fn body};
+ * constraints  dekho khi bruteforce lag jaye
+ * space ja rha hai to jane do but time aur wa nhi jana chahiye
+ *
+ * about lambda function
+ *
+ *  initialization way 1
+ *          function<void/return type(int,int)> nameOFfuncion = [&](what to pass){
+ *                                                          body};
+ *
+ *  initializtion way 2
+ *          auto nameOFfunction = [&](what to pass , auto&& nameOFfunction)-> return type{
+ *                                  body};
+ *
+ *
  * when u are not able to decide which one to remove then the answer is simply iterate and find the max/min answer for each index
  * if u r multiplying and u have to find equal multipy then u can take 1st and last everytime
  * if u have to make array increasing by adding 1 to subarray then sum of diffrences(which have to increased) is the answer
  * nlog(log(n)) bhi soch lo sir like jha multiples ka case aya wha pe seive of erathosthenisis ka concept lga do
  * cool hoja bsdk
- * jha 1 bdi value aur 1 choti value chahiye wha 2 pointer lga do sir
-    aur choti value wale pointer ko increase krte rehna jb testcase na meet ho to
- * 0 0 n  try kr lo if multiple ans ka case hai to ya isse similar kuch hai to
- * i>j wale sare chahiye to prefix wala lga do sir jisme curr ko calc kro prev se and fir usko map kr do
  * a+b = a^b + 2*a&b
  * a+b = a|b + a&b
  * special cases (n=1?)/ odd/even index
  * sir square wala bhi soch lo
- * consecutive elements ka scene hai to genedy apraoch lga do sir
  * follow the basics koi nya try kr rha hai toh uske primitive try kr
  * XOR --> ALWAYS TRY 45132
  */
