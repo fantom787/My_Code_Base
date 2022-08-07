@@ -2,7 +2,6 @@
     Author: Ambuj Kumar(fantom787)
     If it works, don't touch it.
 ----------------------All Links -------------------------
- Youtube:  https://www.youtube.com/c/Fantom7877/videos
  Linkedin: https://www.linkedin.com/in/ambuj-kumar-88b614203/
  Codeforces: https://codeforces.com/profile/fantom787
  Codechef: https://www.codechef.com/users/ambuj787
@@ -40,7 +39,7 @@ using min_heap = priority_queue<T, vector<T>, greater<T>>;
 #define PI 3.1415926535
 #define INF 4e18
 #define EPS 1e-9
-#define MOD 998244353
+#define MOD 1000000007
 
 // Aliases
 using ll = long long int;
@@ -48,6 +47,7 @@ using ull = unsigned long long int;
 using ld = long double;
 
 // macros
+#define int long long
 #define all(s) s.begin(), s.end()
 #define pb push_back
 #define eb emplace_back
@@ -57,8 +57,8 @@ using ld = long double;
 #define msb(x) 63 - __builtin_clzll(x) // gives the most significant bit of the number
 #define sz(x) (int)x.size()
 #define F first
+#define acc(x) accumulate(all(a), 0ll)
 #define S second
-#define int long long
 #define getunique(v)                                  \
     {                                                 \
         sort(v.begin(), v.end());                     \
@@ -69,7 +69,9 @@ using ld = long double;
         cout << "Case #" << x << ":" \
              << " ";                 \
     }
-
+#define hi cout << "hi" << endl
+#define NO cout << "NO" << endl
+#define YES cout << "YES" << endl
 // debug
 #define debug(x)       \
     cerr << #x << " "; \
@@ -394,23 +396,19 @@ vector<pair<int, int>> dir = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
 void solve(int testcase)
 {
     // kickstart(testcase);
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    cin >> a;
-    int cnt0 = count(all(a), 0);
-    int cnt1 = count(all(a), 1);
-    mint ans = 0;
-    for (int i = 0; i <= cnt1; i++)
-    {
-        mint ii = i;
-        ans += (ii * ncr(n - i, cnt0));
-    }
-    ans *= (cnt0 + 1);
-    ans *= (fact[cnt1] * fact[cnt0]);
-    cout << ans << endl;
+    // debug(testcase);
+
 }
 /* stuff you should look for
+ * at 1 pe kya hoga wo case bhi soch lo
+ * if u want to maximize the avg of wins in a circle [problem name universal solution] then do that thing every time which gives u max win in a iteration
+ * if some operations are being performed then try to find their effect on the answers
+ * when u are not able to decide which one to remove then the answer is simply iterate and find the max/min answer for each index
+ * if u have to make array increasing by adding 1 to subarray then sum of diffrences(which have to increased) is the answer
+ * whenever i want to find the position of first number greater than
+     my number then it is good to store all pos of first greater number in prefix
+     ans this will help us to achieve our goal
+ * jha jyada socna pde wha dp lga do aur khtm kro
  * jha add ya delete krne ka swal ho wha pos store kr lo babu bhaiya
  * jha age se kuch uthao aur peeche se kuch uthao wha prefix and suffix sum ayega
  * sbse pehle question dobara padho sir
@@ -418,21 +416,12 @@ void solve(int testcase)
  * space ja rha hai to jane do but time aur wa nhi jana chahiye
  *
  * about lambda function
- *
- *  initialization way 1
- *          function<void/return type(int,int)> nameOFfuncion = [&](what to pass){
- *                                                          body};
- *
- *  initializtion way 2
  *          auto nameOFfunction = [&](what to pass , auto&& nameOFfunction)-> return type{
  *                                  body};
  *
  *
- * when u are not able to decide which one to remove then the answer is simply iterate and find the max/min answer for each index
  * if u r multiplying and u have to find equal multipy then u can take 1st and last everytime
- * if u have to make array increasing by adding 1 to subarray then sum of diffrences(which have to increased) is the answer
  * nlog(log(n)) bhi soch lo sir like jha multiples ka case aya wha pe seive of erathosthenisis ka concept lga do
- * cool hoja bsdk
  * a+b = a^b + 2*a&b
  * a+b = a|b + a&b
  * special cases (n=1?)/ odd/even index
@@ -449,8 +438,7 @@ int32_t main()
     cerr << fixed << setprecision(10);
     auto start = std::chrono::high_resolution_clock::now();
     int n = 1;
-    preNCR();
-    cin >> n;
+    // cin >> n;
     for (int i = 1; i <= n; i++)
     {
         solve(i);
