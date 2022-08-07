@@ -22,11 +22,11 @@ using namespace chrono;
 using namespace __gnu_pbds;
 
 /* ordered set*/
-template <class T, class cmp = less<T>>
+template <class T, class cmp = less_equal<T>>
 using ordered_set = tree<T, null_type, cmp, rb_tree_tag, tree_order_statistics_node_update>;
 
 /* ordered map*/
-template <class key, class value, class cmp = less<key>>
+template <class key, class value, class cmp = less_equal<key>>
 using ordered_map = tree<key, value, cmp, rb_tree_tag, tree_order_statistics_node_update>;
 /* find_by_order(k)  returns iterator to kth element starting from 0;
  * order_of_key(k) returns count of elements strictly smaller than k;*/

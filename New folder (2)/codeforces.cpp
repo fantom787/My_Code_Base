@@ -398,36 +398,19 @@ vector<pair<int, int>> dir = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
 void solve(int testcase)
 {
     // kickstart(testcase);
-    string s;
-    cin >> s;
-    int n = sz(s);
-    int ans = INF;
-    vector<int> pre(n + 1), suf(n + 1);
-    pre[0] = s[0] == '0';
-    suf[n - 1] = s[n - 1] == '1';
-    rep(i, 1, n)
-    {
-        pre[i] = (pre[i - 1] + (s[i] == '0'));
-    }
-    urep(i, n - 2, -1)
-    {
-        suf[i] += (suf[i + 1] + (s[i] == '1'));
-    }
+    // debug(testcase);
+    int n;
+    cin >> n;
+    vector<int> a(n), b(n);
+    cin >> a >> b;
+    ordered_set<int, less_equal<int>> st;
+    int ans = 0;
     rep(i, 0, n)
     {
-        int cnt0 = pre[i];
-        int cnt1 = suf[i + 1];
-        int tempans = (i + 1 - cnt0);
-        tempans += (n - i - 1 - cnt1);
-        ans = min(ans, tempans);
-    }
-    rep(i, 0, n)
-    {
-        int cnt0 = pre[i];
-        int cnt1 = suf[i + 1];
-        int tempans = (cnt0);
-        tempans += (cnt1);
-        ans = min(ans, tempans);
+        int tofind = b[i] - a[i] + 1;
+        int toadd = a[i] - b[i];
+        ans += (sz(st) - st.order_of_key(tofind));
+        st.insert(toadd);
     }
     cout << ans << endl;
 }
@@ -470,7 +453,7 @@ int32_t main()
     cerr << fixed << setprecision(10);
     auto start = std::chrono::high_resolution_clock::now();
     int n = 1;
-    cin >> n;
+    // cin >> n;
     for (int i = 1; i <= n; i++)
     {
         solve(i);
