@@ -197,5 +197,5 @@ ModType& md = VarMod::value;
 using Mint = Modular<VarMod>;
 */
 
-constexpr int md = 998244353;
+constexpr int md = MOD;
 using mint = Modular<std::integral_constant<decay<decltype(md)>::type, md>>;
