@@ -49,6 +49,7 @@ using ld = long double;
 // macros
 #define int long long
 #define rep(i, a, b) for (int i = a; i < b; i++)
+#define urep(i, a, b) for (int i = a; i > b; i--)
 #define all(s) s.begin(), s.end()
 #define pb push_back
 #define eb emplace_back
@@ -397,7 +398,38 @@ vector<pair<int, int>> dir = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
 void solve(int testcase)
 {
     // kickstart(testcase);
-    // debug(testcase);
+    string s;
+    cin >> s;
+    int n = sz(s);
+    int ans = INF;
+    vector<int> pre(n + 1), suf(n + 1);
+    pre[0] = s[0] == '0';
+    suf[n - 1] = s[n - 1] == '1';
+    rep(i, 1, n)
+    {
+        pre[i] = (pre[i - 1] + (s[i] == '0'));
+    }
+    urep(i, n - 2, -1)
+    {
+        suf[i] += (suf[i + 1] + (s[i] == '1'));
+    }
+    rep(i, 0, n)
+    {
+        int cnt0 = pre[i];
+        int cnt1 = suf[i + 1];
+        int tempans = (i + 1 - cnt0);
+        tempans += (n - i - 1 - cnt1);
+        ans = min(ans, tempans);
+    }
+    rep(i, 0, n)
+    {
+        int cnt0 = pre[i];
+        int cnt1 = suf[i + 1];
+        int tempans = (cnt0);
+        tempans += (cnt1);
+        ans = min(ans, tempans);
+    }
+    cout << ans << endl;
 }
 /* stuff you should look for
  * at 1 pe kya hoga wo case bhi soch lo

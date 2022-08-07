@@ -49,6 +49,7 @@ using ld = long double;
 // macros
 #define int long long
 #define rep(i, a, b) for (int i = a; i < b; i++)
+#define urep(i, a, b) for (int i = a; i > b; i--)
 #define all(s) s.begin(), s.end()
 #define pb push_back
 #define eb emplace_back
