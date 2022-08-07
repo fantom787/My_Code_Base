@@ -397,7 +397,6 @@ void solve(int testcase)
 {
     // kickstart(testcase);
     // debug(testcase);
-
 }
 /* stuff you should look for
  * at 1 pe kya hoga wo case bhi soch lo
@@ -438,7 +437,7 @@ int32_t main()
     cerr << fixed << setprecision(10);
     auto start = std::chrono::high_resolution_clock::now();
     int n = 1;
-    // cin >> n;
+    cin >> n;
     for (int i = 1; i <= n; i++)
     {
         solve(i);
