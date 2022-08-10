@@ -48,8 +48,6 @@ using ld = long double;
 
 // macros
 #define int long long
-#define rep(i, a, b) for (int i = a; i < b; i++)
-#define urep(i, a, b) for (int i = a; i > b; i--)
 #define all(s) s.begin(), s.end()
 #define pb push_back
 #define eb emplace_back
@@ -402,6 +400,10 @@ void solve(int testcase)
 }
 /* stuff you should look for
  * at 1 pe kya hoga wo case bhi soch lo
+ * if u want to find the sum of diffrence for all possible 2 pairs its brute would be n^2
+       but with some maths u can see that every diffrence is used in total number of its before edges and after edges 
+       i.e  diff*i*(n-1)
+ * mod wala funda kaam na kre to prefix and suffix lga do
  * if u want to maximize the avg of wins in a circle [problem name universal solution] then do that thing every time which gives u max win in a iteration
  * if some operations are being performed then try to find their effect on the answers
  * when u are not able to decide which one to remove then the answer is simply iterate and find the max/min answer for each index
@@ -409,12 +411,7 @@ void solve(int testcase)
  * whenever i want to find the position of first number greater than
      my number then it is good to store all pos of first greater number in prefix
      ans this will help us to achieve our goal
- * jha jyada socna pde wha dp lga do aur khtm kro
- * jha add ya delete krne ka swal ho wha pos store kr lo babu bhaiya
- * jha age se kuch uthao aur peeche se kuch uthao wha prefix and suffix sum ayega
  * sbse pehle question dobara padho sir
- * constraints  dekho khi bruteforce lag jaye
- * space ja rha hai to jane do but time aur wa nhi jana chahiye
  *
  * about lambda function
  *          auto nameOFfunction = [&](what to pass , auto&& nameOFfunction)-> return type{

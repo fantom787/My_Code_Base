@@ -22,11 +22,11 @@ using namespace chrono;
 using namespace __gnu_pbds;
 
 /* ordered set*/
-template <class T, class cmp = less<T>>
+template <class T, class cmp = less_equal<T>>
 using ordered_set = tree<T, null_type, cmp, rb_tree_tag, tree_order_statistics_node_update>;
 
 /* ordered map*/
-template <class key, class value, class cmp = less<key>>
+template <class key, class value, class cmp = less_equal<key>>
 using ordered_map = tree<key, value, cmp, rb_tree_tag, tree_order_statistics_node_update>;
 /* find_by_order(k)  returns iterator to kth element starting from 0;
  * order_of_key(k) returns count of elements strictly smaller than k;*/
@@ -401,21 +401,40 @@ void solve(int testcase)
     // debug(testcase);
     int n;
     cin >> n;
-    vector<int> a(n), b(n);
-    cin >> a >> b;
-    ordered_set<int, less_equal<int>> st;
-    int ans = 0;
-    rep(i, 0, n)
+    vector<int> a(n), ans(n);
+    map<int, vector<int>> mp;
+    cin >> a;
+    int mx = *max_element(all(a));
+    for (int j = 0; j < n; j++)
     {
-        int tofind = b[i] - a[i] + 1;
-        int toadd = a[i] - b[i];
-        ans += (sz(st) - st.order_of_key(tofind));
-        st.insert(toadd);
+        int it = a[j];
+        for (int i = 2; i * i <= mx; i++)
+        {
+            if (it % i == 0)
+            {
+                mp[i].pb(j);
+                break;
+            }
+        }
+    }
+    cout << sz(mp) << endl;
+    int col = 1;
+    for (auto it : mp)
+    {
+        for (auto i : it.S)
+        {
+            ans[i] = col;
+        }
+        col++;
     }
     cout << ans << endl;
 }
 /* stuff you should look for
  * at 1 pe kya hoga wo case bhi soch lo
+ * if u want to find the sum of diffrence for all possible 2 pairs its brute would be n^2
+       but with some maths u can see that every diffrence is used in total number of its before edges and after edges
+       i.e  diff*i*(n-1)
+ * mod wala funda kaam na kre to prefix and suffix lga do
  * if u want to maximize the avg of wins in a circle [problem name universal solution] then do that thing every time which gives u max win in a iteration
  * if some operations are being performed then try to find their effect on the answers
  * when u are not able to decide which one to remove then the answer is simply iterate and find the max/min answer for each index
@@ -423,12 +442,7 @@ void solve(int testcase)
  * whenever i want to find the position of first number greater than
      my number then it is good to store all pos of first greater number in prefix
      ans this will help us to achieve our goal
- * jha jyada socna pde wha dp lga do aur khtm kro
- * jha add ya delete krne ka swal ho wha pos store kr lo babu bhaiya
- * jha age se kuch uthao aur peeche se kuch uthao wha prefix and suffix sum ayega
  * sbse pehle question dobara padho sir
- * constraints  dekho khi bruteforce lag jaye
- * space ja rha hai to jane do but time aur wa nhi jana chahiye
  *
  * about lambda function
  *          auto nameOFfunction = [&](what to pass , auto&& nameOFfunction)-> return type{
@@ -453,7 +467,7 @@ int32_t main()
     cerr << fixed << setprecision(10);
     auto start = std::chrono::high_resolution_clock::now();
     int n = 1;
-    // cin >> n;
+    cin >> n;
     for (int i = 1; i <= n; i++)
     {
         solve(i);
