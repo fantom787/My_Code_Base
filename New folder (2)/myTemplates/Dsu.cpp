@@ -4,6 +4,7 @@
 struct dsu
 {
     int n;
+    int comp;
     vector<int> siz, lable, nedges;
     vector<vector<int>> edges;
 
@@ -15,6 +16,7 @@ struct dsu
         nedges = vector<int>(n);
         iota(lable.begin(), lable.end(), 0ll);
         edges = vector<vector<int>>(n);
+        comp = n;
     }
 
     void relable(int node, int target)
@@ -43,6 +45,7 @@ struct dsu
         siz[lable[u]] = 0;
         relable(u, lable[v]);
         nedges[lable[v]] += nedges[lable[u]];
+        comp--;
         return 1;
     }
 
