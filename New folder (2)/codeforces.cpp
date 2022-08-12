@@ -48,8 +48,6 @@ using ld = long double;
 
 // macros
 #define int long long
-#define rep(i, a, b) for (int i = a; i < b; i++)
-#define urep(i, a, b) for (int i = a; i > b; i--)
 #define all(s) s.begin(), s.end()
 #define pb push_back
 #define eb emplace_back
@@ -399,35 +397,7 @@ void solve(int testcase)
 {
     // kickstart(testcase);
     // debug(testcase);
-    int n;
-    cin >> n;
-    vector<int> a(n), ans(n);
-    map<int, vector<int>> mp;
-    cin >> a;
-    int mx = *max_element(all(a));
-    for (int j = 0; j < n; j++)
-    {
-        int it = a[j];
-        for (int i = 2; i * i <= mx; i++)
-        {
-            if (it % i == 0)
-            {
-                mp[i].pb(j);
-                break;
-            }
-        }
-    }
-    cout << sz(mp) << endl;
-    int col = 1;
-    for (auto it : mp)
-    {
-        for (auto i : it.S)
-        {
-            ans[i] = col;
-        }
-        col++;
-    }
-    cout << ans << endl;
+    
 }
 /* stuff you should look for
  * at 1 pe kya hoga wo case bhi soch lo
@@ -467,7 +437,7 @@ int32_t main()
     cerr << fixed << setprecision(10);
     auto start = std::chrono::high_resolution_clock::now();
     int n = 1;
-    cin >> n;
+    // cin >> n;
     for (int i = 1; i <= n; i++)
     {
         solve(i);
