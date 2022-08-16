@@ -397,7 +397,35 @@ void solve(int testcase)
 {
     // kickstart(testcase);
     // debug(testcase);
-    
+    int n;
+    cin >> n;
+    string s;
+    cin >> s;
+    if (count(all(s), '1') == 1)
+    {
+        cout << "YES" << endl;
+        return;
+    }
+    vector<int> a;
+    for (int i = 0; i < n; i++)
+    {
+        if (s[i] == '1')
+        {
+            a.pb(i);
+        }
+    }
+    bool counter = 1;
+    int dist = a[1] - a[0];
+    for (int i = 1; i < sz(a) - 1; i++)
+    {
+        int d = a[i + 1] - a[i];
+        if (d != dist)
+        {
+            counter = 0;
+            break;
+        }
+    }
+    cout << (counter ? "YES" : "NO") << endl;
 }
 /* stuff you should look for
  * at 1 pe kya hoga wo case bhi soch lo
@@ -430,11 +458,14 @@ void solve(int testcase)
  */
 int32_t main()
 {
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
     cout << fixed << setprecision(25);
     cerr << fixed << setprecision(10);
+
     auto start = std::chrono::high_resolution_clock::now();
     int n = 1;
     // cin >> n;
