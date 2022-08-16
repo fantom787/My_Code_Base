@@ -401,7 +401,7 @@ void solve(int testcase)
 /* stuff you should look for
  * at 1 pe kya hoga wo case bhi soch lo
  * if u want to find the sum of diffrence for all possible 2 pairs its brute would be n^2
-       but with some maths u can see that every diffrence is used in total number of its before edges and after edges 
+       but with some maths u can see that every diffrence is used in total number of its before edges and after edges
        i.e  diff*i*(n-1)
  * mod wala funda kaam na kre to prefix and suffix lga do
  * if u want to maximize the avg of wins in a circle [problem name universal solution] then do that thing every time which gives u max win in a iteration
@@ -429,6 +429,9 @@ void solve(int testcase)
  */
 int32_t main()
 {
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
+
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
