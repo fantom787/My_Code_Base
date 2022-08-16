@@ -57,7 +57,7 @@ using ld = long double;
 #define msb(x) 63 - __builtin_clzll(x) // gives the most significant bit of the number
 #define sz(x) (int)x.size()
 #define F first
-#define acc(x) accumulate(all(a), 0ll)
+#define acc(x) accumulate(all(x), 0ll)
 #define S second
 #define getunique(v)                                  \
     {                                                 \
@@ -399,6 +399,12 @@ void solve(int testcase)
     // debug(testcase);
 }
 /* stuff you should look for
+ * at 1 pe kya hoga wo case bhi soch lo
+ * -------custom comparator to use in set or multiset or map or multimap--------
+ *
+ *      set<data_type,decltype(cmp)>name_of_the_set(cmp)
+ *     here cmp is the custom comparator
+ *
  * at 1 pe kya hoga wo case bhi soch lo
  * if u want to find the sum of diffrence for all possible 2 pairs its brute would be n^2
        but with some maths u can see that every diffrence is used in total number of its before edges and after edges

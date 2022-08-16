@@ -57,7 +57,7 @@ using ld = long double;
 #define msb(x) 63 - __builtin_clzll(x) // gives the most significant bit of the number
 #define sz(x) (int)x.size()
 #define F first
-#define acc(x) accumulate(all(a), 0ll)
+#define acc(x) accumulate(all(x), 0ll)
 #define S second
 #define getunique(v)                                  \
     {                                                 \
@@ -397,38 +397,57 @@ void solve(int testcase)
 {
     // kickstart(testcase);
     // debug(testcase);
-    int n;
-    cin >> n;
-    string s;
-    cin >> s;
-    if (count(all(s), '1') == 1)
+    int q;
+    cin >> q;
+    vector<int> m;
+    set<int> st;
+    auto cmp = [&](int a, int b)
     {
-        cout << "YES" << endl;
-        return;
-    }
-    vector<int> a;
-    for (int i = 0; i < n; i++)
-    {
-        if (s[i] == '1')
+        if (m[a] == m[b])
         {
-            a.pb(i);
+            return a < b;
+        }
+        return m[a] > m[b];
+    };
+    set<int, decltype(cmp)> money(cmp);
+    while (q--)
+    {
+        int x;
+        cin >> x;
+        if (x == 1)
+        {
+            int z;
+            cin >> z;
+            m.pb(z);
+            st.insert(sz(m) - 1);
+            money.insert(sz(m) - 1);
+        }
+        else if (x == 2)
+        {
+            int xx = *st.begin();
+            st.erase(xx);
+            money.erase(xx);
+            cout << xx + 1 << " ";
+        }
+        else
+        {
+            int xx = *money.begin();
+            st.erase(xx);
+            money.erase(xx);
+            cout << xx + 1 << " ";
         }
     }
-    bool counter = 1;
-    int dist = a[1] - a[0];
-    for (int i = 1; i < sz(a) - 1; i++)
-    {
-        int d = a[i + 1] - a[i];
-        if (d != dist)
-        {
-            counter = 0;
-            break;
-        }
-    }
-    cout << (counter ? "YES" : "NO") << endl;
+    cout << endl;
 }
 /* stuff you should look for
  * at 1 pe kya hoga wo case bhi soch lo
+ * -------custom comparator to use in set or multiset or map or multimap--------
+ *
+ *      set<data_type,decltype(cmp)>name_of_the_set(cmp)
+ *     here cmp is the custom comparator
+ *
+
+
  * if u want to find the sum of diffrence for all possible 2 pairs its brute would be n^2
        but with some maths u can see that every diffrence is used in total number of its before edges and after edges
        i.e  diff*i*(n-1)
@@ -458,14 +477,14 @@ void solve(int testcase)
  */
 int32_t main()
 {
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
+
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
     cout << fixed << setprecision(25);
     cerr << fixed << setprecision(10);
-
     auto start = std::chrono::high_resolution_clock::now();
     int n = 1;
     // cin >> n;
