@@ -393,51 +393,96 @@ void invert(string &s)
 vector<pair<int, int>> dir = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
 
 /*/-----------------------------Code begins----------------------------------/*/
+struct dijkstra
+{
+    int n;
+    const ll inf = 4e18;
+    vector<ll> dists; /* for a single run */
+    vector<int> par;
+    vector<bool> vis;
+    vector<vector<pair<int, int>>> edges;
+
+    void init(int s)
+    {
+        n = s;
+        dists = vector<ll>(n + 10);
+        vis = vector<bool>(n + 10);
+        par = vector<int>(n + 10);
+        edges = vector<vector<pair<ll, int>>>(n + 10);
+    }
+
+    void edge(int a, int b, ll wt)
+    {
+        edges[a].push_back(make_pair(wt, b));
+        edges[b].push_back(make_pair(wt, a));
+    }
+
+    using ptype = pair<int, int>;
+    void run(int src)
+    {
+        fill(dists.begin(), dists.end(), INF);
+        fill(vis.begin(), vis.end(), 0);
+        fill(par.begin(), par.end(), -1);
+
+        min_heap<ptype> pq;
+        dists[src] = 0;
+        pq.push(make_pair(0, src));
+        while (!pq.empty())
+        {
+            ptype foc = pq.top();
+            pq.pop();
+
+            if (vis[foc.S])
+                continue;
+            vis[foc.S] = 1;
+
+            dists[foc.S] = min(dists[foc.S], foc.F);
+            for (ptype x : edges[foc.S])
+            {
+                ll d = dists[foc.S] + x.F;
+                if (d < dists[x.S])
+                {
+                    dists[x.S] = d;
+                    par[x.S] = foc.S;
+                    pq.push(make_pair(d, x.S));
+                }
+            }
+        }
+    }
+};
 void solve(int testcase)
 {
     // kickstart(testcase);
     // debug(testcase);
-    int q;
-    cin >> q;
-    vector<int> m;
-    set<int> st;
-    auto cmp = [&](int a, int b)
+    int n, m, k;
+    cin >> n >> m >> k;
+    vector<int> a(n);
+    cin >> a;
+    dijkstra d;
+    d.init(n);
+    while (m--)
     {
-        if (m[a] == m[b])
-        {
-            return a < b;
-        }
-        return m[a] > m[b];
-    };
-    set<int, decltype(cmp)> money(cmp);
-    while (q--)
+        int u, v, w;
+        cin >> u >> v >> w;
+        u--, v--;
+        d.edge(u, v, w);
+    }
+    for (int i = 0; i < n; i++)
+    {
+        d.edge(i, n, a[i]);
+    }
+    while (k--)
     {
         int x;
         cin >> x;
-        if (x == 1)
+        x--;
+        d.run(x);
+        for (int i = 0; i < n; i++)
         {
-            int z;
-            cin >> z;
-            m.pb(z);
-            st.insert(sz(m) - 1);
-            money.insert(sz(m) - 1);
+            cout << d.dists[i] << " ";
         }
-        else if (x == 2)
-        {
-            int xx = *st.begin();
-            st.erase(xx);
-            money.erase(xx);
-            cout << xx + 1 << " ";
-        }
-        else
-        {
-            int xx = *money.begin();
-            st.erase(xx);
-            money.erase(xx);
-            cout << xx + 1 << " ";
-        }
+        cout << endl;
     }
-    cout << endl;
 }
 /* stuff you should look for
  * at 1 pe kya hoga wo case bhi soch lo
@@ -446,8 +491,7 @@ void solve(int testcase)
  *      set<data_type,decltype(cmp)>name_of_the_set(cmp)
  *     here cmp is the custom comparator
  *
-
-
+ * at 1 pe kya hoga wo case bhi soch lo
  * if u want to find the sum of diffrence for all possible 2 pairs its brute would be n^2
        but with some maths u can see that every diffrence is used in total number of its before edges and after edges
        i.e  diff*i*(n-1)
