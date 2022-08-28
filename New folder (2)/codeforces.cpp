@@ -393,98 +393,21 @@ void invert(string &s)
 vector<pair<int, int>> dir = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
 
 /*/-----------------------------Code begins----------------------------------/*/
-struct dijkstra
-{
-    int n;
-    const ll inf = 4e18;
-    vector<ll> dists; /* for a single run */
-    vector<int> par;
-    vector<bool> vis;
-    vector<vector<pair<int, int>>> edges;
-
-    void init(int s)
-    {
-        n = s;
-        dists = vector<ll>(n + 10);
-        vis = vector<bool>(n + 10);
-        par = vector<int>(n + 10);
-        edges = vector<vector<pair<ll, int>>>(n + 10);
-    }
-
-    void edge(int a, int b, ll wt)
-    {
-        edges[a].push_back(make_pair(wt, b));
-        edges[b].push_back(make_pair(wt, a));
-    }
-
-    using ptype = pair<int, int>;
-    void run(int src)
-    {
-        fill(dists.begin(), dists.end(), INF);
-        fill(vis.begin(), vis.end(), 0);
-        fill(par.begin(), par.end(), -1);
-
-        min_heap<ptype> pq;
-        dists[src] = 0;
-        pq.push(make_pair(0, src));
-        while (!pq.empty())
-        {
-            ptype foc = pq.top();
-            pq.pop();
-
-            if (vis[foc.S])
-                continue;
-            vis[foc.S] = 1;
-
-            dists[foc.S] = min(dists[foc.S], foc.F);
-            for (ptype x : edges[foc.S])
-            {
-                ll d = dists[foc.S] + x.F;
-                if (d < dists[x.S])
-                {
-                    dists[x.S] = d;
-                    par[x.S] = foc.S;
-                    pq.push(make_pair(d, x.S));
-                }
-            }
-        }
-    }
-};
 void solve(int testcase)
 {
     // kickstart(testcase);
     // debug(testcase);
-    int n, m, k;
-    cin >> n >> m >> k;
-    vector<int> a(n);
-    cin >> a;
-    dijkstra d;
-    d.init(n);
-    while (m--)
-    {
-        int u, v, w;
-        cin >> u >> v >> w;
-        u--, v--;
-        d.edge(u, v, w);
-    }
-    for (int i = 0; i < n; i++)
-    {
-        d.edge(i, n, a[i]);
-    }
-    while (k--)
-    {
-        int x;
-        cin >> x;
-        x--;
-        d.run(x);
-        for (int i = 0; i < n; i++)
-        {
-            cout << d.dists[i] << " ";
-        }
-        cout << endl;
-    }
 }
 /* stuff you should look for
+ *    ------------------IMPORTANT-----------------------
+ *    when u have to check that a bit is present in both the numbers after doing their xor then simply take and with the first number
+ *    and take and with the not of second number as if the bit is present in both then theri xor will be zero so taking not will erase
+ *    the set bits in b  and taking and with it prooves that this bit was not present in that number if both the ands are sane
+ *    for more info u can look to the problem D of educational codeforces round 134
+ *    in that problem what i did was i was checking for the jth bit is present in the xor of 2 numbers or not
+ *    i simply did the above stated
+ *
+ *    ------------------IMPORTANT-----------------------
  * at 1 pe kya hoga wo case bhi soch lo
  * -------custom comparator to use in set or multiset or map or multimap--------
  *
@@ -496,8 +419,6 @@ void solve(int testcase)
        but with some maths u can see that every diffrence is used in total number of its before edges and after edges
        i.e  diff*i*(n-1)
  * mod wala funda kaam na kre to prefix and suffix lga do
- * if u want to maximize the avg of wins in a circle [problem name universal solution] then do that thing every time which gives u max win in a iteration
- * if some operations are being performed then try to find their effect on the answers
  * when u are not able to decide which one to remove then the answer is simply iterate and find the max/min answer for each index
  * if u have to make array increasing by adding 1 to subarray then sum of diffrences(which have to increased) is the answer
  * whenever i want to find the position of first number greater than
@@ -531,7 +452,7 @@ int32_t main()
     cerr << fixed << setprecision(10);
     auto start = std::chrono::high_resolution_clock::now();
     int n = 1;
-    // cin >> n;
+    cin >> n;
     for (int i = 1; i <= n; i++)
     {
         solve(i);
