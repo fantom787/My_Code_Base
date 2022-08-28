@@ -204,59 +204,6 @@ ostream &operator<<(ostream &ostream, const vector<T> &c)
         cout << it << " ";
     return ostream;
 }
-// Modular int
-struct mint
-{
-    int x;
-    mint() : x(0) {}
-    mint(int x) : x((x % MOD + MOD) % MOD) {}
-    mint operator-() const { return mint(0) - *this; }
-    mint operator~() const { return mint(1) / *this; }
-    mint &operator+=(const mint &a)
-    {
-        if ((x += a.x) >= MOD)
-            x -= MOD;
-        return *this;
-    }
-    mint &operator-=(const mint &a)
-    {
-        if ((x += MOD - a.x) >= MOD)
-            x -= MOD;
-        return *this;
-    }
-    mint &operator*=(const mint &a)
-    {
-        x = x * a.x % MOD;
-        return *this;
-    }
-    mint &operator/=(const mint &a)
-    {
-        x = x * a.pow(MOD - 2).x % MOD;
-        return *this;
-    }
-    mint operator+(const mint &a) const { return mint(*this) += a; }
-    mint operator-(const mint &a) const { return mint(*this) -= a; }
-    mint operator*(const mint &a) const { return mint(*this) *= a; }
-    mint operator/(const mint &a) const { return mint(*this) /= a; }
-    mint pow(int t) const
-    {
-        mint ret(1), pw = mint(*this);
-        while (t)
-        {
-            if (t & 1)
-                ret *= pw;
-            pw *= pw;
-            t /= 2;
-        }
-        return ret;
-    }
-    bool operator<(const mint &a) const { return x < a.x; }
-    bool operator==(const mint &a) const { return x == a.x; }
-    bool operator!=(const mint &a) const { return x != a.x; }
-    friend istream &operator>>(istream &is, mint &p) { return is >> p.x; }
-    friend ostream &operator<<(ostream &os, mint p) { return os << p.x; }
-};
-
 // Mathematical functions
 int gcd(int a, int b)
 {
@@ -310,25 +257,45 @@ int modinv(int x, int m = MOD)
 }
 
 // ncr i.e number of combinations
-const int N = 1e5 + 5;
-mint fact[N], inv_fact[N];
+const int N = 100005;
+int fact[N];
+int inv_fact[N];
 void preNCR()
 {
-
     fact[0] = 1;
-    for (int i = 1; i < N; i++)
-        fact[i] = fact[i - 1] * i;
-
-    inv_fact[N - 1] = ~fact[N - 1];
-    for (int i = N - 2; i >= 0; i--)
-        inv_fact[i] = inv_fact[i + 1] * (i + 1);
+    fact[1] = 1;
+    for (int i = 2; i < N; i++)
+    {
+        fact[i] = i * fact[i - 1];
+        fact[i] %= MOD;
+        inv_fact[i] = modinv(fact[i]);
+    }
 }
-
-mint ncr(int x, int y)
+int ncr(int n, int r)
 {
-    if (x < y)
+    if (n < r)
+    {
         return 0;
-    return fact[x] * inv_fact[y] * inv_fact[x - y];
+    }
+    int ans = fact[n];
+    ans %= MOD;
+    ans *= inv_fact[r];
+    ans %= MOD;
+    ans *= inv_fact[n - r];
+    ans %= MOD;
+    return ans;
+}
+int npr(int n, int r)
+{
+    if (n < r)
+    {
+        return 0;
+    }
+    int ans = fact[n];
+    ans %= MOD;
+    ans *= inv_fact[n - r];
+    ans %= MOD;
+    return ans;
 }
 
 /*--------------- Seive -----------------------*/
@@ -399,6 +366,15 @@ void solve(int testcase)
     // debug(testcase);
 }
 /* stuff you should look for
+ *    ------------------IMPORTANT-----------------------
+ *    when u have to check that a bit is present in both the numbers after doing their xor then simply take and with the first number
+ *    and take and with the not of second number as if the bit is present in both then theri xor will be zero so taking not will erase
+ *    the set bits in b  and taking and with it prooves that this bit was not present in that number if both the ands are sane
+ *    for more info u can look to the problem D of educational codeforces round 134
+ *    in that problem what i did was i was checking for the jth bit is present in the xor of 2 numbers or not
+ *    i simply did the above stated
+ *
+ *    ------------------IMPORTANT-----------------------
  * at 1 pe kya hoga wo case bhi soch lo
  * -------custom comparator to use in set or multiset or map or multimap--------
  *
@@ -410,8 +386,6 @@ void solve(int testcase)
        but with some maths u can see that every diffrence is used in total number of its before edges and after edges
        i.e  diff*i*(n-1)
  * mod wala funda kaam na kre to prefix and suffix lga do
- * if u want to maximize the avg of wins in a circle [problem name universal solution] then do that thing every time which gives u max win in a iteration
- * if some operations are being performed then try to find their effect on the answers
  * when u are not able to decide which one to remove then the answer is simply iterate and find the max/min answer for each index
  * if u have to make array increasing by adding 1 to subarray then sum of diffrences(which have to increased) is the answer
  * whenever i want to find the position of first number greater than

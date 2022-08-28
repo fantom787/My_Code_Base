@@ -1,3 +1,4 @@
+// facebook hackercup b1 solution
 /*
     Author: Ambuj Kumar(fantom787)
     If it works, don't touch it.
@@ -395,63 +396,54 @@ vector<pair<int, int>> dir = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
 /*/-----------------------------Code begins----------------------------------/*/
 void solve(int testcase)
 {
-    // kickstart(testcase);
+    kickstart(testcase);
     // debug(testcase);
-    int r, c;
-    cin >> r >> c;
-    vector<vector<int>> mat(r, vector<int>(c));
-    for (int i = 0; i < r; i++)
+    bool f1 = 0;
+    bool f2 = 0;
+    int n, m;
+    cin >> n >> m;
+    vector<vector<int>> mat(n, vector<int>(m));
+    for (int i = 0; i < n; i++)
     {
-        for (int j = 0; j < c; j++)
+        for (int j = 0; j < m; j++)
         {
             char c;
             cin >> c;
             mat[i][j] = (c == '^');
+            if (c == '.')
+                f1 = 1;
+            if (c == '^')
+                f2 = 1;
         }
     }
-    bool counter = 1;
-    for (int i = 0; i < r; i++)
+    if (n == 1 || m == 1)
     {
-        for (int j = 0; j < c; j++)
+        if (f1 && f2)
         {
-            if (mat[i][j])
+            cout << "Impossible" << "\n";
+        }
+        else
+        {
+            cout << "Possible" << "\n";
+            for (auto it : mat)
             {
-                int cnt = 0;
-                for (auto it : dir)
+                for (auto i : it)
                 {
-                    int ii = i + it.F;
-                    int jj = j + it.S;
-                    if (ii >= 0 && ii < r && jj < c && jj >= 0)
-                    {
-                        cnt++;
-                        mat[ii][jj] = 1;
-                    }
+                    cout << (i ? "^" : ".");
                 }
-                if(cnt<)
+                cout << endl;
             }
         }
-    }
-    if (!counter)
-    {
-        cout << "Impossible" << endl;
         return;
     }
-    cout << "Possible" << endl;
+    cout << "Possible" << "\n";
     for (auto it : mat)
     {
         for (auto i : it)
         {
-            if (i)
-            {
-                cout << "^";
-            }
-            else
-            {
-                cout << ".";
-            }
-            cout << " ";
+            cout << "^";
         }
-        cout << endl;
+        cout << "\n";
     }
 }
 /* stuff you should look for
