@@ -39,6 +39,7 @@ using min_heap = priority_queue<T, vector<T>, greater<T>>;
 #define PI 3.1415926535
 #define INF 4e18
 #define EPS 1e-9
+#define MOD 1000000007
 
 // Aliases
 using ll = long long int;
@@ -69,6 +70,8 @@ using ld = long double;
              << " ";                 \
     }
 #define hi cout << "hi" << endl
+#define NO cout << "NO" << endl
+#define YES cout << "YES" << endl
 // debug
 #define debug(x)       \
     cerr << #x << " "; \
@@ -231,7 +234,7 @@ int lcm(int a, int b)
     return ((ll)a * b) / gcd(a, b);
 }
 // modular exponentiation
-int modpow(int x, int n)
+int modpow(int x, int n, int m = MOD)
 {
     if (x == 0 && n == 0)
         return 0; // undefined case
@@ -240,14 +243,60 @@ int modpow(int x, int n)
     {
         if (n & 1)
         {
-            res *= x;
+            res = ((res % m) * (x % m)) % m;
         }
-        x *= x;
+        x = ((x % m) * (x % m)) % m;
         n >>= 1;
     }
     return res;
 }
 
+int modinv(int x, int m = MOD)
+{
+    return modpow(x, m - 2, m);
+}
+
+// ncr i.e number of combinations
+const int N = 100005;
+int fact[N];
+int inv_fact[N];
+void preNCR()
+{
+    fact[0] = 1;
+    fact[1] = 1;
+    for (int i = 2; i < N; i++)
+    {
+        fact[i] = i * fact[i - 1];
+        fact[i] %= MOD;
+        inv_fact[i] = modinv(fact[i]);
+    }
+}
+int ncr(int n, int r)
+{
+    if (n < r)
+    {
+        return 0;
+    }
+    int ans = fact[n];
+    ans %= MOD;
+    ans *= inv_fact[r];
+    ans %= MOD;
+    ans *= inv_fact[n - r];
+    ans %= MOD;
+    return ans;
+}
+int npr(int n, int r)
+{
+    if (n < r)
+    {
+        return 0;
+    }
+    int ans = fact[n];
+    ans %= MOD;
+    ans *= inv_fact[n - r];
+    ans %= MOD;
+    return ans;
+}
 
 /*--------------- Seive -----------------------*/
 // Get All The Divisors Of That Number
@@ -259,8 +308,7 @@ vector<int> getdiv(int n)
         if (n % i == 0)
         {
             ans.pb(i);
-            if (n / i != i)
-                ans.pb(n / i);
+            ans.pb(n / i);
         }
     }
     return ans;
@@ -283,7 +331,7 @@ vector<int> getprimefac(int n)
     return ans;
 }
 // get instant prime
-vector<int> sieve(int n)
+vector<ll> sieve(int n)
 {
     int *arr = new int[n + 1]();
     vector<ll> vect;
@@ -305,325 +353,6 @@ void invert(string &s)
         s[i] ^= '0' ^ '1';
     }
 }
-// -------------------------------Mod-Int---Template-------------------------//
-// const int mod = 998244353;
-const int mod = 1000000007;
-template <const int MOD>
-struct modular_int
-{
-    int x;
-    static vector<int> inverse_list;
-    const static int inverse_limit;
-    const static bool is_prime;
-    modular_int()
-    {
-        x = 0;
-    }
-    template <typename T>
-    modular_int(const T z)
-    {
-        x = (z % MOD);
-        if (x < 0)
-            x += MOD;
-    }
-    modular_int(const modular_int<MOD> *z)
-    {
-        x = z->x;
-    }
-    modular_int(const modular_int<MOD> &z)
-    {
-        x = z.x;
-    }
-    modular_int operator-(const modular_int<MOD> &m) const
-    {
-        modular_int<MOD> U;
-        U.x = x - m.x;
-        if (U.x < 0)
-            U.x += MOD;
-        return U;
-    }
-    modular_int operator+(const modular_int<MOD> &m) const
-    {
-        modular_int<MOD> U;
-        U.x = x + m.x;
-        if (U.x >= MOD)
-            U.x -= MOD;
-        return U;
-    }
-    modular_int &operator-=(const modular_int<MOD> &m)
-    {
-        x -= m.x;
-        if (x < 0)
-            x += MOD;
-        return *this;
-    }
-    modular_int &operator+=(const modular_int<MOD> &m)
-    {
-        x += m.x;
-        if (x >= MOD)
-            x -= MOD;
-        return *this;
-    }
-    modular_int operator*(const modular_int<MOD> &m) const
-    {
-        modular_int<MOD> U;
-        U.x = (x * 1ull * m.x) % MOD;
-        return U;
-    }
-    modular_int &operator*=(const modular_int<MOD> &m)
-    {
-        x = (x * 1ull * m.x) % MOD;
-        return *this;
-    }
-    template <typename T>
-    friend modular_int operator+(const T &l, const modular_int<MOD> &p)
-    {
-        return (modular_int<MOD>(l) + p);
-    }
-    template <typename T>
-    friend modular_int operator-(const T &l, const modular_int<MOD> &p)
-    {
-        return (modular_int<MOD>(l) - p);
-    }
-    template <typename T>
-    friend modular_int operator*(const T &l, const modular_int<MOD> &p)
-    {
-        return (modular_int<MOD>(l) * p);
-    }
-    template <typename T>
-    friend modular_int operator/(const T &l, const modular_int<MOD> &p)
-    {
-        return (modular_int<MOD>(l) / p);
-    }
-
-    int value() const
-    {
-        return x;
-    }
-
-    modular_int operator^(const modular_int<MOD> &cpower) const
-    {
-        modular_int<MOD> ans;
-        ans.x = 1;
-        modular_int<MOD> curr(this);
-        int power = cpower.x;
-
-        if (curr.x <= 1)
-        {
-            if (power == 0)
-                curr.x = 1;
-            return curr;
-        }
-        while (power > 0)
-        {
-            if (power & 1)
-            {
-                ans *= curr;
-            }
-            power >>= 1;
-            if (power)
-                curr *= curr;
-        }
-        return ans;
-    }
-
-    modular_int operator^(long long power) const
-    {
-        modular_int<MOD> ans;
-        ans.x = 1;
-        modular_int<MOD> curr(this);
-        if (curr.x <= 1)
-        {
-            if (power == 0)
-                curr.x = 1;
-            return curr;
-        }
-        // Prime Mods
-        if (power >= MOD && is_prime)
-        {
-            power %= (MOD - 1);
-        }
-
-        while (power > 0)
-        {
-            if (power & 1)
-            {
-                ans *= curr;
-            }
-            power >>= 1;
-            if (power)
-                curr *= curr;
-        }
-        return ans;
-    }
-
-    template <typename T>
-    modular_int &operator^=(T power)
-    {
-        modular_int<MOD> res = (*this) ^ power;
-        x = res.x;
-        return *this;
-    }
-
-    template <typename T>
-    modular_int pow(T x)
-    {
-        return (*this) ^ x;
-    }
-
-    pair<long long, long long> gcd(const int a, const int b) const
-    {
-        if (b == 0)
-            return {1, 0};
-        pair<long long, long long> c = gcd(b, a % b);
-        return {c.second, c.first - (a / b) * c.second};
-    }
-
-    inline void init_inverse_list() const
-    {
-
-        vector<int> &dp = modular_int<MOD>::inverse_list;
-        dp.resize(modular_int<MOD>::inverse_limit + 1);
-        int n = modular_int<MOD>::inverse_limit;
-        dp[0] = 1;
-        if (n > 1)
-            dp[1] = 1;
-        for (int i = 2; i <= n; ++i)
-        {
-            dp[i] = (dp[MOD % i] * 1ull * (MOD - MOD / i)) % MOD;
-        }
-    }
-    modular_int<MOD> get_inv() const
-    {
-        if (modular_int<MOD>::inverse_list.size() < modular_int<MOD>::inverse_limit + 1)
-            init_inverse_list();
-
-        if (this->x <= modular_int<MOD>::inverse_limit)
-        {
-            return modular_int<MOD>::inverse_list[this->x];
-        }
-        pair<long long, long long> G = gcd(this->x, MOD);
-        return modular_int<MOD>(G.first);
-    }
-    modular_int<MOD> operator-() const
-    {
-        modular_int<MOD> v(0);
-        v -= (*this);
-        return v;
-    }
-    modular_int operator/(const modular_int<MOD> &m) const
-    {
-        modular_int<MOD> U(this);
-        U *= m.get_inv();
-        return U;
-    }
-    modular_int &operator/=(const modular_int<MOD> &m)
-    {
-        (*this) *= m.get_inv();
-        return *this;
-    }
-    bool operator==(const modular_int<MOD> &m) const
-    {
-        return x == m.x;
-    }
-
-    bool operator<(const modular_int<MOD> &m) const
-    {
-        return x < m.x;
-    }
-
-    template <typename T>
-    bool operator==(const T &m) const
-    {
-        return (*this) == (modular_int<MOD>(m));
-    }
-
-    template <typename T>
-    bool operator<(const T &m) const
-    {
-        return x < (modular_int<MOD>(m)).x;
-    }
-    template <typename T>
-    bool operator>(const T &m) const
-    {
-        return x > (modular_int<MOD>(m)).x;
-    }
-    template <typename T>
-    friend bool operator==(const T &x, const modular_int<MOD> &m)
-    {
-        return (modular_int<MOD>(x)).x == m.x;
-    }
-    template <typename T>
-    friend bool operator<(const T &x, const modular_int<MOD> &m)
-    {
-        return (modular_int<MOD>(x)).x < m.x;
-    }
-    template <typename T>
-    friend bool operator>(const T &x, const modular_int<MOD> &m)
-    {
-        return (modular_int<MOD>(x)).x > m.x;
-    }
-
-    friend istream &operator>>(istream &is, modular_int<MOD> &p)
-    {
-        int64_t val;
-        is >> val;
-        p.x = (val % MOD);
-        if (p.x < 0)
-            p.x += MOD;
-        return is;
-    }
-    friend ostream &operator<<(ostream &os, const modular_int<MOD> &p) { return os << p.x; }
-};
-
-using mint = modular_int<mod>;
-template <const int MOD>
-vector<int> modular_int<MOD>::inverse_list;
-template <const int MOD>
-const int modular_int<MOD>::inverse_limit = -1;
-template <const int MOD>
-const bool modular_int<MOD>::is_prime = true;
-template <> //-> useful if computing inverse fact = i_f[i-1] / i;
-const int modular_int<mod>::inverse_limit = 200005;
-
-const int N = 100005;
-mint fact[N];
-mint inv_fact[N];
-
-void preNCR()
-{
-    fact[0] = 1;
-    inv_fact[0] = 1;
-    for (int i = 1; i < N; i++)
-    {
-        fact[i] = fact[i - 1] * i;
-        inv_fact[i] = inv_fact[i - 1] / i;
-    }
-}
-
-mint ncr(int n, int r)
-{
-    if (n < r)
-    {
-        return 0;
-    }
-    mint ans = fact[n];
-    ans *= inv_fact[r];
-    ans *= inv_fact[n - r];
-    return ans;
-}
-
-mint npr(int n, int r)
-{
-    if (n < r)
-    {
-        return 0;
-    }
-    mint ans = fact[n] * inv_fact[n - r];
-    return ans;
-}
-
-// -------------------------------Mod-Int---Template-------------------------//
 
 // Flags to use: -std=c++17 -O2 -DLOCAL_PROJECT -Wshadow -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC -fsanitize=address -fsanitize=undefined
 
@@ -631,15 +360,115 @@ mint npr(int n, int r)
 vector<pair<int, int>> dir = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
 
 /*/-----------------------------Code begins----------------------------------/*/
-// question padh lo sir pls
-// constraints bhi dekh lo sir pls
+class s
+{
+public:
+    int l, r, ad;
+};
 void solve(int testcase)
 {
     // kickstart(testcase);
     // debug(testcase);
+    int n;
+    cin >> n;
+    vector<s> a(n);
+    for (int i = 0; i < n; i++)
+    {
+        cin >> a[i].l;
+        cin >> a[i].r;
+        cin >> a[i].ad;
+    }
+    sort(all(a), [&](s a, s b)
+         { return a.r < b.r; });
+    vector<int> dp(n + 10);
+    vector<int> rr;
+    for (int i = 0; i < n; i++)
+        rr.pb(a[i].r);
+    for (int i = 0; i < n; i++)
+    {
+        int op1 = a[i].ad;
+        int j = lower_bound(all(rr), a[i].l) - rr.begin();
+        j--;
+        op1 += (j >= 0 ? dp[j] : 0);
+        int op2 = (i - 1 >= 0 ? dp[i - 1] : -INF);
+        dp[i] = max(op1, op2);
+    }
+    cout << dp[n - 1] << endl;
+    //---------------dp[i] advantage that we can get at ith project
+    /*
+    int n;
+    cin >> n;
+    vector<s> a(n);
+    for (int i = 0; i < n; i++)
+    {
+        cin >> a[i].l;
+        cin >> a[i].r;
+        cin >> a[i].ad;
+    }
+    sort(all(a), [&](s a, s b)
+         { return a.l < b.l; });
+    vector<int> dp(n + 10);
+    vector<int> ll;
+    for (int i = 0; i < n; i++)
+        ll.pb(a[i].l);
+    for (int i = n - 1; i >= 0; i--)
+    {
+        int op1 = (i + 1 < n ? dp[i + 1] : -INF);
+        int op2 = a[i].ad;
+        int j = upper_bound(all(ll), a[i].r) - ll.begin();
+        op2 += (j < n ? dp[j] : 0);
+        dp[i] = max(op1, op2);
+    }
+    cout << dp[0] << endl;
 
+
+
+    */
 }
 
+/* stuff you should look for
+ *    ------------------IMPORTANT-----------------------
+ *    when u have to check that a bit is present in both the numbers after doing their xor then simply take and with the first number
+ *    and take and with the not of second number as if the bit is present in both then theri xor will be zero so taking not will erase
+ *    the set bits in b  and taking and with it prooves that this bit was not present in that number if both the ands are sane
+ *    for more info u can look to the problem D of educational codeforces round 134
+ *    in that problem what i did was i was checking for the jth bit is present in the xor of 2 numbers or not
+ *    i simply did the above stated
+ *
+ *
+ *    ------------------IMPORTANT-----------------------
+ * at 1 pe kya hoga wo case bhi soch lo
+ * -------custom comparator to use in set or multiset or map or multimap--------
+ *
+ *      set<data_type,decltype(cmp)>name_of_the_set(cmp)
+ *     here cmp is the custom comparator
+ *
+ * at 1 pe kya hoga wo case bhi soch lo
+ * if u want to find the sum of diffrence for all possible 2 pairs its brute would be n^2
+       but with some maths u can see that every diffrence is used in total number of its before edges and after edges
+       i.e  diff*i*(n-1)
+ * mod wala funda kaam na kre to prefix and suffix lga do
+ * when u are not able to decide which one to remove then the answer is simply iterate and find the max/min answer for each index
+ * if u have to make array increasing by adding 1 to subarray then sum of diffrences(which have to increased) is the answer
+ * whenever i want to find the position of first number greater than
+     my number then it is good to store all pos of first greater number in prefix
+     ans this will help us to achieve our goal
+ * sbse pehle question dobara padho sir
+ *
+ * about lambda function
+ *          auto nameOFfunction = [&](what to pass , auto&& nameOFfunction)-> return type{
+ *                                  body};
+ *
+ *
+ * if u r multiplying and u have to find equal multipy then u can take 1st and last everytime
+ * nlog(log(n)) bhi soch lo sir like jha multiples ka case aya wha pe seive of erathosthenisis ka concept lga do
+ * a+b = a^b + 2*a&b
+ * a+b = a|b + a&b
+ * special cases (n=1?)/ odd/even index
+ * sir square wala bhi soch lo
+ * follow the basics koi nya try kr rha hai toh uske primitive try kr
+ * XOR --> ALWAYS TRY 45132
+ */
 int32_t main()
 {
     // freopen("input.txt", "r", stdin);
@@ -652,8 +481,7 @@ int32_t main()
     cerr << fixed << setprecision(10);
     auto start = std::chrono::high_resolution_clock::now();
     int n = 1;
-    cin >> n;
-    preNCR();
+    // cin >> n;
     for (int i = 1; i <= n; i++)
     {
         solve(i);

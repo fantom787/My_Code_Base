@@ -70,6 +70,8 @@ using ld = long double;
              << " ";                 \
     }
 #define hi cout << "hi" << endl
+#define NO cout << "NO" << endl
+#define YES cout << "YES" << endl
 // debug
 #define debug(x)       \
     cerr << #x << " "; \
@@ -262,7 +264,6 @@ void preNCR()
 {
     fact[0] = 1;
     fact[1] = 1;
-    inv_fact[0] = inv_fact[1] = modinv(1);
     for (int i = 2; i < N; i++)
     {
         fact[i] = i * fact[i - 1];
@@ -307,8 +308,7 @@ vector<int> getdiv(int n)
         if (n % i == 0)
         {
             ans.pb(i);
-            if (n / i != i)
-                ans.pb(n / i);
+            ans.pb(n / i);
         }
     }
     return ans;
@@ -331,7 +331,7 @@ vector<int> getprimefac(int n)
     return ans;
 }
 // get instant prime
-vector<int> sieve(int n)
+vector<ll> sieve(int n)
 {
     int *arr = new int[n + 1]();
     vector<ll> vect;
@@ -360,15 +360,119 @@ void invert(string &s)
 vector<pair<int, int>> dir = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
 
 /*/-----------------------------Code begins----------------------------------/*/
-// question padh lo sir pls
-// constraints bhi dekh lo sir pls
 void solve(int testcase)
 {
     // kickstart(testcase);
     // debug(testcase);
-    cout << npr(1000, 10) << endl;
+    //-----------dp[i] smallest element of the LIS that ends at length i
+    int n;
+    cin >> n;
+    vector<int> a(n);
+    cin >> a;
+    vector<int> dp(n + 10, INF);
+    for (auto it : a)
+    {
+        int i = lower_bound(all(dp), v) - dp.begin();
+        dp[i] = min(dp[i], it);
+    }
+    int ans = lower_bound(all(dp), INF) - dp.begin() - 1;
+    cout << ans << endl;
+
+    //------------- dp[i] length of the longest subsequence that ends at ith element----------
+    /*
+    int n;
+    cin >> n;
+    vector<int> a(n);
+    cin >> a;
+    vector<int> dp(n + 10, 1);
+    map<int, int> mp;
+    auto f = [&](int val) -> int
+    {
+        if (!sz(mp))
+        {
+            return 0;
+        }
+        auto lb = mp.lower_bound(val);
+        if (lb == mp.begin())
+        {
+            return 0;
+        }
+        lb--;
+        return lb->S;
+    };
+    auto add = [&](int val, int ben) -> void
+    {
+        mp[val] = ben;
+        auto lb = mp.lower_bound(val);
+        lb++;
+        while (1)
+        {
+            if (!sz(mp) || lb == mp.end() || (lb->S > ben))
+            {
+                break;
+            }
+            auto lb1 = lb;
+            lb = next(lb);
+            mp.erase(lb1);
+        }
+    };
+    for (int i = 0; i < n; i++)
+    {
+        dp[i] += f(a[i]);
+        add(a[i], dp[i]);
+    }
+    int ans = 0;
+    for (int i = 0; i < n; i++)
+    {
+        ans = max(ans, dp[i]);
+    }
+    cout << ans << endl;
+    */
 }
 
+/* stuff you should look for
+ *    ------------------IMPORTANT-----------------------
+ *    when u have to check that a bit is present in both the numbers after doing their xor then simply take and with the first number
+ *    and take and with the not of second number as if the bit is present in both then theri xor will be zero so taking not will erase
+ *    the set bits in b  and taking and with it prooves that this bit was not present in that number if both the ands are sane
+ *    for more info u can look to the problem D of educational codeforces round 134
+ *    in that problem what i did was i was checking for the jth bit is present in the xor of 2 numbers or not
+ *    i simply did the above stated
+ *
+ *
+ *    ------------------IMPORTANT-----------------------
+ * at 1 pe kya hoga wo case bhi soch lo
+ * -------custom comparator to use in set or multiset or map or multimap--------
+ *
+ *      set<data_type,decltype(cmp)>name_of_the_set(cmp)
+ *     here cmp is the custom comparator
+ *
+ * at 1 pe kya hoga wo case bhi soch lo
+ * if u want to find the sum of diffrence for all possible 2 pairs its brute would be n^2
+       but with some maths u can see that every diffrence is used in total number of its before edges and after edges
+       i.e  diff*i*(n-1)
+ * mod wala funda kaam na kre to prefix and suffix lga do
+ * when u are not able to decide which one to remove then the answer is simply iterate and find the max/min answer for each index
+ * if u have to make array increasing by adding 1 to subarray then sum of diffrences(which have to increased) is the answer
+ * whenever i want to find the position of first number greater than
+     my number then it is good to store all pos of first greater number in prefix
+     ans this will help us to achieve our goal
+ * sbse pehle question dobara padho sir
+ *
+ * about lambda function
+ *          auto nameOFfunction = [&](what to pass , auto&& nameOFfunction)-> return type{
+ *                                  body};
+ *
+ *
+ * if u r multiplying and u have to find equal multipy then u can take 1st and last everytime
+ * nlog(log(n)) bhi soch lo sir like jha multiples ka case aya wha pe seive of erathosthenisis ka concept lga do
+ * a+b = a^b + 2*a&b
+ * a+b = a|b + a&b
+ * special cases (n=1?)/ odd/even index
+ * sir square wala bhi soch lo
+ * follow the basics koi nya try kr rha hai toh uske primitive try kr
+ * XOR --> ALWAYS TRY 45132
+ */
 int32_t main()
 {
     // freopen("input.txt", "r", stdin);
@@ -382,7 +486,6 @@ int32_t main()
     auto start = std::chrono::high_resolution_clock::now();
     int n = 1;
     // cin >> n;
-    preNCR();
     for (int i = 1; i <= n; i++)
     {
         solve(i);
