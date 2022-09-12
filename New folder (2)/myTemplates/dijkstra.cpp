@@ -16,7 +16,7 @@ struct dijkstra
         edges = vector<vector<pair<ll, int>>>(n + 10);
     }
 
-    void edge(int a, int b, ll wt)
+    void edge(int a, int b, int wt)
     {
         edges[a].push_back(make_pair(wt, b));
         edges[b].push_back(make_pair(wt, a));
