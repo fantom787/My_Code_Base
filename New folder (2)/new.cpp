@@ -1,12 +1,3 @@
-/*
-    Author: Ambuj Kumar(fantom787)
-    If it works, don't touch it.
-----------------------All Links -------------------------
- Linkedin: https://www.linkedin.com/in/ambuj-kumar-88b614203/
- Codeforces: https://codeforces.com/profile/fantom787
- Codechef: https://www.codechef.com/users/ambuj787
-*/
-
 // Pragmas
 #pragma GCC optimize("O3,unroll-loops")
 #pragma GCC target("avx2")
@@ -34,6 +25,8 @@ using ordered_map = tree<key, value, cmp, rb_tree_tag, tree_order_statistics_nod
 /* min heap*/
 template <class T>
 using min_heap = priority_queue<T, vector<T>, greater<T>>;
+template <class T>
+using max_heap = priority_queue<T>;
 
 // Constants
 #define PI 3.1415926535
@@ -57,7 +50,7 @@ using ld = long double;
 #define msb(x) 63 - __builtin_clzll(x) // gives the most significant bit of the number
 #define sz(x) (int)x.size()
 #define F first
-#define acc(x) accumulate(all(x), 0ll)
+#define acc accumulate
 #define S second
 #define getunique(v)                                  \
     {                                                 \
@@ -334,7 +327,7 @@ vector<int> getprimefac(int n)
 vector<int> sieve(int n)
 {
     int *arr = new int[n + 1]();
-    vector<ll> vect;
+    vector<int> vect;
     for (int i = 2; i <= n; i++)
         if (arr[i] == 0)
         {
@@ -362,11 +355,14 @@ vector<pair<int, int>> dir = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
 /*/-----------------------------Code begins----------------------------------/*/
 // question padh lo sir pls
 // constraints bhi dekh lo sir pls
+// have trust on urself jo tu kr rha hai best approach hai
+// aur sir pls shortcut ke chakkar me ghode mat lagwao hackercup nikal gya haath se uski wajah se
+// sir jo dimag me testcase ara hai uspe chala ke dekh lo 1 baar code
 void solve(int testcase)
 {
     // kickstart(testcase);
     // debug(testcase);
-    cout << npr(1000, 10) << endl;
+    cout << gcd(5101, 10202) << endl;
 }
 
 int32_t main()
@@ -382,7 +378,6 @@ int32_t main()
     auto start = std::chrono::high_resolution_clock::now();
     int n = 1;
     // cin >> n;
-    preNCR();
     for (int i = 1; i <= n; i++)
     {
         solve(i);

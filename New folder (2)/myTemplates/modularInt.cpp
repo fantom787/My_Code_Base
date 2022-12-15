@@ -1,11 +1,3 @@
-/*
-    Author: Ambuj Kumar(fantom787)
-    If it works, don't touch it.
-----------------------All Links -------------------------
- Linkedin: https://www.linkedin.com/in/ambuj-kumar-88b614203/
- Codeforces: https://codeforces.com/profile/fantom787
- Codechef: https://www.codechef.com/users/ambuj787
-*/
 
 // Pragmas
 #pragma GCC optimize("O3,unroll-loops")
@@ -34,6 +26,8 @@ using ordered_map = tree<key, value, cmp, rb_tree_tag, tree_order_statistics_nod
 /* min heap*/
 template <class T>
 using min_heap = priority_queue<T, vector<T>, greater<T>>;
+template <class T>
+using max_heap = priority_queue<T>;
 
 // Constants
 #define PI 3.1415926535
@@ -56,7 +50,7 @@ using ld = long double;
 #define msb(x) 63 - __builtin_clzll(x) // gives the most significant bit of the number
 #define sz(x) (int)x.size()
 #define F first
-#define acc(x) accumulate(all(x), 0ll)
+#define acc accumulate
 #define S second
 #define getunique(v)                                  \
     {                                                 \
@@ -248,7 +242,6 @@ int modpow(int x, int n)
     return res;
 }
 
-
 /*--------------- Seive -----------------------*/
 // Get All The Divisors Of That Number
 vector<int> getdiv(int n)
@@ -269,16 +262,21 @@ vector<int> getdiv(int n)
 vector<int> getprimefac(int n)
 {
     vector<int> ans;
+    int nn = n;
     for (int i = 2; i * i <= n; i++)
     {
-        if (n % i == 0)
+        if (nn % i == 0)
         {
-            while (n % i == 0)
+            ans.pb(i);
+            while (nn % i == 0)
             {
-                n /= i;
-                ans.pb(i);
+                nn /= i;
             }
         }
+    }
+    if (nn > 1)
+    {
+        ans.pb(nn);
     }
     return ans;
 }
@@ -286,7 +284,7 @@ vector<int> getprimefac(int n)
 vector<int> sieve(int n)
 {
     int *arr = new int[n + 1]();
-    vector<ll> vect;
+    vector<int> vect;
     for (int i = 2; i <= n; i++)
         if (arr[i] == 0)
         {
@@ -637,7 +635,6 @@ void solve(int testcase)
 {
     // kickstart(testcase);
     // debug(testcase);
-
 }
 
 int32_t main()
