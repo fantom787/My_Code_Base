@@ -1,0 +1,93 @@
+.menu-header {
+  font-size: 6vh;
+  margin-top: -0.2vh;
+  border-radius: 1.5vh 1.5vh 0 0;
+  height: 8vh;
+  line-height: 8vh;
+  vertical-align: middle;
+  text-align: center;
+  background-color: #454A54;
+  color: white;
+}
+
+.game-pause {
+  position: relative;
+  display: flex;
+  grid-column: 1;
+  grid-row: 1;
+  z-index: 2;
+
+  height: var(--board-length);
+  width: var(--board-length);
+  background:rgba(128, 128, 128, 0.5);
+}
+
+.game-menu {
+  height: 50vh;
+  width: 70vh;
+  border-radius: 1.5vh;
+  box-shadow: 3vh 4vh 2vh rgba(128, 128, 128, 0.8);
+
+  background-color: white;
+  margin: auto;
+  align-items: center;
+}
+
+.game-menu > div {
+  height: 50vh;
+  width: 70vh;
+  display: none;
+}
+
+.description {
+  margin: 0 5vh;
+  margin-top: 6vh;
+  font-size: 2.5vh;
+}
+
+.title {
+  margin: 0 5vh;
+  margin-top: 3vh;
+  font-size: 5vh;
+  font-weight: bold;
+  text-align: center;
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.back {
+  display: none;
+  position: absolute;
+  bottom: 2vh;
+  right: 2vh;
+}
+
+
+.colors > img {
+  cursor: pointer;
+  height: 20vh;
+  width: 20vh;
+  margin: 5vh;
+}
+
+#start-game {
+  display: inline;
+}
+
+.promotion-images {
+  --promotion-image-size: 15vh;
+  display: flex;
+  width: 60vh;
+  height: var(--promotion-image-size);
+  margin: 10vh auto;
+}
+
+.promotion-images > img {
+  cursor: pointer;
+  height: var(--promotion-image-size);
+  width: var(--promotion-image-size);
+}

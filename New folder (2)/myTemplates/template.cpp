@@ -63,88 +63,6 @@ using ld = long double;
              << " ";                 \
     }
 #define hi cout << "hi" << endl
-// debug
-#define debug(x)       \
-    cerr << #x << " "; \
-    _print(x);         \
-    cerr << endl;
-void _print(int t)
-{
-    cerr << t;
-}
-void _print(string t) { cerr << t; }
-void _print(char t) { cerr << t; }
-void _print(ld t) { cerr << t; }
-void _print(double t) { cerr << t; }
-void _print(ull t) { cerr << t; }
-
-template <class T, class V>
-void _print(pair<T, V> p);
-template <class T>
-void _print(vector<T> v);
-template <class T>
-void _print(set<T> v);
-template <class T, class V>
-void _print(map<T, V> v);
-template <class T>
-void _print(multiset<T> v);
-template <class T, class V>
-void _print(pair<T, V> p)
-{
-    cerr << "{";
-    _print(p.F);
-    cerr << ",";
-    _print(p.S);
-    cerr << "}";
-}
-template <class T>
-void _print(vector<T> v)
-{
-    cerr << "[ ";
-    for (T i : v)
-    {
-        _print(i);
-        cerr << " ";
-    }
-    cerr << "]";
-    cerr << endl;
-}
-template <class T>
-void _print(set<T> v)
-{
-    cerr << "[ ";
-    for (T i : v)
-    {
-        _print(i);
-        cerr << " ";
-    }
-    cerr << "]";
-    cerr << endl;
-}
-template <class T>
-void _print(multiset<T> v)
-{
-    cerr << "[ ";
-    for (T i : v)
-    {
-        _print(i);
-        cerr << " ";
-    }
-    cerr << "]";
-    cerr << endl;
-}
-template <class T, class V>
-void _print(map<T, V> v)
-{
-    cerr << "[ ";
-    for (auto i : v)
-    {
-        _print(i);
-        cerr << " ";
-    }
-    cerr << "]";
-    cerr << endl;
-}
 
 // custom hash map
 struct custom_hash
@@ -248,15 +166,15 @@ int modinv(int x, int m = MOD)
 }
 
 // ncr i.e number of combinations
-const int N = 100005;
-int fact[N];
-int inv_fact[N];
+const int factN = 100005;
+int fact[factN];
+int inv_fact[factN];
 void preNCR()
 {
     fact[0] = 1;
     fact[1] = 1;
     inv_fact[0] = inv_fact[1] = modinv(1);
-    for (int i = 2; i < N; i++)
+    for (int i = 2; i < factN; i++)
     {
         fact[i] = i * fact[i - 1];
         fact[i] %= MOD;
@@ -367,6 +285,7 @@ void solve(int testcase)
 {
     // kickstart(testcase);
     // debug(testcase);
+    
 }
 
 int32_t main()

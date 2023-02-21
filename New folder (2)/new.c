@@ -2,9 +2,7 @@
 
 int main()
 {
-     int n = 110;
-     n+=7;
-     printf("%d",n);
+     printf("hello world");
       
      return 0;
 }

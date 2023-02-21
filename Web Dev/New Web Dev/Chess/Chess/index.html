@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Chess</title>
+  <meta charset='utf-8'>
+  <link rel="stylesheet" type="text/css" href="css/game-board.css">
+  <link rel="stylesheet" type="text/css" href="css/piece-background.css">
+  <link rel="stylesheet" type="text/css" href="css/menu.css">
+  <link rel="stylesheet" type="text/css" href="css/sidebars.css">
+  <link rel="stylesheet" type="text/css" href="css/buttons.css">
+  <link rel="icon" href="images/pieces/wk.png">
+</head>
+
+<body>
+  <div class="game">
+    <div class="left-sidebar">
+      <div class="tray"></div>
+    </div>
+    <div class="chess-board">
+      <div class="game-pause">
+        <div class="game-menu">
+          <div id="start-game">
+            <h1 class="menu-header">Begin Game</h1>
+            <p class="description">
+              Chess is a two-player strategy game, where each player must attempt to win by checkmating the opponent's
+              king,
+              achieved by pressuring the king under capture in an inescapable position.</p>
+            </p>
+            <div class="center">
+              <button class="btn" onclick="startGame('player')">Play 1v1</button>
+              <button class="btn" onclick="startGame('computer')">Play Computer</button>
+            </div>
+            <div class="center">
+              <button class="btn-small" onclick="compVsComp()">Watch AI vs AI</button>
+            </div>
+          </div>
+          <div class="color-choices">
+            <h1 class="menu-header">Choose a Color</h1>
+            <div class="center colors">
+              <img src="images/pieces/wk.png" onclick="playAs('w')">
+              <img src="images/pieces/bk.png" onclick="playAs('b')">
+            </div>
+          </div>
+          <div class="declare-winner">
+            <h1 class="menu-header winner-message"></h1>
+            <div class="title">Play Again</div>
+            </p>
+            <div class="center">
+              <button class="btn" onclick="startGame('player')">Play 1v1</button>
+              <button class="btn" onclick="startGame('computer')">Play Computer</button>
+            </div>
+            <div class="center" style="margin-top: 3vh;">
+              <button class="btn-small" onclick="compVsComp()">Watch AI vs AI</button>
+              <button class="btn-small" onclick="viewBoard()">View Board</button>
+            </div>
+          </div>
+          <div class="pawn-promotion">
+            <h1 class="menu-header">Promote your pawn</h1>
+            <div class="promotion-images">
+              <img alt="queen" src="images/pieces/wq.png" onclick="promotePawn('q')">
+              <img alt="rook" src="images/pieces/wr.png" onclick="promotePawn('r')">
+              <img alt="bishop" src="images/pieces/wb.png" onclick="promotePawn('b')">
+              <img alt="knight" src="images/pieces/wn.png" onclick="promotePawn('n')">
+            </div>
+          </div>
+        </div>
+        <button class="btn-small back" onclick="displayMenu('.declare-winner')">Back</button>
+      </div>
+      <div class="board">
+      </div>
+    </div>
+    <div class="right-sidebar">
+      <div class="tray"></div>
+    </div>
+  </div>
+  <div class="center">
+    <button class="btn-danger" onclick="resign()">Resign</button>
+    <button class="btn-neutral" onclick="draw()">Offer Draw</button>
+  </div>
+  <script type="text/javascript" src="js/json/positional-evaluation.json"></script>
+  <script src="js/classes.js"></script>
+  <script src="js/ai-algorithm.js"></script>
+  <script src="js/index.js"></script>
+</body>
+
+</html>
