@@ -63,88 +63,6 @@ using ld = long double;
              << " ";                 \
     }
 #define hi cout << "hi" << endl
-// debug
-#define debug(x)       \
-    cerr << #x << " "; \
-    _print(x);         \
-    cerr << endl;
-void _print(int t)
-{
-    cerr << t;
-}
-void _print(string t) { cerr << t; }
-void _print(char t) { cerr << t; }
-void _print(ld t) { cerr << t; }
-void _print(double t) { cerr << t; }
-void _print(ull t) { cerr << t; }
-
-template <class T, class V>
-void _print(pair<T, V> p);
-template <class T>
-void _print(vector<T> v);
-template <class T>
-void _print(set<T> v);
-template <class T, class V>
-void _print(map<T, V> v);
-template <class T>
-void _print(multiset<T> v);
-template <class T, class V>
-void _print(pair<T, V> p)
-{
-    cerr << "{";
-    _print(p.F);
-    cerr << ",";
-    _print(p.S);
-    cerr << "}";
-}
-template <class T>
-void _print(vector<T> v)
-{
-    cerr << "[ ";
-    for (T i : v)
-    {
-        _print(i);
-        cerr << " ";
-    }
-    cerr << "]";
-    cerr << endl;
-}
-template <class T>
-void _print(set<T> v)
-{
-    cerr << "[ ";
-    for (T i : v)
-    {
-        _print(i);
-        cerr << " ";
-    }
-    cerr << "]";
-    cerr << endl;
-}
-template <class T>
-void _print(multiset<T> v)
-{
-    cerr << "[ ";
-    for (T i : v)
-    {
-        _print(i);
-        cerr << " ";
-    }
-    cerr << "]";
-    cerr << endl;
-}
-template <class T, class V>
-void _print(map<T, V> v)
-{
-    cerr << "[ ";
-    for (auto i : v)
-    {
-        _print(i);
-        cerr << " ";
-    }
-    cerr << "]";
-    cerr << endl;
-}
 
 // custom hash map
 struct custom_hash
@@ -367,57 +285,9 @@ void solve(int testcase)
 {
     // kickstart(testcase);
     // debug(testcase);
-    int n, w;
-    cin >> n >> w;
-    vector<array<int, 2>> a(n);
-    for (int i = 0; i < n; i++)
-    {
-        cin >> a[i][0] >> a[i][1];
-    }
-    const int mx = 1e5 + 10;
-    vector<vector<int>> dp(n + 1, vector<int>(mx, INF));
-    for (int i = 0; i < n; i++)
-    {
-        dp[i][0] = 0;
-    }
-    // dp[i][x] = min weight till idx i with value x
-    dp[0][a[0][1]] = a[0][0];
-    for (int i = 1; i < n; i++)
-    {
-        for (int j = 1; j < mx; j++)
-        {
-            int op1 = INF, op2 = INF;
-            // take
-            if (j - a[i][1] >= 0)
-            {
-                op1 = dp[i - 1][j - a[i][1]] + a[i][0];
-            }
-            if (i - 1 >= 0)
-                op2 = dp[i - 1][j];
-            dp[i][j] = min(op1, op2);
-        }
-    }
-    int ans = 0;
-    for (int i = 0; i < n; i++)
-    {
-        // cout << "i: " << i << endl;
-        for (int j = 0; j < mx; j++)
-        {
-            // cout << "j: " << j << " dp: " << dp[i][j] << endl;
-            if (dp[i][j] <= w)
-            {
-                ans = max(ans, j);
-            }
-        }
-    }
-    for (int i = 1; i < mx; i++)
-    {
-        if (dp[n][i] <= w)
-        {
-            ans = max(ans, i);
-        }
-    }
-    cout << ans << endl;
+    int n,d;
+    cin>>n>>d;
+    
 }
 
 int32_t main()
