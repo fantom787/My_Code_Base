@@ -285,7 +285,6 @@ void solve(int testcase)
 {
     // kickstart(testcase);
     // debug(testcase);
-    
 }
 
 int32_t main()
