@@ -1,0 +1,1 @@
+{"name":"Local: c","url":"c:\\Users\\ambuj\\Desktop\\coding\\New folder (2)\\c.cpp","tests":[{"id":1677614307405,"input":"4\n3 11\n13 37\n1 22\n4 100\n","output":"2 4\n2 6\n5 1\n5 7\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\ambuj\\Desktop\\coding\\New folder (2)\\c.cpp","group":"local","local":true}

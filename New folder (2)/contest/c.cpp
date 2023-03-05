@@ -281,77 +281,39 @@ vector<pair<int, int>> dir = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
 // have trust on urself jo tu kr rha hai best approach hai
 // aur sir pls shortcut ke chakkar me ghode mat lagwao hackercup nikal gya haath se uski wajah se
 // sir jo dimag me testcase ara hai uspe chala ke dekh lo 1 baar code
-const long long mod = 1e9 + 7;
-
-long long binExp(long long a, long long b, long long m)
-{
-
-    long long res = 1, mul = a;
-
-    while (b != 0)
-    {
-
-        if (b & 1)
-            res = (res * mul) % mod;
-
-        mul = (mul * mul) % m;
-        b >>= 1;
-    }
-
-    return res;
-}
-int x(int a)
-{
-
-    vector<int> res(a + 1), val(a + 1);
-    long long total = 0;
-
-    for (int i = 2; i <= a; i++)
-    {
-
-        long long curTotal = 0, factCnt = 0;
-
-        for (int j = 1; j * j <= i; j++)
-        {
-
-            if (i % j == 0)
-            {
-
-                if (j != 1)
-                {
-
-                    curTotal = (curTotal + 1) % mod;
-                    curTotal = (curTotal + val[j]) % mod;
-
-                    factCnt++;
-                }
-
-                if (i / j != j)
-                {
-
-                    curTotal = (curTotal + 1) % mod;
-                    if (j != 1)
-                        curTotal = (curTotal + val[i / j]) % mod;
-
-                    factCnt++;
-                }
-            }
-        }
-
-        curTotal = (curTotal * binExp(factCnt, mod - 2, mod)) % mod;
-        total = (total + curTotal) % mod;
-
-        val[i] = curTotal;
-        res[i] = (total * binExp(i, mod - 2, mod)) % mod;
-    }
-
-    return res[a];
-}
 void solve(int testcase)
 {
     // kickstart(testcase);
     // debug(testcase);
-    cout << x(2) << endl;
+    int l, r;
+    cin >> l >> r;
+    auto f = [&](int n, int k) -> int
+    {
+        int cnt = 0;
+        while (n < r)
+        {
+            cnt++;
+            n *= k;
+        }
+        return cnt;
+    };
+    int cnt = f(l, 2);
+    int ans = 0;
+    for (int i = l; i <= r; i++)
+    {
+        int x = f(i, 2);
+        if (x < cnt)
+        {
+            break;
+        }
+        ans++;
+        x = f(i * 3, 2);
+        if (x == cnt - 1)
+        {
+            ans++;
+        }
+    }
+    cout << cnt << " " << ans << endl;
 }
 
 int32_t main()
