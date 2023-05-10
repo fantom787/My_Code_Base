@@ -281,189 +281,18 @@ vector<pair<int, int>> dir = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
 // have trust on urself jo tu kr rha hai best approach hai
 // aur sir pls shortcut ke chakkar me ghode mat lagwao hackercup nikal gya haath se uski wajah se
 // sir jo dimag me testcase ara hai uspe chala ke dekh lo 1 baar code
-
-struct my_node
-{
-    int v = 0;
-    // use more variables if you want more information
-    // these default values should be identity_element
-    my_node() {}
-    my_node(char c)
-    {
-        v |= (1ll << (c - 'a'));
-    }
-    void merge(const my_node &l, const my_node &r)
-    {
-        v = l.v | r.v;
-    }
-};
-
-// example: add on a range: identity transformation = 0
-// old += new
-
-// if old is identity which is 0, then 0 + new which new
-
-struct my_update
-{
-    int v = 0; // 4
-    // use more variables if you want more information
-    // these default values should be identity_transformation
-    my_update() {}
-    my_update(char c)
-    {
-        v |= (1ll << (c - 'a'));
-    }
-    // combine the current my_update with the other my_update (see keynotes)
-    // like if there is already a update in the lazy but now new update happens
-    // then how would u now change should be written in this funtion
-    void combine(my_update &other, const int32_t &tl, const int32_t &tr)
-    {
-        v = other.v;
-    }
-    // store the correct information in the my_node x
-    void apply(my_node &x, const int32_t &tl, const int32_t &tr)
-    {
-        x.v = v;
-    }
-};
-
-template <typename node, typename update>
-struct segtree
-{
-    int len;
-    vector<node> t;
-    vector<update> u;
-    vector<bool> lazy;
-    node identity_element;
-    update identity_transformation;
-    segtree(int l)
-    {
-        len = l;
-        t.resize(4 * len);
-        u.resize(4 * len);
-        lazy.resize(4 * len);
-        identity_element = node();
-        identity_transformation = update();
-    }
-
-    void pushdown(const int32_t &v, const int32_t &tl, const int32_t &tr)
-    {
-        if (!lazy[v])
-            return;
-        int32_t tm = (tl + tr) >> 1;
-        apply(v << 1, tl, tm, u[v]);
-        apply(v << 1 | 1, tm + 1, tr, u[v]);
-        u[v] = identity_transformation;
-        lazy[v] = 0;
-    }
-
-    void apply(const int32_t &v, const int32_t &tl, const int32_t &tr, update upd)
-    {
-        if (tl != tr)
-        {
-            lazy[v] = 1;
-            u[v].combine(upd, tl, tr);
-        }
-        upd.apply(t[v], tl, tr);
-    }
-
-    template <typename T>
-    void build(const T &arr, const int32_t &v, const int32_t &tl, const int32_t &tr)
-    {
-        if (tl == tr)
-        {
-            t[v] = arr[tl];
-            return;
-        }
-        int32_t tm = (tl + tr) >> 1;
-        build(arr, v << 1, tl, tm);
-        build(arr, v << 1 | 1, tm + 1, tr);
-        t[v].merge(t[v << 1], t[v << 1 | 1]);
-    }
-
-    node query(const int32_t &v, const int32_t &tl, const int32_t &tr, const int32_t &l, const int32_t &r)
-    {
-        if (l > tr || r < tl)
-        {
-            return identity_element;
-        }
-        if (tl >= l && tr <= r)
-        {
-            return t[v];
-        }
-        pushdown(v, tl, tr);
-        int32_t tm = (tl + tr) >> 1;
-        node a = query(v << 1, tl, tm, l, r), b = query(v << 1 | 1, tm + 1, tr, l, r), ans;
-        ans.merge(a, b);
-        return ans;
-    }
-
-    // rupd = range update
-    void rupd(const int32_t &v, const int32_t &tl, const int32_t &tr, const int32_t &l, const int32_t &r, const update &upd)
-    {
-        if (l > tr || r < tl)
-        {
-            return;
-        }
-        if (tl >= l && tr <= r)
-        {
-            apply(v, tl, tr, upd);
-            return;
-        }
-        pushdown(v, tl, tr);
-        int32_t tm = (tl + tr) >> 1;
-        rupd(v << 1, tl, tm, l, r, upd);
-        rupd(v << 1 | 1, tm + 1, tr, l, r, upd);
-        t[v].merge(t[v << 1], t[v << 1 | 1]);
-    }
-
-public:
-    template <typename T>
-    void build(const T &arr)
-    {
-        build(arr, 1, 0, len - 1);
-    }
-    node query(const int32_t &l, const int32_t &r)
-    {
-        return query(1, 0, len - 1, l, r);
-    }
-    void rupd(const int32_t &l, const int32_t &r, const update &upd)
-    {
-        rupd(1, 0, len - 1, l, r, upd);
-    }
-};
-
 void solve(int testcase)
 {
     // kickstart(testcase);
     // debug(testcase);
+    int n;
+    cin>>n;
     string s;
-    cin >> s;
-    int n = sz(s);
-    segtree<my_node, my_update> sg(n);
-    sg.build(s);
-    int q;
-    cin >> q;
-    while (q--)
-    {
-        int t;
-        cin >> t;
-        if (t == 1)
-        {
-            int pos;
-            char c;
-            cin >> pos >> c;
-            pos--;
-            sg.rupd(pos, pos, my_update(c));
-        }
-        else
-        {
-            int l, r;
-            cin >> l >> r;
-            l--, r--;
-            cout << ppcll(sg.query(l, r).v) << endl;
-        }
-    }
+    cin>>s;
+    int m;
+    cin>>m;
+    
+    
 }
 
 int32_t main()
@@ -478,7 +307,7 @@ int32_t main()
     cerr << fixed << setprecision(10);
     auto start = std::chrono::high_resolution_clock::now();
     int n = 1;
-    // cin >> n;
+    cin >> n;
     for (int i = 1; i <= n; i++)
     {
         solve(i);
