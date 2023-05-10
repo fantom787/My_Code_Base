@@ -7,6 +7,15 @@ struct lca_lift
     vector<int> depth;
     vector<int> parent;
 
+    void init(vector<vector<int>> e)
+    {
+        n = sz(e);
+        edges = e;
+        up = vector<vector<int>>(n + 10, vector<int>(log));
+        depth = vector<int>(n + 10);
+        parent = vector<int>(n + 10);
+    }
+
     void init(int sz)
     {
         n = sz;

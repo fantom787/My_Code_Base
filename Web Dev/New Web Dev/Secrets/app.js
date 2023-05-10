@@ -6,6 +6,8 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const findOrCreate = require("mongoose-findorcreate");
 
 const app = express();
 app.use(express.static("public"));
@@ -29,12 +31,16 @@ mongoose
   })
   .then(() => console.log("Connection Sucessfull..."))
   .catch((err) => console.log(err));
+// mongoose.set("useCreateIndex", true);
+mongoose.set("strictQuery", true);
 
 const userSchema = new mongoose.Schema({
   email: String,
   password: String,
 });
+
 userSchema.plugin(passportLocalMongoose);
+userSchema.plugin(findOrCreate);
 const User = new mongoose.model("User", userSchema);
 
 passport.use(User.createStrategy());
@@ -42,9 +48,31 @@ passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
+      callbackURL: "http://localhost:3000/auth/google/secrets",
+      // userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
+    },
+    function (accessToken, refreshToken, profile, cb) {
+      User.findOrCreate({ googleId: profile.id }, function (err, user) {
+        return cb(err, user);
+      });
+    }
+  )
+);
+
 app.get("/", function (req, res) {
   res.render("home");
 });
+
+app.get("/auth/google", function (req, res) {
+  console.log("hi");
+  passport.authenticate("google", { scope: ["profile"] });
+});
+
 app.get("/login", function (req, res) {
   res.render("login");
 });
@@ -111,3 +139,6 @@ if (port == null || port == "") {
 app.listen(port, function () {
   console.log("Server started on port 3000");
 });
+/*http://localhost:3000/auth/google/secrets */
+//client id-828223384625-bfollksboke7jtoisri9ar7uckuapvm0.apps.googleusercontent.com
+//client secret - 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
