@@ -52,6 +52,7 @@ using ld = long double;
 #define F first
 #define acc accumulate
 #define S second
+#define amax(a, b) a = max(a, b)
 #define getunique(v)                                  \
     {                                                 \
         sort(v.begin(), v.end());                     \
