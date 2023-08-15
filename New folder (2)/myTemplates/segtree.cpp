@@ -13,7 +13,114 @@ ALWAYS: older_update.combine(newer_update)
 
 // a + 0 = a or 0 + a = a
 */
+
+// ****************************************************************
 // min(x,INF) = x
+/*
+	for max
+	struct my_node
+{
+	int a=0;
+	my_node() {}
+	my_node(int val)
+	{
+		a=val;
+	}
+	void merge(const my_node &l, const my_node &r)
+	{
+		a=max(l.a,r.a);
+	}
+};
+struct my_update
+{
+	int v = 0; // 4
+	my_update() {}
+	my_update(int val)
+	{
+		v = val; // 5
+	}
+	void combine(my_update &other, const int32_t &tl, const int32_t &tr)
+	{
+		v = other.v; // 6
+	}
+	void apply(my_node &x, const int32_t &tl, const int32_t &tr)
+	{
+		x.a=v;
+	}
+};
+
+*/
+
+/*
+	for min
+	struct my_node
+{
+	int a=0;
+	my_node() {}
+	my_node(int val)
+	{
+		a=val;
+	}
+	void merge(const my_node &l, const my_node &r)
+	{
+		a=min(l.a,r.a);
+	}
+};
+struct my_update
+{
+	int v = 0; // 4
+	my_update() {}
+	my_update(int val)
+	{
+		v = val; // 5
+	}
+	void combine(my_update &other, const int32_t &tl, const int32_t &tr)
+	{
+		v = other.v; // 6
+	}
+	void apply(my_node &x, const int32_t &tl, const int32_t &tr)
+	{
+		x.a=v;
+	}
+};
+
+*/
+
+/*
+	for sum
+	struct my_node
+{
+	int a=0;
+	my_node() {}
+	my_node(int val)
+	{
+		a=val;
+	}
+	void merge(const my_node &l, const my_node &r)
+	{
+		a=l.a+r.a;
+	}
+};
+struct my_update
+{
+	int v = 0; // 4
+	my_update() {}
+	my_update(int val)
+	{
+		v = val; // 5
+	}
+	void combine(my_update &other, const int32_t &tl, const int32_t &tr)
+	{
+		v += other.v; // 6
+	}
+	void apply(my_node &x, const int32_t &tl, const int32_t &tr)
+	{
+		x.a=v*(r-l+1);
+	}
+};
+
+*/
+
 struct my_node
 {
 	int mn = INF;
