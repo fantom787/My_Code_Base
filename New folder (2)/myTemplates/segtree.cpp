@@ -20,7 +20,7 @@ ALWAYS: older_update.combine(newer_update)
 	for max
 	struct my_node
 {
-	int a=0;
+	int a=-INF;
 	my_node() {}
 	my_node(int val)
 	{
@@ -55,7 +55,7 @@ struct my_update
 	for min
 	struct my_node
 {
-	int a=0;
+	int a=INF;
 	my_node() {}
 	my_node(int val)
 	{
