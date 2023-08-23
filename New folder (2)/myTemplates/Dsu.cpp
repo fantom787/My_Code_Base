@@ -43,8 +43,8 @@ struct dsu
 
         siz[lable[v]] += siz[lable[u]];
         siz[lable[u]] = 0;
-        relable(u, lable[v]);
         nedges[lable[v]] += nedges[lable[u]];
+        relable(u, lable[v]);
         comp--;
         return 1;
     }

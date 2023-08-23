@@ -111,7 +111,7 @@ struct my_update
 	}
 	void combine(my_update &other, const int32_t &tl, const int32_t &tr)
 	{
-		v += other.v; // 6
+		v = other.v; // 6
 	}
 	void apply(my_node &x, const int32_t &tl, const int32_t &tr)
 	{

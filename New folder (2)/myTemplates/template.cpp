@@ -53,6 +53,7 @@ using ld = long double;
 #define acc accumulate
 #define S second
 #define amax(a, b) a = max(a, b)
+#define amin(a, b) a = min(a, b)
 #define getunique(v)                                  \
     {                                                 \
         sort(v.begin(), v.end());                     \
@@ -65,27 +66,6 @@ using ld = long double;
     }
 #define hi cout << "hi" << endl
 
-// custom hash map
-struct custom_hash
-{
-    static uint64_t splitmix64(uint64_t x)
-    {
-        // Credits: https://codeforces.com/blog/entry/62393
-        // http://xorshift.di.unimi.it/splitmix64.c
-        x += 0x9e3779b97f4a7c15;
-        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
-        x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
-        return x ^ (x >> 31);
-    }
-
-    size_t operator()(uint64_t x) const
-    {
-        static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();
-        return splitmix64(x + FIXED_RANDOM);
-    }
-};
-template <typename T1, typename T2> // Key should be integer type
-using safe_map = unordered_map<T1, T2, custom_hash>;
 
 // Operator overloads
 template <typename T1, typename T2> // cin >> pair<T1, T2>
@@ -114,174 +94,9 @@ ostream &operator<<(ostream &ostream, const vector<T> &c)
         cout << it << " ";
     return ostream;
 }
-// Mathematical functions
-int gcd(int a, int b)
-{
-    while (b)
-    {
-        a %= b;
-        swap(a, b);
-    }
-    return a;
-}
-
-int gcdX(int a, int b, int &x, int &y) // gcd extended
-{
-    x = 1, y = 0;
-    int x1 = 0, y1 = 1, a1 = a, b1 = b;
-    while (b1)
-    {
-        int q = a1 / b1;
-        tie(x, x1) = make_tuple(x1, x - q * x1);
-        tie(y, y1) = make_tuple(y1, y - q * y1);
-        tie(a1, b1) = make_tuple(b1, a1 - q * b1);
-    }
-    return a1;
-}
-
-int lcm(int a, int b)
-{
-    return ((ll)a * b) / gcd(a, b);
-}
-// modular exponentiation
-int modpow(int x, int n, int m = MOD)
-{
-    if (x == 0 && n == 0)
-        return 0; // undefined case
-    int res = 1;
-    while (n)
-    {
-        if (n & 1)
-        {
-            res = ((res % m) * (x % m)) % m;
-        }
-        x = ((x % m) * (x % m)) % m;
-        n >>= 1;
-    }
-    return res;
-}
-
-int modinv(int x, int m = MOD)
-{
-    return modpow(x, m - 2, m);
-}
-
-// ncr i.e number of combinations
-const int factN = 100005;
-int fact[factN];
-int inv_fact[factN];
-void preNCR()
-{
-    fact[0] = 1;
-    fact[1] = 1;
-    inv_fact[0] = inv_fact[1] = modinv(1);
-    for (int i = 2; i < factN; i++)
-    {
-        fact[i] = i * fact[i - 1];
-        fact[i] %= MOD;
-        inv_fact[i] = modinv(fact[i]);
-    }
-}
-int ncr(int n, int r)
-{
-    if (n < r)
-    {
-        return 0;
-    }
-    int ans = fact[n];
-    ans %= MOD;
-    ans *= inv_fact[r];
-    ans %= MOD;
-    ans *= inv_fact[n - r];
-    ans %= MOD;
-    return ans;
-}
-int npr(int n, int r)
-{
-    if (n < r)
-    {
-        return 0;
-    }
-    int ans = fact[n];
-    ans %= MOD;
-    ans *= inv_fact[n - r];
-    ans %= MOD;
-    return ans;
-}
-
-/*--------------- Seive -----------------------*/
-// Get All The Divisors Of That Number
-vector<int> getdiv(int n)
-{
-    vector<int> ans;
-    for (int i = 1; i * i <= n; i++)
-    {
-        if (n % i == 0)
-        {
-            ans.pb(i);
-            if (n / i != i)
-                ans.pb(n / i);
-        }
-    }
-    return ans;
-}
-// to get the prime factors of that number
-vector<int> getprimefac(int n)
-{
-    vector<int> ans;
-    int nn = n;
-    for (int i = 2; i * i <= n; i++)
-    {
-        if (nn % i == 0)
-        {
-            ans.pb(i);
-            while (nn % i == 0)
-            {
-                nn /= i;
-            }
-        }
-    }
-    if (nn > 1)
-    {
-        ans.pb(nn);
-    }
-    return ans;
-}
-// get instant prime
-vector<int> sieve(int n)
-{
-    int *arr = new int[n + 1]();
-    vector<int> vect;
-    for (int i = 2; i <= n; i++)
-        if (arr[i] == 0)
-        {
-            vect.push_back(i);
-            for (int j = i * i; j <= n; j += i)
-                arr[j] = 1;
-        }
-    return vect;
-}
-// to invert a binary string
-void invert(string &s)
-{
-    int n = sz(s);
-    for (int i = 0; i < n; i++)
-    {
-        s[i] ^= '0' ^ '1';
-    }
-}
-
-// Flags to use: -std=c++17 -O2 -DLOCAL_PROJECT -Wshadow -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC -fsanitize=address -fsanitize=undefined
-
-// Directions
 vector<pair<int, int>> dir = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
 
-/*/-----------------------------Code begins----------------------------------/*/
-// question padh lo sir pls
-// constraints bhi dekh lo sir pls
-// have trust on urself jo tu kr rha hai best approach hai
-// aur sir pls shortcut ke chakkar me ghode mat lagwao hackercup nikal gya haath se uski wajah se
-// sir jo dimag me testcase ara hai uspe chala ke dekh lo 1 baar code
+/* ----------------------------------Things get better by time, hope for the best-----------------*/
 void solve(int testcase)
 {
     // kickstart(testcase);
