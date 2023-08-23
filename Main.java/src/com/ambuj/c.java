@@ -1,57 +1,58 @@
-import java.util.*;
-import java.lang.*;
-import java.io.*;
+import java.util.Scanner;
+import java.util.ArrayList;
 
-/* Name of the class has to be "Main" only if the class is public. */
-public class c {
-    static int solve(int n,int arr[])
-    {
-        int dp[]=new int[n+1];
-        dp[1]=1;
-        for(int i=1;i<=n;i++)
-        {
-            dp[i]=1;
-        }
-        for(int i=2;i<=n;i++)
-        {
-            for(int j=1;j*j<=i;j++)
-            {
-                if(i%j==0)
-                {
-                    int val1=j;
-                    int val2=i/j;
-                    if(arr[i-1]>arr[val1-1])
-                        dp[i]=Math.max(dp[i],dp[val1]+1);
+public
+class c {
+    public
+    static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int t = scanner.nextInt();
 
-                    if(val1!=val2)
-                    {
-                        if(arr[i-1]>arr[val2-1])
-                            dp[i]=Math.max(dp[i],dp[val2]+1);
-                    }
-                }
+        while (t-- > 0) {
+            int n = scanner.nextInt();
+            int m = scanner.nextInt();
+            int d = scanner.nextInt();
+
+            ArrayList<Integer> arr = new ArrayList<>();
+            for (int i = 0; i < m; ++i) {
+                arr.add(scanner.nextInt());
             }
+
+            int start = 0;
+            if (arr.get(0) != 1) {
+                start = 1;
+                arr.add(0, 1);
+            }
+            arr.add(n + 1);
+            n = arr.size();
+            int ans = 0;
+            for (int i = 1; i < n; ++i) {
+                ans += f(arr.get(i - 1), arr.get(i), d);
+            }
+            int a2 = ans;
+            int newans = ans;
+            for (int i = 1; i < n - 1; ++i) {
+                int cur = f(arr.get(i - 1), arr.get(i + 1), d) - f(arr.get(i - 1), arr.get(i), d) - f(arr.get(i), arr.get(i + 1), d);
+                newans = a2 + cur;
+                ans = Math.min(ans, newans);
+            }
+            int cnt = 0;
+            for (int i = 1; i < n - 1; ++i) {
+                int cur = f(arr.get(i - 1), arr.get(i + 1), d) - f(arr.get(i - 1), arr.get(i), d) - f(arr.get(i), arr.get(i + 1), d);
+                newans = a2 + cur;
+                if (newans == ans)
+                    cnt += 1;
+            }
+            if (ans == a2 && start == 0) {
+                cnt += 1;
+            }
+            System.out.println(ans + " " + cnt);
         }
-        int max=0;
-        for(int j=1;j<=n;j++)
-            max=Math.max(max,dp[j]);
-        return max;
     }
-    public static void main(String[] args) throws java.lang.Exception {
 
-        BufferedReader buf = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb=new StringBuilder();
-
-        int t=Integer.parseInt(buf.readLine());
-
-        for(int i=0;i<t;i++) {
-            int n=Integer.parseInt(buf.readLine());
-            String st2[]=(buf.readLine()).split(" ");
-            int arr[]=new int[n];
-            for(int j=0;j<n;j++)
-                arr[j]=Integer.parseInt(st2[j]);
-            sb.append(solve(n,arr)+"\n");
-        }
-        System.out.println(sb);
-
+    public
+    static int f(int x, int y, int d) {
+        boolean e = ((y - x) % d) == 0;
+        return (y - x) / d + 1 - (e ? 1 : 0);
     }
 }

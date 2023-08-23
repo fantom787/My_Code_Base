@@ -1,18 +1,15 @@
 vector<int> mod = {MOD, 998244353};
-auto hash = [&](string s) -> vector<int>
+auto stringhash = [&](string s, int MOD = MOD) -> int
 {
-    vector<int> ans(sz(mod));
-    vector<int> p(sz(mod), 1);
-    int n = sz(s);
-    for (int i = 0; i < n; i++)
+    int p = 31, n = sz(s);
+    vector<int> hash(n);
+    hash[0] = (s[0] - 'a' + 1); // change accoding to the problem
+    for (int i = 1; i < n; i++)
     {
-        for (int j = 0; j < sz(mod); j++)
-        {
-            ans[i] += (s[i] - 'a' + 1) * p[i];
-            ans[i] %= mod[i];
-            p[i] *= 31;
-            p[i] %= mod[i];
-        }
+        hash[i] += (hash[i - 1] + (s[i] - 'a' + 1) * p);
+        hash[i] %= mod;
+        p *= 31;
+        p %= mod;
     }
-    return ans;
+    return hash[n - 1];
 };
