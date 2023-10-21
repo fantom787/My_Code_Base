@@ -52,4 +52,29 @@ public:
         }
         temp->end--;
     }
+    int findxor(string s)
+    {
+        int ans = 0;
+        Node *temp = root;
+        for (int i = 0, j = 39; i < 40; i++, j--)
+        {
+            int mask = (1ll << j);
+            if (temp->child[(s[i] - '0') ^ 1] && temp->child[(s[i] - '0') ^ 1]->pre)
+            {
+                ans += mask;
+                temp = temp->child[(s[i] - '0') ^ 1];
+            }
+            else if (temp->child[(s[i] - '0')])
+            {
+                temp = temp->child[(s[i] - '0')];
+            }
+            else
+            {
+                break;
+            }
+        }
+        return ans;
+    }
 };
+
+// https://codeforces.com/contest/706/submission/227964061

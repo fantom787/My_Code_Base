@@ -1,5 +1,5 @@
 const int sPFN = 1e5 + 10;
-vector<int> sPF(N, INF);
+vector<int> sPF(sPFN, INF);
 void runSPF()
 {
     iota(all(sPF), 0ll);
@@ -9,7 +9,7 @@ void runSPF()
         {
             continue;
         }
-        for (int j = i * i; j < sPFN; j++)
+        for (int j = i * i; j < sPFN; j += i)
         {
             if (sPF[j] != j)
             {

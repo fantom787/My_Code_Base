@@ -43,6 +43,7 @@ using ld = long double;
 #define int long long
 #define all(s) s.begin(), s.end()
 #define pb push_back
+#define ppb pop_back
 #define eb emplace_back
 #define ppc __builtin_popcount
 #define parity(x) __builtin_parity(x) // gives true for odd and false for even
