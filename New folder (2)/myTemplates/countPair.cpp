@@ -39,3 +39,5 @@ int64_t count_pairs(T_array values, T_compare &&compare)
         copy(buffer.begin(), buffer.begin() + n, values.begin() + start);
         return answer; })(0, values.size());
 }
+
+/*https://codeforces.com/contest/1591/submission/228996979*/
