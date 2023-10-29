@@ -111,7 +111,7 @@ struct my_update
 	}
 	void combine(my_update &other, const int32_t &tl, const int32_t &tr)
 	{
-		v = other.v; // 6
+		v += other.v; // 6
 	}
 	void apply(my_node &x, const int32_t &tl, const int32_t &tr)
 	{
@@ -120,6 +120,59 @@ struct my_update
 };
 
 */
+
+/*
+	for finding the sum of sqaure in the range
+
+
+struct my_node
+{
+    ll v=0,sq=0;
+	my_node() {}
+	my_node(int val)
+	{
+        v=val;
+        sq=v*v;
+        sq%=MOD;
+	}
+	void merge(const my_node &l, const my_node &r)
+	{ // store the thing you wanna query
+        v=l.v+r.v;
+        v%=MOD;
+        sq=l.sq+r.sq;
+        sq%=MOD;
+    }
+};
+struct my_update
+{
+    ll v=0;
+	my_update() {}
+	my_update(int val)
+	{
+        v=val;
+	}
+	void combine(my_update &other, const int32_t &tl, const int32_t &tr)
+	{
+        v+=other.v;
+        v%=MOD;
+	}
+	void apply(my_node &x, const int32_t &tl, const int32_t &tr)
+	{
+        ll v2 = (v*v)%MOD;
+        x.sq+=((tr-tl+1)*v2)%MOD+(x.v*v*2)%MOD;
+        x.sq%=MOD;
+        x.v+=(tr-tl+1)*v;
+        x.v%=MOD;
+	}
+};
+
+https://leetcode.com/submissions/detail/1086893399/
+
+
+*/
+
+
+
 
 struct my_node
 {

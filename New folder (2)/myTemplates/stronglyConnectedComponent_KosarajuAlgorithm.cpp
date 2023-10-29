@@ -1,3 +1,21 @@
+/*
+
+    the idea is we store the exit time of all the nodes 
+    and then according to the exit time of each node we sort the edges
+    we make 2 graph
+    1 simple
+    another with reverse edges
+    so if there is a node from scc1--> scc2 
+    then in the reverse graph there will be a node from scc2-->scc1
+    so since we have sorte all the nodes according to the max ending time 
+    so scc1 nodes will be on the top and now
+    we can do dfs on reverse graph and store all the nodes of scc1 in a vector
+
+    scc ---> it store the nodes of a scc
+    the order is scc1---> scc2---> scc3--->scc3.......
+
+*/
+
 struct SCC
 {
     int n, timer = 0;
